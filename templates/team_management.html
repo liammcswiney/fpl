@@ -63,6 +63,17 @@
             cursor: pointer;
             width: 200px; /* Added this line to set a fixed width */
         }
+
+        .button-container1 button {
+            padding: 20px 20px;
+            font-size: 16px;
+            border: 2px solid black;
+            border-radius: 5px;
+            background-color: #428bca;
+            color: #ffffff;
+            cursor: pointer;
+            width: 300px; /* Added this line to set a fixed width */
+        }
     
         .gw-container {
             display: flex;
@@ -74,12 +85,12 @@
             margin-bottom: 20px;
             border-radius: 10px;
         }
-    
-        .gw-container h2 {
+     
+         .gw-container h2 {
             color: #fff;
             margin-top: 0px;
         }
-    
+     
     
         .gw-container button {
             padding: 10px 20px;
@@ -214,8 +225,7 @@
         </div>
         {% else %}
         <!-- Team is not built, show button to build team -->
-        <div class="button-container">
-            <h2>Team Management</h2>
+        <div class="button-container1">
             <form action="/build_team/{{ team_name }}">
                 <button type="submit">Create Team</button>
             </form>
@@ -234,8 +244,10 @@
             <form action="/fixtures/{{ team_name }}">
                 <button type="submit">Fixtures and Results</button>
             </form>
+            <form action="/fixtures/{{ team_name }}">
+                <button type="submit">League Standings</button>
+            </form>
         </div>
-        <a href="/">Back to Home</a>
     </div>
 </body>
 </html>
