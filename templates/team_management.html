@@ -143,7 +143,7 @@
     {% if is_team_built %}
         <div class="gw-container">
             {% set last_dict = gw_info[-1] %}
-            {% set last_key = last_dict.keys()|last %}
+            {% set last_key = last_dict.keys()|list|last %}
             <h2>
                 {% if last_key != 'Team Name' %}
                     {{ last_key }}
@@ -167,7 +167,7 @@
                         <form action="/gameweek_points/{{ team_name }}">
                             {% if gw_info %}
                                 {% set last_dict = gw_info[-1] %}
-                                {% set last_key = last_dict.keys()|last %}
+                                {% set last_key = last_dict.keys()|list|last %}
                                 <button type="submit" class="gw-big-button">
                                     {% if last_dict[last_key] != team_name %}
                                         {{ last_dict[last_key] }}
@@ -182,7 +182,7 @@
                     {% else %}
                         {% if gw_info %}
                             {% set last_dict = gw_info[-1] %}
-                            {% set last_key = last_dict.keys()|last %}
+                            {% set last_key = last_dict.keys()|list|last %}
                             <button type="submit" class="gw-big-button">
                                 {% if last_dict[last_key] != team_name %}
                                     {{ last_dict[last_key] }}
