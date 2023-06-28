@@ -6,3 +6,4 @@ Gameweek,Fixture,Score,Team,Goal Scorers,Assists,3 Bonus,2 Bonus,1 Bonus
 5,Olduns,1-1,"['Dan', 'Joe', 'Tom', 'Alfie', 'Liam T', 'Mepsted', 'Jay']",['Liam T'],['Tom'],Liam T,Tom,Dan
 6,Olduns,1-6,"['Dan', 'Joe', 'Tom', 'Alfie', 'Liam T', 'Mepsted', 'Jay']",['Liam T'],['Tom'],Liam T,Tom,Dan
 7,SJWMS,8-0,"['Dan', 'Joe', 'Tom', 'Alfie', 'Liam T', 'Mepsted', 'Jay', 'Liam Mc', 'Meadows', 'Rarnott']","['Liam T', 'Alfie', 'Liam T', 'Alfie', 'Liam T', 'Jay', 'Jay', 'Joe']","['Tom', 'Joe', 'Joe', 'Joe', 'Liam Mc', 'Liam Mc', 'Liam Mc', 'Liam Mc']",Joe,Liam Mc,Liam T
+8,SJWMS,5-0,"['Dan', 'Tom', 'Alfie', 'Liam T', 'Jay', 'Liam Mc', 'Meadows', 'Rarnott']","['Alfie', 'Liam T', 'Jay', 'Jay', 'Rarnott']","['Tom', 'Jay', 'Jay', 'Rarnott', 'Liam Mc']",Jay,Rarnott,Alfie
