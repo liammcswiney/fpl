@@ -1,37 +1,41 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import pandas as pd
-import traceback
+# import traceback
 import csv
-import urllib.parse
-import json
+# import urllib.parse
+# import json
 
-app = Flask(__name__, template_folder="templates", static_folder="static")
-app.config['ENV'] = 'development'
-app.config['DEBUG'] = True
+def create_app():
+    app = Flask(__name__, template_folder="templates", static_folder="static")
+    return app
+
+app = create_app()
+
+app.config['ENV'] = 'production'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///players.db'
 
 db = SQLAlchemy(app)
 
 
-class Player(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
+# class Player(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(100), nullable=False)
 
-    def __repr__(self):
-        return self.name
-
-
-class Team(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    players = db.relationship('Player', secondary='team_player', backref='teams')
+#     def __repr__(self):
+#         return self.name
 
 
-team_player = db.Table('team_player',
-                       db.Column('team_id', db.Integer, db.ForeignKey('team.id'), primary_key=True),
-                       db.Column('player_id', db.Integer, db.ForeignKey('player.id'), primary_key=True)
-                       )
+# class Team(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(100), nullable=False)
+#     players = db.relationship('Player', secondary='team_player', backref='teams')
+
+
+# team_player = db.Table('team_player',
+#                        db.Column('team_id', db.Integer, db.ForeignKey('team.id'), primary_key=True),
+#                        db.Column('player_id', db.Integer, db.ForeignKey('player.id'), primary_key=True)
+#                        )
 
 
 #############################################################################################################################
@@ -1942,4 +1946,4 @@ def team_not_found(team_name):
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-    app.run(debug=True)
+    app.run()
