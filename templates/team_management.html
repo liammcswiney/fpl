@@ -161,7 +161,7 @@
                 </div>
                 <div class="gw-points-container">
                     {% set last_dict = gw_info[-1] %}
-                    {% set last_key = last_dict.keys()|last %}
+                    {% set last_key = last_dict.keys()|list|last %}
                     {% set match = last_key[-1] %}
                     {% if max_gw == 0 %}
                         <form action="/gameweek_points/{{ team_name }}">
