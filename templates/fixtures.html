@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Player Statistics</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #428bca;
+        }
+
+        h1, h2 {
+            color: #fff;
+            text-align: center;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: #fff;
+            color: #000000;
+            border: 2px solid #000;
+        }
+
+        .table-wrapper {
+            height: 400px; /* Set the fixed height for the table */
+            overflow-y: auto;
+            margin: 10px auto;
+        }
+
+        th, td {
+            padding: 25px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+        }
+
+        th {
+            background-color: #e5e5e5;
+        }
+
+        tr {
+            border-bottom: 1.5px solid #000;
+        }
+
+        .stats-table {
+            margin: 0 auto;
+            max-width: 600px;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            color: #fff;
+            text-decoration: none;
+            margin-top: 5px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .clickable-row {
+            cursor: pointer;
+        }
+
+        .clickable-row:hover {
+            background-color: #f2f2f2;
+        }
+
+    </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var rows = document.querySelectorAll("#team-stats tbody tr");
+            rows.forEach(function(row) {
+                var result = row.getAttribute("result");
+                if (result === "win" || result === "loss" || result === "draw") {
+                    row.addEventListener("click", function() {
+                        var teamName = this.getAttribute("gw_num");
+                        var viewTeamUrl = "/team_of_the_week/{{ team_name }}/" + teamName;
+                        window.location.href = viewTeamUrl;
+                    });
+                }
+            });
+        });
+
+        function goBack() {
+            var teamName = "{{ team_name }}";
+            window.location.href = "/team_management/{{ team_name }}";
+        }
+
+    </script>
+</head>
+<body>
+    <h1>Fixtures and Results</h1>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <div class="table-wrapper">
+        <table id="team-stats" class="stats-table">
+            <tr>
+                {% for key in ['Gameweek', 'Fixture', 'Score'] %}
+                    <th>{{ key }}</th>
+                {% endfor %}
+                <th></th>
+            </tr>
+            {% set last_key = fixture_data.keys()|last %}
+            {% for i in range(fixture_data['Gameweek']|length) %}
+                {% set result = fixture_data['Result'][i] %}
+                {% set index = fixture_data['Gameweek'][i] %}
+                <tr 
+                    {% if result == 'win' %}
+                        style="background-color: rgb(0, 210, 0);"
+                        class="clickable-row" result="{{ result }}" gw_num="{{ index }}"
+                    {% elif result == 'loss' %}
+                        style="background-color: red;"
+                        class="clickable-row" result="{{ result }}" gw_num="{{ index }}"
+                    {% elif result == 'draw' %}
+                        style="background-color: rgb(147, 141, 141);"
+                        class="clickable-row" result="{{ result }}" gw_num="{{ index }}"
+                    {% endif %}>
+                    <td><strong>{{ fixture_data['Gameweek'][i] }}</strong></td>
+                    <td><strong>{{ fixture_data['Fixture'][i] }}</strong></td>
+                    <td><strong>{{ fixture_data['Score'][i] }}</strong></td>
+                    {% if result == 'win' or result == 'loss' or result == 'draw' %}
+                        <td>
+                            <i class="fas fa-info-circle"></i>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <br>
+    <a href="{{ url_for('team_management', team_name=team_name) }}">Back to Team Management</a>
+</body>
+</html>

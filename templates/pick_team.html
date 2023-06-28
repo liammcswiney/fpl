@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #428bca;
+        }
+
+        .header {
+            background-color: #428bca;
+            padding: 20px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #fff;
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .menu {
+            position: relative;
+            width: 40%; /* Make the menu full width */
+            margin: 0 auto; /* Center the menu horizontally */
+            background-color: #428bca00; /* Set a background color for the menu */
+            top: -10px;
+            padding: 10px; /* Add padding as desired */
+            box-sizing: border-box; /* Include padding in the width calculation */
+            z-index: 1;
+        }
+
+        .team-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            height: 550px; /* Adjust the height as needed */
+            background-color: #36b017;
+            position: relative; /* Add this line */
+            padding-top: 20px; /* Add this line */
+            width: 40%; /* Adjust the width as needed */
+            margin: 0 auto; /* Center the team container */
+            border: 2px solid #fff; /* Add border around the team container */
+            z-index: 0;
+        }
+
+        .penalty-box1 {
+            position: absolute;
+            top: 0%; /* Adjust the top position of the penalty box as needed */
+            left: 28%; /* Adjust the left position of the penalty box as needed */
+            width: 44%; /* Adjust the width of the penalty box as needed */
+            height: 15%; /* Adjust the height of the penalty box as needed */
+            border: 2px solid #fff; /* Add white border */
+            z-index: -1;
+        }
+
+        .halfway-line2 {
+            position: absolute;
+            top: 65%; /* Adjust the top position of the penalty box as needed */
+            left: 40%; /* Adjust the left position of the penalty box as needed */
+            width: 20%; /* Adjust the width of the penalty box as needed */
+            height: 18%; /* Adjust the height of the penalty box as needed */
+            border: 2px solid #fff; /* Add white dashed border */
+            border-radius: 50%; /* Create a circle */
+            z-index: -1;
+            box-sizing: border-box; /* Ensure the border is included in the dimensions */
+            background-color: transparent; /* Make the background transparent */
+        }
+
+        .player-row {
+            display: flex;
+            justify-content: space-evenly;
+            width: 100%;
+        }
+
+        .player-position {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 15%; /* Adjust the width as needed */
+            height: 60px;
+            margin: 5px; /* Add some margin for spacing */
+            padding: 10px; /* Add some padding for spacing */
+            background-color: rgba(205, 195, 195, 0.3); /* Adjust the background color */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a box shadow effect */
+            font-size: 15px; /* Adjust the font size */
+        }
+        
+        .player-position .name {
+            margin-bottom: 2px; /* Adjust the spacing */
+            font-size: 10px; /* Adjust the font size */
+        }
+
+        .total-price {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-weight: bold;
+        }
+
+        .return-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        .bench-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #367925;
+            padding: 0px;
+            height: 150px;
+            width: 100%; /* Adjust the width as needed */
+            border: 2px solid #fff; 
+            margin-top: auto; /* Push the bench container to the bottom */
+        }
+
+        .bench-container h2 {
+            color: white;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .bench-container .player-list {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 15%; 
+            margin: 0px;
+            padding: 10px;
+            background-color: rgba(205, 195, 195, 0.3); 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            font-size: 15px; 
+            height: 60px;
+        }
+
+        .bench-container .player-list li {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .bench-container .player-list .icon {
+            width: 40px; 
+            height: 40px; 
+            border-radius: 50%;
+            background-color: rgb(15, 200, 206);
+            margin-bottom: 3px;
+            border: 2px solid #000000; 
+            margin-top: 15px; 
+        }
+
+        .bench-container .player-list .name {
+            margin-top: 2px;
+            font-size: 10px; 
+        }
+
+        .player-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .options-button1 {
+            width: 40px; /* Adjust the icon size */
+            height: 40px; /* Adjust the icon size */
+            border-radius: 50%;
+            background-color: rgb(15, 200, 206);
+            font-size: 14px; /* Adjust the font size */
+            margin-top: 5px; /* Add margin for spacing */
+            position: relative;
+            border: 2px solid black; /* Add a black border */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .options-button2 {
+            width: 40px; /* Adjust the icon size */
+            height: 40px; /* Adjust the icon size */
+            border-radius: 50%;
+            background-color: rgb(15, 200, 206);
+            font-size: 14px; /* Adjust the font size */
+            margin-top: 5px; /* Add margin for spacing */
+            position: relative;
+            border: 2px solid black; /* Add a black border */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .options-button3 {
+            width: 40px; /* Adjust the icon size */
+            height: 40px; /* Adjust the icon size */
+            border-radius: 50%;
+            background-color: rgb(15, 200, 206);
+            font-size: 14px; /* Adjust the font size */
+            margin-top: 5px; /* Add margin for spacing */
+            position: relative;
+            border: 2px solid black; /* Add a black border */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .options-button4 {
+            width: 40px; /* Adjust the icon size */
+            height: 40px; /* Adjust the icon size */
+            border-radius: 50%;
+            background-color: rgb(15, 200, 206);
+            font-size: 14px; /* Adjust the font size */
+            margin-top: 5px; /* Add margin for spacing */
+            position: relative;
+            border: 2px solid black; /* Add a black border */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .options-button5 {
+            width: 40px; /* Adjust the icon size */
+            height: 40px; /* Adjust the icon size */
+            border-radius: 50%;
+            background-color: rgb(15, 200, 206);
+            font-size: 14px; /* Adjust the font size */
+            margin-top: 5px; /* Add margin for spacing */
+            position: relative;
+            border: 2px solid black; /* Add a black border */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .options-button6 {
+            width: 40px; /* Adjust the icon size */
+            height: 40px; /* Adjust the icon size */
+            border-radius: 50%;
+            background-color: rgb(15, 200, 206);
+            font-size: 14px; /* Adjust the font size */
+            margin-top: 5px; /* Add margin for spacing */
+            position: relative;
+            border: 2px solid black; /* Add a black border */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup1 {
+            position: fixed;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            width: 300px;
+            padding: 20px;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+        }
+
+        .popup2 {
+            position: fixed;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            width: 300px;
+            padding: 20px;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+        }
+
+        .popup3 {
+            position: fixed;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            width: 300px;
+            padding: 20px;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+        }
+
+        .popup4 {
+            position: fixed;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            width: 300px;
+            padding: 20px;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+        }
+
+        .popup5 {
+            position: fixed;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            width: 300px;
+            padding: 20px;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+        }
+
+        .popup6 {
+            position: fixed;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            width: 300px;
+            padding: 20px;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+        }
+
+
+        .popup-content1 {
+            background-color: #ffffffe3;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .popup-content2 {
+            background-color: #ffffffe3;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .popup-content3 {
+            background-color: #ffffffe3;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .popup-content4 {
+            background-color: #ffffffe3;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .popup-content5 {
+            background-color: #ffffffe3;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .popup-content6 {
+            background-color: #ffffffe3;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+
+        .popup-content1 th,
+        .popup-content1 td {
+            padding: 10px;
+        }
+
+        .popup-content2 th,
+        .popup-content2 td {
+            padding: 10px;
+        }
+
+        .popup-content3 th,
+        .popup-content3 td {
+            padding: 10px;
+        }
+
+        .popup-content4 th,
+        .popup-content4 td {
+            padding: 10px;
+        }
+
+        .popup-content5 th,
+        .popup-content5 td {
+            padding: 10px;
+        }
+
+        .popup-content6 th,
+        .popup-content6 td {
+            padding: 10px;
+        }
+
+        .popup-buttons button {
+            padding: 10px 20px;
+            background-color: #428bca;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        .popup-buttons button:hover {
+            background-color: #3071a9;
+        }
+        
+        .captain-letter {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(30%, -125%);
+        font-size: 12px;
+        font-weight: bold;
+        color: white; 
+        margin: 0;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background-color: black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        }
+
+        .form-wrapper {
+            display: flex;
+            gap: 10px; /* Adjust the gap as needed */
+        }
+
+        .name {
+        margin-top: 5px;
+        font-weight: bold;
+        }
+
+        .show {
+            display: block;
+        }
+
+        .return-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 5px 10px;
+            background-color: #dd0e0e;
+            color: #fff;
+            border: 2px solid black; /* Add a black border */
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .return-button:hover {
+            background-color: #990404;
+        }
+
+
+    </style>
+<script>
+    function goBack() {
+        var teamName = "{{ team_name }}";
+        window.location.href = "/team_management/{{ team_name }}";
+    }
+
+    function togglePopup1() {
+        const popup = document.querySelector('.popup1');
+        popup.classList.toggle('show');
+    }
+
+    function togglePopup2() {
+        const popup = document.querySelector('.popup2');
+        popup.classList.toggle('show');
+    }
+
+    function togglePopup3() {
+        const popup = document.querySelector('.popup3');
+        popup.classList.toggle('show');
+    }
+
+    function togglePopup4() {
+        const popup = document.querySelector('.popup4');
+        popup.classList.toggle('show');
+    }
+
+    function togglePopup5() {
+        const popup = document.querySelector('.popup5');
+        popup.classList.toggle('show');
+    }
+
+    function togglePopup6() {
+        const popup = document.querySelector('.popup6');
+        popup.classList.toggle('show');
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const optionsButtons = document.querySelectorAll('.options-button1');
+        optionsButtons.forEach(function(button) {
+            button.addEventListener('click', togglePopup1);
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const optionsButtons = document.querySelectorAll('.options-button2');
+        optionsButtons.forEach(function(button) {
+            button.addEventListener('click', togglePopup2);
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const optionsButtons = document.querySelectorAll('.options-button3');
+        optionsButtons.forEach(function(button) {
+            button.addEventListener('click', togglePopup3);
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const optionsButtons = document.querySelectorAll('.options-button4');
+        optionsButtons.forEach(function(button) {
+            button.addEventListener('click', togglePopup4);
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const optionsButtons = document.querySelectorAll('.options-button5');
+        optionsButtons.forEach(function(button) {
+            button.addEventListener('click', togglePopup5);
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const optionsButtons = document.querySelectorAll('.options-button6');
+        optionsButtons.forEach(function(button) {
+            button.addEventListener('click', togglePopup6);
+        });
+    });
+</script>
+</head>
+<body>
+    <div class="header">
+        <h1>Select {{ next_gw }} Lineup: <span style="font-weight: bold;">{{ fixtures_data.loc[fixtures_data['Gameweek'] == next_gw_int, 'Fixture'].values[0] }}</span></h1>
+    </div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <div class="menu">
+        <button class="return-button" onclick="goBack()">X
+    </div>
+    <div class="container">
+        <div class="team-container">
+            <div class="penalty-box1"></div>
+            <div class="halfway-line2"></div>
+            <div class="player-row">
+                <div class="player-position">
+                    <div class="player-info">
+                        <button class="options-button1">
+                            {% if team_data['Captain'] == team_data['Player 1'] %}
+                                <span class="captain-letter">C</span>
+                            {% endif %}
+                        </button>
+                        <div class="name">{{ team_data['Player 1'] }}</div>
+                    </div>
+                </div>
+            </div>
+            {% if team_data['Bench'] == team_data['Player 3'] %}
+            <div class="player-row">
+                <div class="player-position">
+                    <div class="player-info">
+                        <button class="options-button2">
+                            {% if team_data['Captain'] == team_data['Player 2'] %}
+                                <span class="captain-letter">C</span>
+                            {% endif %}
+                        </button>
+                        <div class="name">{{ team_data['Player 2'] }}</div>
+                    </div>
+                </div>
+            </div>
+            {% elif team_data['Bench'] == team_data['Player 2'] %}
+            <div class="player-row">
+                <div class="player-position">
+                    <div class="player-info">
+                        <button class="options-button3">
+                            {% if team_data['Captain'] == team_data['Player 3'] %}
+                                <span class="captain-letter">C</span>
+                            {% endif %}
+                        </button>
+                        <div class="name">{{ team_data['Player 3'] }}</div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="player-row">
+                <div class="player-position">
+                    <div class="player-info">
+                        <button class="options-button2">
+                            {% if team_data['Captain'] == team_data['Player 2'] %}
+                                <span class="captain-letter">C</span>
+                            {% endif %}
+                        </button>
+                        <div class="name">{{ team_data['Player 2'] }}</div>
+                    </div>
+                </div>
+                <div class="player-position">
+                    <div class="player-info">
+                        <button class="options-button3">
+                            {% if team_data['Captain'] == team_data['Player 3'] %}
+                                <span class="captain-letter">C</span>
+                            {% endif %}
+                        </button>
+                        <div class="name">{{ team_data['Player 3'] }}</div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if team_data['Bench'] == team_data['Player 5'] %}
+            <div class="player-row">
+                <div class="player-position">
+                    <div class="player-info">
+                        <button class="options-button4">
+                            {% if team_data['Captain'] == team_data['Player 4'] %}
+                                <span class="captain-letter">C</span>
+                            {% endif %}
+                        </button>
+                        <div class="name">{{ team_data['Player 4'] }}</div>
+                    </div>
+                </div>
+            </div>
+            {% elif team_data['Bench'] == team_data['Player 4'] %}
+            <div class="player-row"> 
+                <div class="player-position">
+                    <div class="player-info">
+                        <button class="options-button5">
+                            {% if team_data['Captain'] == team_data['Player 5'] %}
+                                <span class="captain-letter">C</span>
+                            {% endif %}
+                        </button>
+                        <div class="name">{{ team_data['Player 5'] }}</div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="player-row">
+                <div class="player-position">
+                    <div class="player-info">
+                        <button class="options-button4">
+                            {% if team_data['Captain'] == team_data['Player 4'] %}
+                                <span class="captain-letter">C</span>
+                            {% endif %}
+                        </button>
+                        <div class="name">{{ team_data['Player 4'] }}</div>
+                    </div>
+                </div>
+                <div class="player-position">
+                    <div class="player-info">
+                        <button class="options-button5">
+                            {% if team_data['Captain'] == team_data['Player 5'] %}
+                                <span class="captain-letter">C</span>
+                            {% endif %}
+                        </button>
+                        <div class="name">{{ team_data['Player 5'] }}</div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if team_data['Bench'] != team_data['Player 6'] %}
+            <div class="player-row">
+                <div class="player-position">
+                    <div class="player-info">
+                        <button class="options-button6">
+                            {% if team_data['Captain'] == team_data['Player 6'] %}
+                                <span class="captain-letter">C</span>
+                            {% endif %}
+                        </button>
+                        <div class="name">{{ team_data['Player 6'] }}</div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            <div class="bench-container">
+                <h2>Bench</h2>
+                <ul class="player-list">
+                    <li>
+                        <div class="icon"></div>
+                        <div class="name">{{ team_data['Bench'] }}</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="popup1">
+        <div class="popup-content1">
+            <h3>{{ team_data['Player 1'] }}</h3>
+            <table id="player-stats" class="stats-table">
+                <tr>
+                    <th>Price</th>
+                    <th>Form</th>
+                    <th>Total Score</th>
+                </tr>
+                {% for i in range(player_data['Player']|length) %}
+                    {% if player_data['Player'][i] == team_data['Player 1'] %}
+                        <tr>
+                            <td>{{ player_data['Price'][i] }}</td>
+                            <td>{{ player_data['Form'][i] }}</td>
+                            <td>{{ player_data['Total Points'][i] }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+            <div class="popup-buttons">
+                <div class="form-wrapper">
+                    <form action="/update_team_data/{{ team_name }}/{{ team_data['Player 1']|urlencode }}" method="POST">
+                        <button type="submit">Substitute</button>
+                    </form>
+                    <form action="/update_captain/{{ team_name }}/{{ team_data['Player 1']|urlencode }}" method="POST">
+                        <button type="submit">Make Captain</button>
+                    </form>
+                </div>
+                <br>
+                <a href="javascript:togglePopup1()" style="margin-bottom: 0px;">Cancel</a>
+            </div>
+        </div>
+    </div>
+    <div class="popup2">
+        <div class="popup-content2">
+            <h3>{{ team_data['Player 2'] }}</h3>
+            <table id="player-stats" class="stats-table">
+                <tr>
+                    <th>Price</th>
+                    <th>Form</th>
+                    <th>Total Score</th>
+                </tr>
+                {% for i in range(player_data['Player']|length) %}
+                    {% if player_data['Player'][i] == team_data['Player 2'] %}
+                        <tr>
+                            <td>{{ player_data['Price'][i] }}</td>
+                            <td>{{ player_data['Form'][i] }}</td>
+                            <td>{{ player_data['Total Points'][i] }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+            <div class="popup-buttons">
+                <div class="form-wrapper">
+                    <form action="/update_team_data/{{ team_name }}/{{ team_data['Player 2']|urlencode }}" method="POST">
+                        <button type="submit">Substitute</button>
+                    </form>
+                    <form action="/update_captain/{{ team_name }}/{{ team_data['Player 2']|urlencode }}" method="POST">
+                        <button type="submit">Make Captain</button>
+                    </form>
+                </div>
+                <br>
+                <a href="javascript:togglePopup2()" style="margin-bottom: 0px;">Cancel</a>
+            </div>
+        </div>
+    </div>
+    <div class="popup3">
+        <div class="popup-content3">
+            <h3>{{ team_data['Player 3'] }}</h3>
+            <table id="player-stats" class="stats-table">
+                <tr>
+                    <th>Price</th>
+                    <th>Form</th>
+                    <th>Total Score</th>
+                </tr>
+                {% for i in range(player_data['Player']|length) %}
+                    {% if player_data['Player'][i] == team_data['Player 3'] %}
+                        <tr>
+                            <td>{{ player_data['Price'][i] }}</td>
+                            <td>{{ player_data['Form'][i] }}</td>
+                            <td>{{ player_data['Total Points'][i] }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+            <div class="popup-buttons">
+                <div class="form-wrapper">
+                    <form action="/update_team_data/{{ team_name }}/{{ team_data['Player 3']|urlencode }}" method="POST">
+                        <button type="submit">Substitute</button>
+                    </form>
+                    <form action="/update_captain/{{ team_name }}/{{ team_data['Player 3']|urlencode }}" method="POST">
+                        <button type="submit">Make Captain</button>
+                    </form>
+                </div>
+                <br>
+                <a href="javascript:togglePopup3()" style="margin-bottom: 0px;">Cancel</a>
+            </div>
+        </div>
+    </div>
+    <div class="popup4">
+        <div class="popup-content4">
+            <h3>{{ team_data['Player 4'] }}</h3>
+            <table id="player-stats" class="stats-table">
+                <tr>
+                    <th>Price</th>
+                    <th>Form</th>
+                    <th>Total Score</th>
+                </tr>
+                {% for i in range(player_data['Player']|length) %}
+                    {% if player_data['Player'][i] == team_data['Player 4'] %}
+                        <tr>
+                            <td>{{ player_data['Price'][i] }}</td>
+                            <td>{{ player_data['Form'][i] }}</td>
+                            <td>{{ player_data['Total Points'][i] }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+            <div class="popup-buttons">
+                <div class="form-wrapper">
+                    <form action="/update_team_data/{{ team_name }}/{{ team_data['Player 4']|urlencode }}" method="POST">
+                        <button type="submit">Substitute</button>
+                    </form>
+                    <form action="/update_captain/{{ team_name }}/{{ team_data['Player 4']|urlencode }}" method="POST">
+                        <button type="submit">Make Captain</button>
+                    </form>
+                </div>
+                <br>
+                <a href="javascript:togglePopup4()" style="margin-bottom: 0px;">Cancel</a>
+            </div>
+        </div>
+    </div>
+    <div class="popup5">
+        <div class="popup-content5">
+            <h3>{{ team_data['Player 5'] }}</h3>
+            <table id="player-stats" class="stats-table">
+                <tr>
+                    <th>Price</th>
+                    <th>Form</th>
+                    <th>Total Score</th>
+                </tr>
+                {% for i in range(player_data['Player']|length) %}
+                    {% if player_data['Player'][i] == team_data['Player 5'] %}
+                        <tr>
+                            <td>{{ player_data['Price'][i] }}</td>
+                            <td>{{ player_data['Form'][i] }}</td>
+                            <td>{{ player_data['Total Points'][i] }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+            <div class="popup-buttons">
+                <div class="form-wrapper">
+                    <form action="/update_team_data/{{ team_name }}/{{ team_data['Player 5']|urlencode }}" method="POST">
+                        <button type="submit">Substitute</button>
+                    </form>
+                    <form action="/update_captain/{{ team_name }}/{{ team_data['Player 5']|urlencode }}" method="POST">
+                        <button type="submit">Make Captain</button>
+                    </form>
+                </div>
+                <br>
+                <a href="javascript:togglePopup5()" style="margin-bottom: 0px;">Cancel</a>
+            </div>
+        </div>
+    </div>
+    <div class="popup6">
+        <div class="popup-content6">
+            <h3>{{ team_data['Player 6'] }}</h3>
+            <table id="player-stats" class="stats-table">
+                <tr>
+                    <th>Price</th>
+                    <th>Form</th>
+                    <th>Total Score</th>
+                </tr>
+                {% for i in range(player_data['Player']|length) %}
+                    {% if player_data['Player'][i] == team_data['Player 6'] %}
+                        <tr>
+                            <td>{{ player_data['Price'][i] }}</td>
+                            <td>{{ player_data['Form'][i] }}</td>
+                            <td>{{ player_data['Total Points'][i] }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </table>
+            <div class="popup-buttons">
+                <div class="form-wrapper">
+                    <form action="/update_team_data/{{ team_name }}/{{ team_data['Player 6']|urlencode }}" method="POST">
+                        <button type="submit">Substitute</button>
+                    </form>
+                    <form action="/update_captain/{{ team_name }}/{{ team_data['Player 6']|urlencode }}" method="POST">
+                        <button type="submit">Make Captain</button>
+                    </form>
+                </div>
+                <br>
+                <a href="javascript:togglePopup6()" style="margin-bottom: 0px;">Cancel</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

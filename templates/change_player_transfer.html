@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Change Player</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #428bca;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+    
+        h1, h2 {
+            color: #fff;
+            text-align: center;
+        }
+    
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+    
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            background-color: #fff;
+            color: #333;
+            margin-bottom: 20px;
+            border: 2px solid #000;
+        }
+    
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+    
+        th {
+            background-color: #f2f2f2;
+        }
+    
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    
+        tr:hover {
+            background-color: #e9e9e9;
+        }
+    
+        button {
+            padding: 6px 12px;
+            border: none;
+            background-color: #428bca;
+            color: white;
+            cursor: pointer;
+        }
+    
+        button:hover {
+            background-color: #0c7bbf;
+        }
+    
+        .existing-player {
+            color: #595050;
+            background-color: #f2f2f2;
+        }
+    
+        .existing-button::after {
+            content: none;
+        }
+    
+        .return-button {
+            padding: 10px 20px;
+            font-size: 20px;
+            background-color: #428bca;
+            color: white;
+        }
+    
+        .return-button:hover {
+            background-color: #0c7bbf;
+        }
+    </style>
+        
+</head>
+<body>
+    <h1>
+        {% if player_index == 1 %}
+            Select Players - Goalkeeper
+        {% elif player_index in [2, 3] %}
+            Select Players - Defenders
+        {% elif player_index in [4, 5] %}
+            Select Players - Midfielders
+        {% elif player_index == 6 %}
+            Select Players - Forwards
+        {% endif %}
+    </h1>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <table>
+        <thead>
+            <tr>
+                <th {% if 'Player' in team_data %}class="existing-player"{% endif %}></th>
+                <th {% if 'Player' in team_data %}class="existing-player"{% endif %}>Player</th>
+                <th {% if 'Position' in team_data %}class="existing-player"{% endif %}>Position</th>
+                <th {% if 'Price' in team_data %}class="existing-player"{% endif %}>Price</th>
+                <th {% if 'Form' in team_data %}class="existing-player"{% endif %}>Form</th>
+                <th {% if 'Total Points' in team_data %}class="existing-player"{% endif %}>Total Points</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for player in players %}
+            <tr>
+                <td {% if player['Player'] in team_data %}class="existing-player"{% endif %}>
+                    {% if player['Player'] not in team_data %}
+                    <form method="POST" action="/add_player_transfer?playerIndex={{ player_index }}&teamName={{ team_name }}">
+                        <input type="hidden" name="playerName" value="{{ player['Player'] }}">
+                        <button type="submit">Add</button>
+                    </form>
+                    {% else %}
+                    <span class="existing-button">Already Selected</span>
+                    {% endif %}
+                </td>
+                <td {% if player['Player'] in team_data %}class="existing-player"{% endif %}>{{ player['Player'] }}</td>
+                <td {% if 'Position' in team_data or player['Player'] in team_data %}class="existing-player"{% endif %}>{{ player['Position'] }}</td>
+                <td {% if 'Price' in team_data or player['Player'] in team_data %}class="existing-player"{% endif %}>{{ player['Price'] }}</td>
+                <td {% if 'Form' in team_data or player['Player'] in team_data %}class="existing-player"{% endif %}>{{ player['Form'] }}</td>
+                <td {% if 'Total Points' in team_data or player['Player'] in team_data %}class="existing-player"{% endif %}>{{ player['Total Points'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <button class="return-button" onclick="goBack()">Return to Team Build</button>
+
+    <script>
+        function goBack() {
+            window.location.href = "/transfers/{{ team_name }}";
+        }
+    </script>
+</body>
+</html>

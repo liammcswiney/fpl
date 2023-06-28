@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Player Statistics</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #428bca;
+        }
+
+        h1, h2 {
+            color: #fff;
+            text-align: center;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            background-color: #fff;
+            color: #333;
+            border: 2px solid #000;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .stats-table {
+            margin: 20px auto;
+            max-width: 600px;
+        }
+
+        .clickable-row {
+            cursor: pointer;
+        }
+
+        .clickable-row:hover {
+            background-color: #f2f2f2;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            color: #fff;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .table-container {
+            width: 50%;
+            height: 400px;
+            margin: 0 auto;
+            overflow-y: auto;
+            position: relative;
+            padding-top: 10px;
+        }
+
+        .return-button-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        
+        .return-button {
+            position: absolute;
+            top: 15px; 
+            right: 25px; 
+            padding: 5px 10px;
+            background-color: #dd0e0e;
+            color: #fff;
+            border: 2px solid black;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            z-index: 1;
+        }
+
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var rows = document.querySelectorAll("#team-stats tbody tr");
+            rows.forEach(function(row) {
+                row.addEventListener("click", function() {
+                    var teamName = this.getAttribute("data-team-name");
+                    var viewTeamUrl = "/view_gameweek_points/{{ team_name }}/" + teamName;
+                    window.location.href = viewTeamUrl;
+                });
+            });
+        });
+
+        function goBack() {
+            var teamName = "{{ team_name }}";
+            window.location.href = "/team_management/{{ team_name }}";
+        }
+
+    </script>
+</head>
+<body>
+    <h1>Leaderboard</h1>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <div class="table-container">
+    <table id="team-stats" class="stats-table">
+        <button class="return-button" onclick="goBack()">X
+        <tr>
+            {% for key in leaderboard_data.keys() %}
+                <th>{{ key }}</th>
+            {% endfor %}
+            <th></th>
+        </tr>
+        {% set last_key = leaderboard_data.keys()|last %}
+        {% for index in range(leaderboard_data['Team Name']|length) %}
+            {% if leaderboard_data[last_key][index] != '-' %}
+            {% set view_team_name = leaderboard_data['Team Name'][index] %}
+            <tr class="clickable-row" data-team-name="{{ view_team_name }}">
+                <td>{{ view_team_name }}</td>
+                <td>{{ leaderboard_data['Total Score'][index] }}</td>
+                <td>{{ leaderboard_data[last_key][index] }}</td>
+                <td><i class="fas fa-info-circle"></i></td>
+            </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+    </div> 
+</body>
+</html>
+

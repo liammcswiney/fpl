@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #428bca;
+        }
+
+        .header {
+            background-color: #428bca;
+            padding: 5px;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 20px; /* Add margin at the bottom for spacing */
+        }
+
+        .header h1 {
+            color: #fff;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .menu {
+            position: relative;
+            width: 40%; /* Make the menu full width */
+            margin: 0 auto; /* Center the menu horizontally */
+            background-color: #428bca00; /* Set a background color for the menu */
+            top: -10px;
+            padding: 10px; /* Add padding as desired */
+            box-sizing: border-box; /* Include padding in the width calculation */
+            z-index: 1;
+        }
+
+        .team-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            height: 550px; /* Adjust the height as needed */
+            background-color: #36b017;
+            position: relative; /* Add this line */
+            padding-top: 20px; /* Add this line */
+            width: 40%; /* Adjust the width as needed */
+            margin: 0 auto; /* Center the team container */
+            border: 2px solid #fff; /* Add border around the team container */
+            z-index: 0;
+        }
+
+        .penalty-box1 {
+            position: absolute;
+            top: 85%; /* Adjust the top position of the penalty box as needed */
+            left: 28%; /* Adjust the left position of the penalty box as needed */
+            width: 44%; /* Adjust the width of the penalty box as needed */
+            height: 15%; /* Adjust the height of the penalty box as needed */
+            border: 2px solid #fff; /* Add white border */
+            z-index: -1;
+        }
+
+        .penalty-box2 {
+            position: absolute;
+            top: 0%; /* Adjust the top position of the penalty box as needed */
+            left: 28%; /* Adjust the left position of the penalty box as needed */
+            width: 44%; /* Adjust the width of the penalty box as needed */
+            height: 15%; /* Adjust the height of the penalty box as needed */
+            border: 2px solid #fff; /* Add white border */
+            z-index: -1;
+        }
+
+        .halfway-line {
+            position: absolute;
+            top: 50%; /* Adjust the top position of the halfway line as needed */
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #fff; /* Set color for the halfway line */
+            z-index: -1;
+        }
+
+        .halfway-line2 {
+            position: absolute;
+            top: 41%; /* Adjust the top position of the penalty box as needed */
+            left: 40%; /* Adjust the left position of the penalty box as needed */
+            width: 20%; /* Adjust the width of the penalty box as needed */
+            height: 18%; /* Adjust the height of the penalty box as needed */
+            border: 2px solid #fff; /* Add white dashed border */
+            border-radius: 50%; /* Create a circle */
+            z-index: -1;
+            box-sizing: border-box; /* Ensure the border is included in the dimensions */
+            background-color: transparent; /* Make the background transparent */
+        }
+
+        .player-row {
+            display: flex;
+            justify-content: space-evenly;
+            width: 100%;
+        }
+
+        .player-position {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 15%; /* Adjust the width as needed */
+            margin: 5px; /* Add some margin for spacing */
+            padding: 10px; /* Add some padding for spacing */
+            background-color: rgba(205, 195, 195, 0.3); /* Adjust the background color */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a box shadow effect */
+            margin-top: 20px; /* Adjust the margin-top as needed */
+        }
+
+        .player-position .name {
+            margin-top: 10px; /* Add some spacing between name and price */
+            font-weight: bold;
+        }
+
+
+        .add-button {
+            width: 40px; /* Adjust the icon size */
+            height: 40px; /* Adjust the icon size */
+            border-radius: 50%;
+            background-color: rgb(69, 75, 75);
+            font-size: 14px; /* Adjust the font size */
+            margin-top: 5px; /* Add margin for spacing */
+            position: relative;
+            border: 2px solid black; /* Add a black border */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .add-button i {
+            /* Adjust the size and color of the icon as needed */
+            font-size: 24px;
+            color: #fff;
+        }
+
+        .change-button {
+            width: 40px; /* Adjust the icon size */
+            height: 40px; /* Adjust the icon size */
+            border-radius: 50%;
+            background-color: rgb(15, 200, 206);
+            font-size: 14px; /* Adjust the font size */
+            margin-top: 5px; /* Add margin for spacing */
+            position: relative;
+            border: 2px solid black; /* Add a black border */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .change-button i {
+            /* Adjust the size and color of the icon as needed */
+            font-size: 24px;
+            color: #fff;
+        }
+
+        .player-position {
+            position: relative;
+        }
+
+        .player-position .name {
+            font-size: 12px; /* Adjust the font size */
+            margin-top: 8px; /* Add some spacing between name and price */
+            font-weight: bold;
+        }
+
+        .player-position .price {
+            margin-bottom: 2px; /* Adjust the spacing */
+            font-size: 12px; /* Adjust the font size */
+        }
+
+        
+        .save-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 5px 10px;
+            background-color: #428bca;
+            color: #fff;
+            border: 2px solid black; /* Add a black border */
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .return-button {
+            position: absolute;
+            top: 10px;
+            left: 80px;
+            padding: 5px 10px;
+            background-color: #dd0e0e;
+            color: #fff;
+            border: 2px solid black; /* Add a black border */
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+        }
+
+
+
+        /* .return-button:hover {
+            background-color: #357ebd;
+        } */
+
+        .free-transfers {
+            position: absolute;
+            top: 10px;
+            left: 125px;
+            padding: 5px 10px;
+            background-color: #000000;
+            color: #fff;
+            border: 2px solid black; 
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .cost {
+            position: absolute;
+            top: 10px;
+            left: 290px;
+            padding: 5px 10px;
+            background-color: #000000;
+            color: #fff;
+            border: 2px solid black; /* Add a black border */
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .total-price {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            background-color: #000000;
+            color: #fff;
+            border: 2px solid black; /* Add a black border */
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        
+        .disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        .budgetValue {
+            color: black; /* Default text color */
+        }
+
+        .total-price.less-than-zero {
+            color: red; /* Text color when budget is less than 0 */
+        }
+
+    </style>
+    
+    <script>
+        function openPlayerList(playerIndex) {
+            var playerList = document.getElementById("playerList" + playerIndex);
+            playerList.classList.toggle("show");
+        }
+
+        function goBack() {
+            var teamName = "{{ team_name }}";
+            window.location.href = "/team_management/{{ team_name }}";
+        }
+
+        function changePlayer(playerIndex) {
+            var teamName = "{{ team_name }}";  // Preserve the team_name from the template
+            window.location.href = "/change_player_transfer?playerIndex=" + playerIndex + "&teamName=" + teamName;
+        }
+
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+            var totalPrice = parseFloat("{{ totalPrice }}"); // Assuming you have the totalPrice value in your template
+            calculateTotalPrice();
+        });
+
+        function calculateTotalPrice() {
+            var prices = document.getElementsByClassName("price");
+            var total = 0;
+            var budget = 50;
+
+            for (var i = 0; i < prices.length; i++) {
+                var priceText = prices[i].textContent;
+                var price = parseFloat(priceText.replace("£", "").replace("m", ""));
+                if (!isNaN(price)) {
+                    total += price;
+                }
+            }
+            budget -= total;
+
+            var budgetValueElement = document.getElementById('budgetValue');
+            var totalPriceElement = document.getElementById("totalPrice");
+
+            if (budget < 0) {
+                saveButton.classList.add("disabled");
+                document.getElementById("saveButton").disabled = true;
+                budgetValueElement.classList.add('less-than-zero');
+                if (totalPriceElement) {
+                    totalPriceElement.style.color = "red"; // Set the text color of totalPriceElement to red
+                }
+            } else {
+                saveButton.classList.remove("disabled");
+                document.getElementById("saveButton").disabled = false;
+                budgetValueElement.classList.remove('less-than-zero');
+                if (totalPriceElement) {
+                    totalPriceElement.style.color = ""; // Remove any explicit text color style
+                }
+            }
+
+            if (totalPriceElement) {
+                totalPriceElement.textContent = "Bank: £" + budget.toFixed(1) + "m";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="header">
+        <h1>Make Transfers</h1>
+    </div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <div class="menu">
+        <div class="total-price" id="totalPrice">
+            <span id="budgetValue"></span>
+        </div>
+        <div class="free-transfers">Free Transfers:
+            {% set transfer_data_keys = transfer_data.keys() %}
+            {% if transfer_data_keys|last == 'GW 1 Cost' %}
+                <i class="fas fa-infinity"></i>
+            {% else %}
+                {{ transfer_data['Free Transfers'] }}
+            {% endif %}
+        </div>
+        <div class="cost" id="cost">Cost: <span id="transferCost">{{ transfer_data.values()|last }}</span></div>
+        <form id="saveForm" action="/save_transfers/{{ team_name }}">
+            <button id="saveButton" class="save-button">Save</button>
+        </form>
+        <button class="return-button" onclick="goBack()">X
+    </div>
+
+    <div class="team-container">
+        <div class="penalty-box1"></div>
+        <div class="penalty-box2"></div>
+        <div class="halfway-line"></div>
+        <div class="halfway-line2"></div>
+        <div class="player-row">
+            <div class="player-position">
+                {% if team_data['Player 1'] == '0' %}
+                <button type="button" id="add-button" onclick="changePlayer(1)">
+                    <i class="fas fa-plus"></i>
+                </button>
+                {% else %}
+                <button type="button" class="change-button" onclick="changePlayer(1)">
+                    <i class="fas fa-exchange-alt"></i>
+                </button>
+                {% endif %}
+                <div class="name">{{ team_data['Player 1'] if team_data['Player 1'] != '0' else 'Select Player' }}</div>
+                <div class="price">{{ player_databases[team_data['Player 1']] if team_data['Player 1'] != '0'}}</div>
+            </div>
+        </div>
+        <div class="player-row">
+            <div class="player-position">
+                {% if team_data['Player 2'] == '0' %}
+                <button type="button" id="add-button" onclick="changePlayer(2)">
+                    <i class="fas fa-plus"></i>
+                </button>
+                {% else %}
+                <button type="button" class="change-button" onclick="changePlayer(2)">
+                    <i class="fas fa-exchange-alt"></i>
+                </button>
+                {% endif %}
+                <div class="name">{{ team_data['Player 2'] if team_data['Player 2'] != '0' else 'Select Player' }}</div>
+                <div class="price">{{ player_databases[team_data['Player 2']] if team_data['Player 2'] != '0'}}</div>
+            </div>
+            <div class="player-position">
+                {% if team_data['Player 3'] == '0' %}
+                <button type="button" id="add-button" onclick="changePlayer(3)">
+                    <i class="fas fa-plus"></i>
+                </button>
+                {% else %}
+                <button type="button" class="change-button" onclick="changePlayer(3)">
+                    <i class="fas fa-exchange-alt"></i>
+                </button>
+                {% endif %}
+                <div class="name">{{ team_data['Player 3'] if team_data['Player 3'] != '0' else 'Select Player' }}</div>
+                <div class="price">{{ player_databases[team_data['Player 3']] if team_data['Player 3'] != '0'}}</div>
+            </div>
+        </div>
+        <div class="player-row">
+            <div class="player-position">
+                {% if team_data['Player 4'] == '0' %}
+                <button type="button" id="add-button" onclick="changePlayer(4)">
+                    <i class="fas fa-plus"></i>
+                </button>
+                {% else %}
+                <button type="button" class="change-button" onclick="changePlayer(4)">
+                    <i class="fas fa-exchange-alt"></i>
+                </button>
+                {% endif %}
+                <div class="name">{{ team_data['Player 4'] if team_data['Player 4'] != '0' else 'Select Player' }}</div>
+                <div class="price">{{ player_databases[team_data['Player 4']] if team_data['Player 4'] != '0'}}</div>
+            </div>
+            <div class="player-position">
+                {% if team_data['Player 5'] == '0' %}
+                <button type="button" id="add-button" onclick="changePlayer(5)">
+                    <i class="fas fa-plus"></i>
+                </button>
+                {% else %}
+                <button type="button" class="change-button" onclick="changePlayer(5)">
+                    <i class="fas fa-exchange-alt"></i>
+                </button>
+                {% endif %}
+                <div class="name">{{ team_data['Player 5'] if team_data['Player 5'] != '0' else 'Select Player' }}</div>
+                <div class="price">{{ player_databases[team_data['Player 5']] if team_data['Player 5'] != '0'}}</div>
+            </div>
+        </div>
+        <div class="player-row">
+            <div class="player-position">
+                {% if team_data['Player 6'] == '0' %}
+                <button type="button" id="add-button" onclick="changePlayer(6)">
+                    <i class="fas fa-plus"></i>
+                </button>
+                {% else %}
+                <button type="button" class="change-button" onclick="changePlayer(6)">
+                    <i class="fas fa-exchange-alt"></i>
+                </button>
+                {% endif %}
+                <div class="name">{{ team_data['Player 6'] if team_data['Player 6'] != '0' else 'Select Player' }}</div>
+                <div class="price">{{ player_databases[team_data['Player 6']] if team_data['Player 6'] != '0'}}</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
