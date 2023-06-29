@@ -761,8 +761,9 @@ def scroll_down(team_name, gw):
 
     gw = int(gw)
 
-    if gw_info1[f'Gameweek {gw -1}'][index_tm] != '-' and gw > 1:
-        gw = gw - 1
+    if gw > 1:
+        if gw_info1[f'Gameweek {gw -1}'][index_tm] != '-':
+            gw = gw - 1
     
     for i in gw_info.columns[3::2]:
         x = eval((gw_info[i].values[0]))
