@@ -1926,6 +1926,30 @@ def fixture(team_name):
     return render_template('fixtures.html', team_name=team_name, fixture_data=fixture_data)
 
 #############################################################################################################################
+@app.route('/admin/<team_name>/<current_gw>')
+def admin(team_name, current_gw):
+
+    next_gw = int(current_gw[len('Gameweek '):]) + 1
+
+    return render_template('admin.html', team_name=team_name, next_gw=next_gw)
+
+#############################################################################################################################
+
+@app.route('/pass_next_deadline', methods=['POST'])
+def pass_next_deadline():
+
+    team_name = request.args.get('teamName')
+    next_gw = request.args.get('nextGW')
+    next_gw = int(next_gw)
+
+    current_gw = f'Gameweek {next_gw -1}'
+
+    pass_deadline.pass_deadline(gameweek = next_gw)
+
+    return redirect(url_for('admin', team_name=team_name, current_gw=current_gw))
+
+#############################################################################################################################
+
 from urllib.parse import quote
 
 @app.template_filter('urlencode')
