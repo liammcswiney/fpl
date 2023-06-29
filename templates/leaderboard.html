@@ -95,11 +95,21 @@
         document.addEventListener("DOMContentLoaded", function() {
             var rows = document.querySelectorAll("#team-stats tbody tr");
             rows.forEach(function(row) {
-                row.addEventListener("click", function() {
-                    var teamName = this.getAttribute("data-team-name");
-                    var viewTeamUrl = "/view_gameweek_points/{{ team_name }}/" + teamName;
-                    window.location.href = viewTeamUrl;
-                });
+                var columns = row.getElementsByTagName("td");
+                var hasValue = false;
+                for (var i = 0; i < columns.length; i++) {
+                    if (columns[i].innerHTML !== "-") {
+                        hasValue = true;
+                        break;
+                    }
+                }
+                if (hasValue) {
+                    row.addEventListener("click", function() {
+                        var teamName = this.getAttribute("data-team-name");
+                        var viewTeamUrl = "/view_gameweek_points/{{ team_name }}/" + teamName;
+                        window.location.href = viewTeamUrl;
+                    });
+                }
             });
         });
 

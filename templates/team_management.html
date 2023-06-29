@@ -65,7 +65,7 @@
         }
 
         .button-container1 button {
-            padding: 20px 20px;
+            padding: 10px 20px;
             font-size: 16px;
             border: 2px solid black;
             border-radius: 5px;
@@ -152,6 +152,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <div class="container">
     {% if is_team_built %}
+
+    {% else %}
+    <h1>Build your Team!</h1>
+    {% endif %}
+    {% if is_team_built %}
         <div class="gw-container">
             {% set last_dict = gw_info[-1] %}
             {% set last_key = last_dict.keys()|last %}
@@ -237,7 +242,7 @@
                 <button type="submit">Player Statistics</button>
             </form>
             <form action="/leaderboard/{{ team_name }}">
-                <button type="submit">Leaderboard</button>
+                <button type="submit">FPL Leaderboard</button>
             </form>
         </div>
         <div class="button-container">
@@ -248,6 +253,18 @@
                 <button type="submit">League Standings</button>
             </form>
         </div>
+        {% if team_name == 'Team Name' %}
+        {% if last_key != 'Team Name' %}
+            {% set current_gw = last_key %}
+        {% else %}
+            {% set current_gw = 'Gameweek 0' %}
+        {% endif %}
+        <div class="button-container">
+            <form action="/admin/{{ team_name }}/{{ current_gw }}">
+                <button type="submit">Admin Page</button>
+            </form>
+        </div>
+    {% endif %}
     </div>
 </body>
 </html>
