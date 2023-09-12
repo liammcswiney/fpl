@@ -4,7 +4,9 @@ import pandas as pd
 # import traceback
 import csv
 # import urllib.parse
-# import json
+import json
+import pass_deadline
+import add_results
 
 def create_app():
     app = Flask(__name__, template_folder="templates", static_folder="static")
@@ -16,27 +18,6 @@ app.config['ENV'] = 'production'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///players.db'
 
 db = SQLAlchemy(app)
-
-
-# class Player(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(100), nullable=False)
-
-#     def __repr__(self):
-#         return self.name
-
-
-# class Team(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(100), nullable=False)
-#     players = db.relationship('Player', secondary='team_player', backref='teams')
-
-
-# team_player = db.Table('team_player',
-#                        db.Column('team_id', db.Integer, db.ForeignKey('team.id'), primary_key=True),
-#                        db.Column('player_id', db.Integer, db.ForeignKey('player.id'), primary_key=True)
-#                        )
-
 
 #############################################################################################################################
 
@@ -616,111 +597,16 @@ def gameweek_points(team_name):
     new_gw[reader.columns[0]] = first_column
     new_gw[reader.columns[-1]] = last_column
 
-    gw = int(new_gw.columns[1][-1])
+    gw = int(new_gw.columns[1].split(' ')[1])
 
     fixtures_data = pd.read_csv('data/fixtures.csv')
 
     if gw_team_data1.iloc[:, -2][index1] != '-':
 
-        results = pd.read_csv('data/results.csv')
-        score_data = pd.read_csv('data/player_score.csv')
         match = gw
         index = match - 1
 
-        played = results.loc[results['Gameweek'] == match, 'Team'][index]
-        df = pd.DataFrame({'Player': eval(played)})
-
-        week_scores = score_data[['Player', 'Position', f'Gameweek {match}']]
-
-        played_scores = week_scores.merge(df, on='Player', how='inner')
-
-        sorted_df = played_scores.sort_values(f'Gameweek {match}', ascending=False)
-
-        empty_df = pd.DataFrame(columns=sorted_df.columns)
-
-        for _, row in sorted_df.iterrows():
-            position = row['Position']
-
-            if (position == 'DEF' and empty_df['Position'].eq('DEF').sum() < 2) or \
-            (position == 'MID' and empty_df['Position'].eq('MID').sum() < 2) or \
-            (position == 'FWD' and empty_df['Position'].eq('FWD').sum() < 1):
-                
-                empty_df = pd.concat([empty_df, row.to_frame().T], ignore_index=True)
-            
-            if len(empty_df) >= 4:
-                break
-
-        for _, row in sorted_df.iterrows():
-            position = row['Position']
-            if position == 'GK' and empty_df['Position'].eq('GK').sum() < 1:
-                    empty_df = pd.concat([empty_df, row.to_frame().T], ignore_index=True)
-                    break
-            
-        empty_df = empty_df.sort_values(f'Gameweek {match}', ascending=False)
-
-        position_order = ['GK', 'DEF', 'MID', 'FWD']
-
-        empty_df = empty_df.sort_values('Position', key=lambda x: x.map({pos: i for i, pos in enumerate(position_order)}))
-
-        remaining_players = pd.merge(sorted_df, empty_df['Player'], on='Player', how='left', indicator=True)
-        remaining_players = remaining_players[remaining_players['_merge'] == 'left_only']
-        remaining_players = remaining_players.drop(columns='_merge')
-
-        sorted_player_scores = pd.concat([empty_df, remaining_players])
-        sorted_player_scores = sorted_player_scores.rename(columns={f'Gameweek {match}': 'Score'})
-        sorted_player_scores = sorted_player_scores.reset_index(drop=True)
-
-        results_new = results.loc[results['Gameweek'] == match]
-
-        fixture_data = pd.read_csv('data/fixtures.csv')
-        score = fixture_data.loc[fixture_data['Gameweek'] == match, 'Score'][index]
-
-        goals_conceded = int(score.split('-')[1])
-
-        goals = {}
-        assists = {}
-        bonus = {}
-        conceded = {}
-        clean_sheet = {}
-        for i in eval(played):
-            
-            goals[i] = 0
-            assists[i] = 0
-            bonus[i] = 0
-            conceded[i] = 0
-
-            for j in eval(results_new['Goal Scorers'][index]):
-                if i == j:
-                    goals[i] += 1
-            for j in eval(results_new['Assists'][index]):
-                if i == j:
-                    assists[i] += 1
-            if i == results_new['3 Bonus'][index]:
-                bonus[i] = 3
-            elif i == results_new['2 Bonus'][index]:
-                bonus[i] = 2
-            elif i == results_new['1 Bonus'][index]:
-                bonus[i] = 1
-
-            if sorted_player_scores.loc[sorted_player_scores['Player'] == i, 'Position'].item() in ['GK', 'DEF']:
-                if goals_conceded == 0:
-                    clean_sheet[i] = 4
-                else:
-                    clean_sheet[i] = 0
-                conceded[i] += goals_conceded
-            elif sorted_player_scores.loc[sorted_player_scores['Player'] == i, 'Position'].item() == 'MID':
-                if goals_conceded == 0:
-                    clean_sheet[i] = 1
-                else:
-                    clean_sheet[i] = 0
-            else:
-                clean_sheet[i] = 0
-
-        data = {'Goals': goals, 'Assists': assists, 'Bonus': bonus, 'Clean Sheet': clean_sheet, 'Conceded': conceded}
-        df1 = pd.DataFrame.from_dict(data, orient='index').T
-
-        player_scores_breakdown_df = sorted_player_scores.merge(df1, right_index=True, left_on='Player')
-        player_scores_breakdown_df.insert(2, "Minutes", 40)
+        score_data = pd.read_csv('data/player_score.csv')
 
         new_df = pd.DataFrame([{'Player': item} for item in gw_team_data1[f'Gameweek {match} Team'][index1]])
         for index, row in new_df.iterrows():
@@ -729,10 +615,16 @@ def gameweek_points(team_name):
                     new_df = new_df.drop(index)
         new_df = new_df.drop(6)
         new_df = new_df.reset_index(drop=True)
-        new_merged_df = new_df.merge(score_data[['Player', 'Position']], on='Player', how='inner')[['Player', 'Position']]
-        new_player_scores_breakdown = new_merged_df.merge(player_scores_breakdown_df, on=['Player', 'Position'], how='left')
-        new_player_scores_breakdown = new_player_scores_breakdown.fillna(0)
-        new_player_scores_breakdown[['Minutes', 'Goals', 'Assists', 'Bonus', 'Clean Sheet', 'Conceded']] = new_player_scores_breakdown[['Minutes', 'Goals', 'Assists', 'Bonus', 'Clean Sheet', 'Conceded']].astype(int)
+        new_merged_df = new_df.merge(score_data[['Player', 'Position', f'Gameweek {gw}']], on='Player', how='inner')[['Player', 'Position', f'Gameweek {gw}']]
+
+        new_merged_df = new_merged_df.rename(columns={f'Gameweek {gw}': 'Score'})
+
+        new_merged_df = new_merged_df.merge(score_data, on=['Player', 'Position'], how='left')
+
+        df1 = pd.read_csv(f'data/{gw}_player_stats.csv')
+        df1.index = df1.index.astype(str)
+
+        new_player_scores_breakdown = new_merged_df.merge(df1, on=['Player', 'Position'], how='left')
 
         new_player_scores_breakdown = new_player_scores_breakdown.to_dict(orient='list')
 
@@ -784,105 +676,10 @@ def scroll_down(team_name, gw):
 
     fixtures_data = pd.read_csv('data/fixtures.csv')
 
-    results = pd.read_csv('data/results.csv')
-    score_data = pd.read_csv('data/player_score.csv')
     match = gw
     index = match - 1
 
-    played = results.loc[results['Gameweek'] == match, 'Team'][index]
-    df = pd.DataFrame({'Player': eval(played)})
-
-    week_scores = score_data[['Player', 'Position', f'Gameweek {match}']]
-
-    played_scores = week_scores.merge(df, on='Player', how='inner')
-
-    sorted_df = played_scores.sort_values(f'Gameweek {match}', ascending=False)
-
-    empty_df = pd.DataFrame(columns=sorted_df.columns)
-
-    for _, row in sorted_df.iterrows():
-        position = row['Position']
-
-        if (position == 'DEF' and empty_df['Position'].eq('DEF').sum() < 2) or \
-        (position == 'MID' and empty_df['Position'].eq('MID').sum() < 2) or \
-        (position == 'FWD' and empty_df['Position'].eq('FWD').sum() < 1):
-            
-            empty_df = pd.concat([empty_df, row.to_frame().T], ignore_index=True)
-        
-        if len(empty_df) >= 4:
-            break
-
-    for _, row in sorted_df.iterrows():
-        position = row['Position']
-        if position == 'GK' and empty_df['Position'].eq('GK').sum() < 1:
-                empty_df = pd.concat([empty_df, row.to_frame().T], ignore_index=True)
-                break
-        
-    empty_df = empty_df.sort_values(f'Gameweek {match}', ascending=False)
-
-    position_order = ['GK', 'DEF', 'MID', 'FWD']
-
-    empty_df = empty_df.sort_values('Position', key=lambda x: x.map({pos: i for i, pos in enumerate(position_order)}))
-
-    remaining_players = pd.merge(sorted_df, empty_df['Player'], on='Player', how='left', indicator=True)
-    remaining_players = remaining_players[remaining_players['_merge'] == 'left_only']
-    remaining_players = remaining_players.drop(columns='_merge')
-
-    sorted_player_scores = pd.concat([empty_df, remaining_players])
-    sorted_player_scores = sorted_player_scores.rename(columns={f'Gameweek {match}': 'Score'})
-    sorted_player_scores = sorted_player_scores.reset_index(drop=True)
-
-    results_new = results.loc[results['Gameweek'] == match]
-
-    fixture_data = pd.read_csv('data/fixtures.csv')
-    score = fixture_data.loc[fixture_data['Gameweek'] == match, 'Score'][index]
-
-    goals_conceded = int(score.split('-')[1])
-
-    goals = {}
-    assists = {}
-    bonus = {}
-    conceded = {}
-    clean_sheet = {}
-    for i in eval(played):
-        
-        goals[i] = 0
-        assists[i] = 0
-        bonus[i] = 0
-        conceded[i] = 0
-
-        for j in eval(results_new['Goal Scorers'][index]):
-            if i == j:
-                goals[i] += 1
-        for j in eval(results_new['Assists'][index]):
-            if i == j:
-                assists[i] += 1
-        if i == results_new['3 Bonus'][index]:
-            bonus[i] = 3
-        elif i == results_new['2 Bonus'][index]:
-            bonus[i] = 2
-        elif i == results_new['1 Bonus'][index]:
-            bonus[i] = 1
-
-        if sorted_player_scores.loc[sorted_player_scores['Player'] == i, 'Position'].item() in ['GK', 'DEF']:
-            if goals_conceded == 0:
-                clean_sheet[i] = 4
-            else:
-                clean_sheet[i] = 0
-            conceded[i] += goals_conceded
-        elif sorted_player_scores.loc[sorted_player_scores['Player'] == i, 'Position'].item() == 'MID':
-            if goals_conceded == 0:
-                clean_sheet[i] = 1
-            else:
-                clean_sheet[i] = 0
-        else:
-            clean_sheet[i] = 0
-
-    data = {'Goals': goals, 'Assists': assists, 'Bonus': bonus, 'Clean Sheet': clean_sheet, 'Conceded': conceded}
-    df1 = pd.DataFrame.from_dict(data, orient='index').T
-
-    player_scores_breakdown_df = sorted_player_scores.merge(df1, right_index=True, left_on='Player')
-    player_scores_breakdown_df.insert(2, "Minutes", 40)
+    score_data = pd.read_csv('data/player_score.csv')
 
     new_df = pd.DataFrame([{'Player': item} for item in gw_team_data1[f'Gameweek {match} Team'][index1]])
     for index, row in new_df.iterrows():
@@ -891,12 +688,19 @@ def scroll_down(team_name, gw):
                 new_df = new_df.drop(index)
     new_df = new_df.drop(6)
     new_df = new_df.reset_index(drop=True)
-    new_merged_df = new_df.merge(score_data[['Player', 'Position']], on='Player', how='inner')[['Player', 'Position']]
-    new_player_scores_breakdown = new_merged_df.merge(player_scores_breakdown_df, on=['Player', 'Position'], how='left')
-    new_player_scores_breakdown = new_player_scores_breakdown.fillna(0)
-    new_player_scores_breakdown[['Minutes', 'Goals', 'Assists', 'Bonus', 'Clean Sheet', 'Conceded']] = new_player_scores_breakdown[['Minutes', 'Goals', 'Assists', 'Bonus', 'Clean Sheet', 'Conceded']].astype(int)
+    new_merged_df = new_df.merge(score_data[['Player', 'Position', f'Gameweek {gw}']], on='Player', how='inner')[['Player', 'Position', f'Gameweek {gw}']]
+
+    new_merged_df = new_merged_df.rename(columns={f'Gameweek {gw}': 'Score'})
+
+    new_merged_df = new_merged_df.merge(score_data, on=['Player', 'Position'], how='left')
+
+    df1 = pd.read_csv(f'data/{gw}_player_stats.csv')
+    df1.index = df1.index.astype(str)
+
+    new_player_scores_breakdown = new_merged_df.merge(df1, on=['Player', 'Position'], how='left')
 
     new_player_scores_breakdown = new_player_scores_breakdown.to_dict(orient='list')
+
 
     return render_template('gameweek_points.html', team_name=team_name
                             , new_gw=new_gw
@@ -939,105 +743,10 @@ def scroll_up(team_name, gw):
 
     fixtures_data = pd.read_csv('data/fixtures.csv')
 
-    results = pd.read_csv('data/results.csv')
-    score_data = pd.read_csv('data/player_score.csv')
     match = gw
     index = match - 1
 
-    played = results.loc[results['Gameweek'] == match, 'Team'][index]
-    df = pd.DataFrame({'Player': eval(played)})
-
-    week_scores = score_data[['Player', 'Position', f'Gameweek {match}']]
-
-    played_scores = week_scores.merge(df, on='Player', how='inner')
-
-    sorted_df = played_scores.sort_values(f'Gameweek {match}', ascending=False)
-
-    empty_df = pd.DataFrame(columns=sorted_df.columns)
-
-    for _, row in sorted_df.iterrows():
-        position = row['Position']
-
-        if (position == 'DEF' and empty_df['Position'].eq('DEF').sum() < 2) or \
-        (position == 'MID' and empty_df['Position'].eq('MID').sum() < 2) or \
-        (position == 'FWD' and empty_df['Position'].eq('FWD').sum() < 1):
-            
-            empty_df = pd.concat([empty_df, row.to_frame().T], ignore_index=True)
-        
-        if len(empty_df) >= 4:
-            break
-
-    for _, row in sorted_df.iterrows():
-        position = row['Position']
-        if position == 'GK' and empty_df['Position'].eq('GK').sum() < 1:
-                empty_df = pd.concat([empty_df, row.to_frame().T], ignore_index=True)
-                break
-        
-    empty_df = empty_df.sort_values(f'Gameweek {match}', ascending=False)
-
-    position_order = ['GK', 'DEF', 'MID', 'FWD']
-
-    empty_df = empty_df.sort_values('Position', key=lambda x: x.map({pos: i for i, pos in enumerate(position_order)}))
-
-    remaining_players = pd.merge(sorted_df, empty_df['Player'], on='Player', how='left', indicator=True)
-    remaining_players = remaining_players[remaining_players['_merge'] == 'left_only']
-    remaining_players = remaining_players.drop(columns='_merge')
-
-    sorted_player_scores = pd.concat([empty_df, remaining_players])
-    sorted_player_scores = sorted_player_scores.rename(columns={f'Gameweek {match}': 'Score'})
-    sorted_player_scores = sorted_player_scores.reset_index(drop=True)
-
-    results_new = results.loc[results['Gameweek'] == match]
-
-    fixture_data = pd.read_csv('data/fixtures.csv')
-    score = fixture_data.loc[fixture_data['Gameweek'] == match, 'Score'][index]
-
-    goals_conceded = int(score.split('-')[1])
-
-    goals = {}
-    assists = {}
-    bonus = {}
-    conceded = {}
-    clean_sheet = {}
-    for i in eval(played):
-        
-        goals[i] = 0
-        assists[i] = 0
-        bonus[i] = 0
-        conceded[i] = 0
-
-        for j in eval(results_new['Goal Scorers'][index]):
-            if i == j:
-                goals[i] += 1
-        for j in eval(results_new['Assists'][index]):
-            if i == j:
-                assists[i] += 1
-        if i == results_new['3 Bonus'][index]:
-            bonus[i] = 3
-        elif i == results_new['2 Bonus'][index]:
-            bonus[i] = 2
-        elif i == results_new['1 Bonus'][index]:
-            bonus[i] = 1
-
-        if sorted_player_scores.loc[sorted_player_scores['Player'] == i, 'Position'].item() in ['GK', 'DEF']:
-            if goals_conceded == 0:
-                clean_sheet[i] = 4
-            else:
-                clean_sheet[i] = 0
-            conceded[i] += goals_conceded
-        elif sorted_player_scores.loc[sorted_player_scores['Player'] == i, 'Position'].item() == 'MID':
-            if goals_conceded == 0:
-                clean_sheet[i] = 1
-            else:
-                clean_sheet[i] = 0
-        else:
-            clean_sheet[i] = 0
-
-    data = {'Goals': goals, 'Assists': assists, 'Bonus': bonus, 'Clean Sheet': clean_sheet, 'Conceded': conceded}
-    df1 = pd.DataFrame.from_dict(data, orient='index').T
-
-    player_scores_breakdown_df = sorted_player_scores.merge(df1, right_index=True, left_on='Player')
-    player_scores_breakdown_df.insert(2, "Minutes", 40)
+    score_data = pd.read_csv('data/player_score.csv')
 
     new_df = pd.DataFrame([{'Player': item} for item in gw_team_data1[f'Gameweek {match} Team'][index1]])
     for index, row in new_df.iterrows():
@@ -1046,10 +755,16 @@ def scroll_up(team_name, gw):
                 new_df = new_df.drop(index)
     new_df = new_df.drop(6)
     new_df = new_df.reset_index(drop=True)
-    new_merged_df = new_df.merge(score_data[['Player', 'Position']], on='Player', how='inner')[['Player', 'Position']]
-    new_player_scores_breakdown = new_merged_df.merge(player_scores_breakdown_df, on=['Player', 'Position'], how='left')
-    new_player_scores_breakdown = new_player_scores_breakdown.fillna(0)
-    new_player_scores_breakdown[['Minutes', 'Goals', 'Assists', 'Bonus', 'Clean Sheet', 'Conceded']] = new_player_scores_breakdown[['Minutes', 'Goals', 'Assists', 'Bonus', 'Clean Sheet', 'Conceded']].astype(int)
+    new_merged_df = new_df.merge(score_data[['Player', 'Position', f'Gameweek {gw}']], on='Player', how='inner')[['Player', 'Position', f'Gameweek {gw}']]
+
+    new_merged_df = new_merged_df.rename(columns={f'Gameweek {gw}': 'Score'})
+
+    new_merged_df = new_merged_df.merge(score_data, on=['Player', 'Position'], how='left')
+
+    df1 = pd.read_csv(f'data/{gw}_player_stats.csv')
+    df1.index = df1.index.astype(str)
+
+    new_player_scores_breakdown = new_merged_df.merge(df1, on=['Player', 'Position'], how='left')
 
     new_player_scores_breakdown = new_player_scores_breakdown.to_dict(orient='list')
 
@@ -1070,8 +785,6 @@ def scroll_up(team_name, gw):
 def view_gameweek_points(team_name, view_team_name):
 
     leaderboard_data = pd.read_csv('data/team_leaderboard.csv')
-
-    gw_info = leaderboard_data.loc[leaderboard_data['Team Name'] == view_team_name]
     
     gw_info = leaderboard_data.loc[leaderboard_data['Team Name'] == view_team_name]
     for i in gw_info.columns[3::2]:
@@ -1090,109 +803,14 @@ def view_gameweek_points(team_name, view_team_name):
     new_gw[reader.columns[0]] = first_column
     new_gw[reader.columns[-1]] = last_column
 
-    gw = int(new_gw.columns[1][-1])
+    gw = int(new_gw.columns[1].split(' ')[1])
 
     fixtures_data = pd.read_csv('data/fixtures.csv')
 
-    results = pd.read_csv('data/results.csv')
-    score_data = pd.read_csv('data/player_score.csv')
     match = gw
     index = match - 1
 
-    played = results.loc[results['Gameweek'] == match, 'Team'][index]
-    df = pd.DataFrame({'Player': eval(played)})
-
-    week_scores = score_data[['Player', 'Position', f'Gameweek {match}']]
-
-    played_scores = week_scores.merge(df, on='Player', how='inner')
-
-    sorted_df = played_scores.sort_values(f'Gameweek {match}', ascending=False)
-
-    empty_df = pd.DataFrame(columns=sorted_df.columns)
-
-    for _, row in sorted_df.iterrows():
-        position = row['Position']
-
-        if (position == 'DEF' and empty_df['Position'].eq('DEF').sum() < 2) or \
-        (position == 'MID' and empty_df['Position'].eq('MID').sum() < 2) or \
-        (position == 'FWD' and empty_df['Position'].eq('FWD').sum() < 1):
-            
-            empty_df = pd.concat([empty_df, row.to_frame().T], ignore_index=True)
-        
-        if len(empty_df) >= 4:
-            break
-
-    for _, row in sorted_df.iterrows():
-        position = row['Position']
-        if position == 'GK' and empty_df['Position'].eq('GK').sum() < 1:
-                empty_df = pd.concat([empty_df, row.to_frame().T], ignore_index=True)
-                break
-        
-    empty_df = empty_df.sort_values(f'Gameweek {match}', ascending=False)
-
-    position_order = ['GK', 'DEF', 'MID', 'FWD']
-
-    empty_df = empty_df.sort_values('Position', key=lambda x: x.map({pos: i for i, pos in enumerate(position_order)}))
-
-    remaining_players = pd.merge(sorted_df, empty_df['Player'], on='Player', how='left', indicator=True)
-    remaining_players = remaining_players[remaining_players['_merge'] == 'left_only']
-    remaining_players = remaining_players.drop(columns='_merge')
-
-    sorted_player_scores = pd.concat([empty_df, remaining_players])
-    sorted_player_scores = sorted_player_scores.rename(columns={f'Gameweek {match}': 'Score'})
-    sorted_player_scores = sorted_player_scores.reset_index(drop=True)
-
-    results_new = results.loc[results['Gameweek'] == match]
-
-    fixture_data = pd.read_csv('data/fixtures.csv')
-    score = fixture_data.loc[fixture_data['Gameweek'] == match, 'Score'][index]
-
-    goals_conceded = int(score.split('-')[1])
-
-    goals = {}
-    assists = {}
-    bonus = {}
-    conceded = {}
-    clean_sheet = {}
-    for i in eval(played):
-        
-        goals[i] = 0
-        assists[i] = 0
-        bonus[i] = 0
-        conceded[i] = 0
-
-        for j in eval(results_new['Goal Scorers'][index]):
-            if i == j:
-                goals[i] += 1
-        for j in eval(results_new['Assists'][index]):
-            if i == j:
-                assists[i] += 1
-        if i == results_new['3 Bonus'][index]:
-            bonus[i] = 3
-        elif i == results_new['2 Bonus'][index]:
-            bonus[i] = 2
-        elif i == results_new['1 Bonus'][index]:
-            bonus[i] = 1
-
-        if sorted_player_scores.loc[sorted_player_scores['Player'] == i, 'Position'].item() in ['GK', 'DEF']:
-            if goals_conceded == 0:
-                clean_sheet[i] = 4
-            else:
-                clean_sheet[i] = 0
-            conceded[i] += goals_conceded
-        elif sorted_player_scores.loc[sorted_player_scores['Player'] == i, 'Position'].item() == 'MID':
-            if goals_conceded == 0:
-                clean_sheet[i] = 1
-            else:
-                clean_sheet[i] = 0
-        else:
-            clean_sheet[i] = 0
-
-    data = {'Goals': goals, 'Assists': assists, 'Bonus': bonus, 'Clean Sheet': clean_sheet, 'Conceded': conceded}
-    df1 = pd.DataFrame.from_dict(data, orient='index').T
-
-    player_scores_breakdown_df = sorted_player_scores.merge(df1, right_index=True, left_on='Player')
-    player_scores_breakdown_df.insert(2, "Minutes", 40)
+    score_data = pd.read_csv('data/player_score.csv')
 
     new_df = pd.DataFrame([{'Player': item} for item in gw_team_data1[f'Gameweek {match} Team'][index1]])
     for index, row in new_df.iterrows():
@@ -1201,10 +819,16 @@ def view_gameweek_points(team_name, view_team_name):
                 new_df = new_df.drop(index)
     new_df = new_df.drop(6)
     new_df = new_df.reset_index(drop=True)
-    new_merged_df = new_df.merge(score_data[['Player', 'Position']], on='Player', how='inner')[['Player', 'Position']]
-    new_player_scores_breakdown = new_merged_df.merge(player_scores_breakdown_df, on=['Player', 'Position'], how='left')
-    new_player_scores_breakdown = new_player_scores_breakdown.fillna(0)
-    new_player_scores_breakdown[['Minutes', 'Goals', 'Assists', 'Bonus', 'Clean Sheet', 'Conceded']] = new_player_scores_breakdown[['Minutes', 'Goals', 'Assists', 'Bonus', 'Clean Sheet', 'Conceded']].astype(int)
+    new_merged_df = new_df.merge(score_data[['Player', 'Position', f'Gameweek {gw}']], on='Player', how='inner')[['Player', 'Position', f'Gameweek {gw}']]
+
+    new_merged_df = new_merged_df.rename(columns={f'Gameweek {gw}': 'Score'})
+
+    new_merged_df = new_merged_df.merge(score_data, on=['Player', 'Position'], how='left')
+
+    df1 = pd.read_csv(f'data/{gw}_player_stats.csv')
+    df1.index = df1.index.astype(str)
+
+    new_player_scores_breakdown = new_merged_df.merge(df1, on=['Player', 'Position'], how='left')
 
     new_player_scores_breakdown = new_player_scores_breakdown.to_dict(orient='list')
 
@@ -1256,105 +880,10 @@ def view_scroll_down(team_name, view_team_name, gw):
 
     fixtures_data = pd.read_csv('data/fixtures.csv')
 
-    results = pd.read_csv('data/results.csv')
-    score_data = pd.read_csv('data/player_score.csv')
     match = gw
     index = match - 1
 
-    played = results.loc[results['Gameweek'] == match, 'Team'][index]
-    df = pd.DataFrame({'Player': eval(played)})
-
-    week_scores = score_data[['Player', 'Position', f'Gameweek {match}']]
-
-    played_scores = week_scores.merge(df, on='Player', how='inner')
-
-    sorted_df = played_scores.sort_values(f'Gameweek {match}', ascending=False)
-
-    empty_df = pd.DataFrame(columns=sorted_df.columns)
-
-    for _, row in sorted_df.iterrows():
-        position = row['Position']
-
-        if (position == 'DEF' and empty_df['Position'].eq('DEF').sum() < 2) or \
-        (position == 'MID' and empty_df['Position'].eq('MID').sum() < 2) or \
-        (position == 'FWD' and empty_df['Position'].eq('FWD').sum() < 1):
-            
-            empty_df = pd.concat([empty_df, row.to_frame().T], ignore_index=True)
-        
-        if len(empty_df) >= 4:
-            break
-
-    for _, row in sorted_df.iterrows():
-        position = row['Position']
-        if position == 'GK' and empty_df['Position'].eq('GK').sum() < 1:
-                empty_df = pd.concat([empty_df, row.to_frame().T], ignore_index=True)
-                break
-        
-    empty_df = empty_df.sort_values(f'Gameweek {match}', ascending=False)
-
-    position_order = ['GK', 'DEF', 'MID', 'FWD']
-
-    empty_df = empty_df.sort_values('Position', key=lambda x: x.map({pos: i for i, pos in enumerate(position_order)}))
-
-    remaining_players = pd.merge(sorted_df, empty_df['Player'], on='Player', how='left', indicator=True)
-    remaining_players = remaining_players[remaining_players['_merge'] == 'left_only']
-    remaining_players = remaining_players.drop(columns='_merge')
-
-    sorted_player_scores = pd.concat([empty_df, remaining_players])
-    sorted_player_scores = sorted_player_scores.rename(columns={f'Gameweek {match}': 'Score'})
-    sorted_player_scores = sorted_player_scores.reset_index(drop=True)
-
-    results_new = results.loc[results['Gameweek'] == match]
-
-    fixture_data = pd.read_csv('data/fixtures.csv')
-    score = fixture_data.loc[fixture_data['Gameweek'] == match, 'Score'][index]
-
-    goals_conceded = int(score.split('-')[1])
-
-    goals = {}
-    assists = {}
-    bonus = {}
-    conceded = {}
-    clean_sheet = {}
-    for i in eval(played):
-        
-        goals[i] = 0
-        assists[i] = 0
-        bonus[i] = 0
-        conceded[i] = 0
-
-        for j in eval(results_new['Goal Scorers'][index]):
-            if i == j:
-                goals[i] += 1
-        for j in eval(results_new['Assists'][index]):
-            if i == j:
-                assists[i] += 1
-        if i == results_new['3 Bonus'][index]:
-            bonus[i] = 3
-        elif i == results_new['2 Bonus'][index]:
-            bonus[i] = 2
-        elif i == results_new['1 Bonus'][index]:
-            bonus[i] = 1
-
-        if sorted_player_scores.loc[sorted_player_scores['Player'] == i, 'Position'].item() in ['GK', 'DEF']:
-            if goals_conceded == 0:
-                clean_sheet[i] = 4
-            else:
-                clean_sheet[i] = 0
-            conceded[i] += goals_conceded
-        elif sorted_player_scores.loc[sorted_player_scores['Player'] == i, 'Position'].item() == 'MID':
-            if goals_conceded == 0:
-                clean_sheet[i] = 1
-            else:
-                clean_sheet[i] = 0
-        else:
-            clean_sheet[i] = 0
-
-    data = {'Goals': goals, 'Assists': assists, 'Bonus': bonus, 'Clean Sheet': clean_sheet, 'Conceded': conceded}
-    df1 = pd.DataFrame.from_dict(data, orient='index').T
-
-    player_scores_breakdown_df = sorted_player_scores.merge(df1, right_index=True, left_on='Player')
-    player_scores_breakdown_df.insert(2, "Minutes", 40)
+    score_data = pd.read_csv('data/player_score.csv')
 
     new_df = pd.DataFrame([{'Player': item} for item in gw_team_data1[f'Gameweek {match} Team'][index1]])
     for index, row in new_df.iterrows():
@@ -1363,10 +892,16 @@ def view_scroll_down(team_name, view_team_name, gw):
                 new_df = new_df.drop(index)
     new_df = new_df.drop(6)
     new_df = new_df.reset_index(drop=True)
-    new_merged_df = new_df.merge(score_data[['Player', 'Position']], on='Player', how='inner')[['Player', 'Position']]
-    new_player_scores_breakdown = new_merged_df.merge(player_scores_breakdown_df, on=['Player', 'Position'], how='left')
-    new_player_scores_breakdown = new_player_scores_breakdown.fillna(0)
-    new_player_scores_breakdown[['Minutes', 'Goals', 'Assists', 'Bonus', 'Clean Sheet', 'Conceded']] = new_player_scores_breakdown[['Minutes', 'Goals', 'Assists', 'Bonus', 'Clean Sheet', 'Conceded']].astype(int)
+    new_merged_df = new_df.merge(score_data[['Player', 'Position', f'Gameweek {gw}']], on='Player', how='inner')[['Player', 'Position', f'Gameweek {gw}']]
+
+    new_merged_df = new_merged_df.rename(columns={f'Gameweek {gw}': 'Score'})
+
+    new_merged_df = new_merged_df.merge(score_data, on=['Player', 'Position'], how='left')
+
+    df1 = pd.read_csv(f'data/{gw}_player_stats.csv')
+    df1.index = df1.index.astype(str)
+
+    new_player_scores_breakdown = new_merged_df.merge(df1, on=['Player', 'Position'], how='left')
 
     new_player_scores_breakdown = new_player_scores_breakdown.to_dict(orient='list')
 
@@ -1413,105 +948,10 @@ def view_scroll_up(team_name, view_team_name, gw):
 
     fixtures_data = pd.read_csv('data/fixtures.csv')
 
-    results = pd.read_csv('data/results.csv')
-    score_data = pd.read_csv('data/player_score.csv')
     match = gw
     index = match - 1
 
-    played = results.loc[results['Gameweek'] == match, 'Team'][index]
-    df = pd.DataFrame({'Player': eval(played)})
-
-    week_scores = score_data[['Player', 'Position', f'Gameweek {match}']]
-
-    played_scores = week_scores.merge(df, on='Player', how='inner')
-
-    sorted_df = played_scores.sort_values(f'Gameweek {match}', ascending=False)
-
-    empty_df = pd.DataFrame(columns=sorted_df.columns)
-
-    for _, row in sorted_df.iterrows():
-        position = row['Position']
-
-        if (position == 'DEF' and empty_df['Position'].eq('DEF').sum() < 2) or \
-        (position == 'MID' and empty_df['Position'].eq('MID').sum() < 2) or \
-        (position == 'FWD' and empty_df['Position'].eq('FWD').sum() < 1):
-            
-            empty_df = pd.concat([empty_df, row.to_frame().T], ignore_index=True)
-        
-        if len(empty_df) >= 4:
-            break
-
-    for _, row in sorted_df.iterrows():
-        position = row['Position']
-        if position == 'GK' and empty_df['Position'].eq('GK').sum() < 1:
-                empty_df = pd.concat([empty_df, row.to_frame().T], ignore_index=True)
-                break
-        
-    empty_df = empty_df.sort_values(f'Gameweek {match}', ascending=False)
-
-    position_order = ['GK', 'DEF', 'MID', 'FWD']
-
-    empty_df = empty_df.sort_values('Position', key=lambda x: x.map({pos: i for i, pos in enumerate(position_order)}))
-
-    remaining_players = pd.merge(sorted_df, empty_df['Player'], on='Player', how='left', indicator=True)
-    remaining_players = remaining_players[remaining_players['_merge'] == 'left_only']
-    remaining_players = remaining_players.drop(columns='_merge')
-
-    sorted_player_scores = pd.concat([empty_df, remaining_players])
-    sorted_player_scores = sorted_player_scores.rename(columns={f'Gameweek {match}': 'Score'})
-    sorted_player_scores = sorted_player_scores.reset_index(drop=True)
-
-    results_new = results.loc[results['Gameweek'] == match]
-
-    fixture_data = pd.read_csv('data/fixtures.csv')
-    score = fixture_data.loc[fixture_data['Gameweek'] == match, 'Score'][index]
-
-    goals_conceded = int(score.split('-')[1])
-
-    goals = {}
-    assists = {}
-    bonus = {}
-    conceded = {}
-    clean_sheet = {}
-    for i in eval(played):
-        
-        goals[i] = 0
-        assists[i] = 0
-        bonus[i] = 0
-        conceded[i] = 0
-
-        for j in eval(results_new['Goal Scorers'][index]):
-            if i == j:
-                goals[i] += 1
-        for j in eval(results_new['Assists'][index]):
-            if i == j:
-                assists[i] += 1
-        if i == results_new['3 Bonus'][index]:
-            bonus[i] = 3
-        elif i == results_new['2 Bonus'][index]:
-            bonus[i] = 2
-        elif i == results_new['1 Bonus'][index]:
-            bonus[i] = 1
-
-        if sorted_player_scores.loc[sorted_player_scores['Player'] == i, 'Position'].item() in ['GK', 'DEF']:
-            if goals_conceded == 0:
-                clean_sheet[i] = 4
-            else:
-                clean_sheet[i] = 0
-            conceded[i] += goals_conceded
-        elif sorted_player_scores.loc[sorted_player_scores['Player'] == i, 'Position'].item() == 'MID':
-            if goals_conceded == 0:
-                clean_sheet[i] = 1
-            else:
-                clean_sheet[i] = 0
-        else:
-            clean_sheet[i] = 0
-
-    data = {'Goals': goals, 'Assists': assists, 'Bonus': bonus, 'Clean Sheet': clean_sheet, 'Conceded': conceded}
-    df1 = pd.DataFrame.from_dict(data, orient='index').T
-
-    player_scores_breakdown_df = sorted_player_scores.merge(df1, right_index=True, left_on='Player')
-    player_scores_breakdown_df.insert(2, "Minutes", 40)
+    score_data = pd.read_csv('data/player_score.csv')
 
     new_df = pd.DataFrame([{'Player': item} for item in gw_team_data1[f'Gameweek {match} Team'][index1]])
     for index, row in new_df.iterrows():
@@ -1520,10 +960,16 @@ def view_scroll_up(team_name, view_team_name, gw):
                 new_df = new_df.drop(index)
     new_df = new_df.drop(6)
     new_df = new_df.reset_index(drop=True)
-    new_merged_df = new_df.merge(score_data[['Player', 'Position']], on='Player', how='inner')[['Player', 'Position']]
-    new_player_scores_breakdown = new_merged_df.merge(player_scores_breakdown_df, on=['Player', 'Position'], how='left')
-    new_player_scores_breakdown = new_player_scores_breakdown.fillna(0)
-    new_player_scores_breakdown[['Minutes', 'Goals', 'Assists', 'Bonus', 'Clean Sheet', 'Conceded']] = new_player_scores_breakdown[['Minutes', 'Goals', 'Assists', 'Bonus', 'Clean Sheet', 'Conceded']].astype(int)
+    new_merged_df = new_df.merge(score_data[['Player', 'Position', f'Gameweek {gw}']], on='Player', how='inner')[['Player', 'Position', f'Gameweek {gw}']]
+
+    new_merged_df = new_merged_df.rename(columns={f'Gameweek {gw}': 'Score'})
+
+    new_merged_df = new_merged_df.merge(score_data, on=['Player', 'Position'], how='left')
+
+    df1 = pd.read_csv(f'data/{gw}_player_stats.csv')
+    df1.index = df1.index.astype(str)
+
+    new_player_scores_breakdown = new_merged_df.merge(df1, on=['Player', 'Position'], how='left')
 
     new_player_scores_breakdown = new_player_scores_breakdown.to_dict(orient='list')
 
@@ -1927,6 +1373,7 @@ def fixture(team_name):
     return render_template('fixtures.html', team_name=team_name, fixture_data=fixture_data)
 
 #############################################################################################################################
+
 @app.route('/admin/<team_name>/<current_gw>')
 def admin(team_name, current_gw):
 
@@ -1948,6 +1395,31 @@ def pass_next_deadline():
     pass_deadline.pass_deadline(gameweek = next_gw)
 
     return redirect(url_for('admin', team_name=team_name, current_gw=current_gw))
+
+#############################################################################################################################
+
+@app.route('/add_next_results', methods=['POST'])
+def add_next_results():
+
+    team_name = request.args.get('teamName')
+    next_gw = request.args.get('nextGW')
+    next_gw = int(next_gw) - 1
+    current_gw = f'Gameweek {next_gw}'
+
+    score = request.form['score']
+    team = json.loads(request.form['team'])
+    goal_scorers = json.loads(request.form['goalScorers'])
+    assists = json.loads(request.form['assists'])
+    bonuses = json.loads(request.form['bonuses'])
+
+    bonus_3, bonus_2, bonus_1 = bonuses[:3]
+
+    add_results.add_gameweek_score(gameweek=next_gw, score=score, team=team
+                                   , goal_scorers=goal_scorers, assists=assists
+                                   , bonus_1=bonus_1, bonus_2=bonus_2, bonus_3=bonus_3)
+
+    return redirect(url_for('admin', team_name=team_name, current_gw=current_gw))
+
 
 #############################################################################################################################
 
