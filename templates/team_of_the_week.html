@@ -10,7 +10,7 @@
 
         .header {
             background-color: #428bca;
-            padding: 20px;
+            padding: 15px;
             color: #fff;
             text-align: center;
         }
@@ -18,7 +18,7 @@
         .header h1 {
             color: #fff;
             text-align: center;
-            margin: 20px 0;
+            margin: 0px 0;
         }
 
         .menu {
@@ -27,7 +27,7 @@
             margin: 0 auto; /* Center the menu horizontally */
             background-color: #428bca00; /* Set a background color for the menu */
             top: -10px;
-            padding: 10px; /* Add padding as desired */
+            padding: 0px; /* Add padding as desired */
             box-sizing: border-box; /* Include padding in the width calculation */
             z-index: 1;
         }
@@ -206,7 +206,7 @@
 
         .return-button {
             position: absolute;
-            top: 10px;
+            top: -5px;
             left: 10px;
             padding: 5px 10px;
             background-color: #dd0e0e;
@@ -237,6 +237,7 @@
             z-index: 9999;
             max-height: 60vh;
             overflow-y: auto;
+            border: 2px solid #000000; 
         }
 
         .overlay {
@@ -292,9 +293,6 @@
         #popup tr:nth-last-child(2):not(:last-child) {
             border-bottom: 2px solid black;
         }
-
-
-
 
     </style>
 
@@ -412,6 +410,7 @@
 <body>
     <div class="header">
         <h1>Gameweek {{ match }}: Team of the Week</h1>
+        <h2>Man of the Match: {{ man_of_match }}</h2>
     </div>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <div class="menu">
@@ -423,7 +422,11 @@
             <div class="halfway-line2"></div>
             <div class="player-row">
                 <div class="player-position">
-                    <div class="icon" onclick="showPopup(0)"></div>
+                    <div class="icon" onclick="showPopup(0)">
+                        {% if man_of_match == sorted_player_scores['Player'][0] %}
+                            <i class="fas fa-crown" style="color: rgb(255, 217, 0);"></i>
+                        {% endif %}
+                    </div>
                     <div class="name">{{ sorted_player_scores['Player'][0] }}</div>
                     <div class="points">{{ sorted_player_scores['Score'][0] }}</div>
                 </div>
@@ -431,24 +434,40 @@
             {% if formation == 1 %}
             <div class="player-row">
                 <div class="player-position">
-                    <div class="icon" onclick="showPopup(1)"></div>
+                    <div class="icon" onclick="showPopup(1)">
+                        {% if man_of_match == sorted_player_scores['Player'][1] %}
+                            <i class="fas fa-crown" style="color: rgb(255, 217, 0);"></i>
+                        {% endif %}
+                    </div>
                     <div class="name">{{ sorted_player_scores['Player'][1] }}</div>
                     <div class="points">{{ sorted_player_scores['Score'][1] }}</div>
                 </div>
                 <div class="player-position">
-                    <div class="icon" onclick="showPopup(2)"></div>
+                    <div class="icon" onclick="showPopup(2)">
+                        {% if man_of_match == sorted_player_scores['Player'][2] %}
+                            <i class="fas fa-crown" style="color: rgb(255, 217, 0);"></i>
+                        {% endif %}
+                    </div>
                     <div class="name">{{ sorted_player_scores['Player'][2] }}</div>
                     <div class="points">{{ sorted_player_scores['Score'][2] }}</div>
                 </div>
             </div>
             <div class="player-row">
                 <div class="player-position">
-                    <div class="icon" onclick="showPopup(3)"></div>
+                    <div class="icon" onclick="showPopup(3)">
+                        {% if man_of_match == sorted_player_scores['Player'][3] %}
+                            <i class="fas fa-crown" style="color: rgb(255, 217, 0);"></i>
+                        {% endif %}
+                    </div>
                     <div class="name">{{ sorted_player_scores['Player'][3] }}</div>
                     <div class="points">{{ sorted_player_scores['Score'][3] }}</div>
                 </div>
                 <div class="player-position">
-                    <div class="icon" onclick="showPopup(4)"></div>
+                    <div class="icon" onclick="showPopup(4)">
+                        {% if man_of_match == sorted_player_scores['Player'][4] %}
+                            <i class="fas fa-crown" style="color: rgb(255, 217, 0);"></i>
+                        {% endif %}
+                    </div>
                     <div class="name">{{ sorted_player_scores['Player'][4] }}</div>
                     <div class="points">{{ sorted_player_scores['Score'][4] }}</div>
                 </div>
@@ -457,26 +476,42 @@
             {% if formation == 2 %}
             <div class="player-row">
                 <div class="player-position">
-                    <div class="icon" onclick="showPopup(1)"></div>
+                    <div class="icon" onclick="showPopup(1)">
+                        {% if man_of_match == sorted_player_scores['Player'][1] %}
+                            <i class="fas fa-crown" style="color: rgb(255, 217, 0);"></i>
+                        {% endif %}
+                    </div>
                     <div class="name">{{ sorted_player_scores['Player'][1] }}</div>
                     <div class="points">{{ sorted_player_scores['Score'][1] }}</div>
                 </div>
                 <div class="player-position">
-                    <div class="icon" onclick="showPopup(2)"></div>
+                    <div class="icon" onclick="showPopup(2)">
+                        {% if man_of_match == sorted_player_scores['Player'][2] %}
+                            <i class="fas fa-crown" style="color: rgb(255, 217, 0);"></i>
+                        {% endif %}
+                    </div>
                     <div class="name">{{ sorted_player_scores['Player'][2] }}</div>
                     <div class="points">{{ sorted_player_scores['Score'][2] }}</div>
                 </div>
             </div>
             <div class="player-row">
                 <div class="player-position">
-                    <div class="icon" onclick="showPopup(3)"></div>
+                    <div class="icon" onclick="showPopup(3)">
+                        {% if man_of_match == sorted_player_scores['Player'][3] %}
+                            <i class="fas fa-crown" style="color: rgb(255, 217, 0);"></i>
+                        {% endif %}
+                    </div>
                     <div class="name">{{ sorted_player_scores['Player'][3] }}</div>
                     <div class="points">{{ sorted_player_scores['Score'][3] }}</div>
                 </div>
             </div>
             <div class="player-row">
                 <div class="player-position">
-                    <div class="icon" onclick="showPopup(4)"></div>
+                    <div class="icon" onclick="showPopup(4)">
+                        {% if man_of_match == sorted_player_scores['Player'][4] %}
+                            <i class="fas fa-crown" style="color: rgb(255, 217, 0);"></i>
+                        {% endif %}
+                    </div>
                     <div class="name">{{ sorted_player_scores['Player'][4] }}</div>
                     <div class="points">{{ sorted_player_scores['Score'][4] }}</div>
                 </div>
@@ -485,26 +520,42 @@
             {% if formation == 3 %}
             <div class="player-row">
                 <div class="player-position">
-                    <div class="icon" onclick="showPopup(1)"></div>
+                    <div class="icon" onclick="showPopup(1)">
+                        {% if man_of_match == sorted_player_scores['Player'][1] %}
+                            <i class="fas fa-crown" style="color: rgb(255, 217, 0);"></i>
+                        {% endif %}
+                    </div>
                     <div class="name">{{ sorted_player_scores['Player'][1] }}</div>
                     <div class="points">{{ sorted_player_scores['Score'][1] }}</div>
                 </div>
             </div>
             <div class="player-row">
                 <div class="player-position">
-                    <div class="icon" onclick="showPopup(2)"></div>
+                    <div class="icon" onclick="showPopup(2)">
+                        {% if man_of_match == sorted_player_scores['Player'][2] %}
+                            <i class="fas fa-crown" style="color: rgb(255, 217, 0);"></i>
+                        {% endif %}
+                    </div>
                     <div class="name">{{ sorted_player_scores['Player'][2] }}</div>
                     <div class="points">{{ sorted_player_scores['Score'][2] }}</div>
                 </div>
                 <div class="player-position">
-                    <div class="icon" onclick="showPopup(3)"></div>
+                    <div class="icon" onclick="showPopup(3)">
+                        {% if man_of_match == sorted_player_scores['Player'][3] %}
+                            <i class="fas fa-crown" style="color: rgb(255, 217, 0);"></i>
+                        {% endif %}
+                    </div>
                     <div class="name">{{ sorted_player_scores['Player'][3] }}</div>
                     <div class="points">{{ sorted_player_scores['Score'][3] }}</div>
                 </div>
             </div>
             <div class="player-row">
                 <div class="player-position">
-                    <div class="icon" onclick="showPopup(4)"></div>
+                    <div class="icon" onclick="showPopup(4)">
+                        {% if man_of_match == sorted_player_scores['Player'][4] %}
+                            <i class="fas fa-crown" style="color: rgb(255, 217, 0);"></i>
+                        {% endif %}
+                    </div>
                     <div class="name">{{ sorted_player_scores['Player'][4] }}</div>
                     <div class="points">{{ sorted_player_scores['Score'][4] }}</div>
                 </div>
