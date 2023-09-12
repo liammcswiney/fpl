@@ -1,9 +1,9 @@
-Gameweek,Fixture,Score,Team,Goal Scorers,Assists,3 Bonus,2 Bonus,1 Bonus
-1,Cunch of Bunts,4-0,"['Dan', 'Joe', 'Liam Mc', 'Mepsted', 'Liam T', 'Rarnott', 'Jay']","['Liam T', 'Joe', 'Liam T', 'Mepsted']","['Joe', 'Joe', 'Joe', 'Joe']",Joe,Liam T,Mepsted
-2,1234,1-2,"['Dan', 'Joe', 'Liam Mc', 'Alfie', 'Liam T', 'Rarnott', 'Jay', 'Meadows', 'Mepsted']",['Liam T'],['Liam Mc'],Liam Mc,Liam T,Alfie
-3,SJWMF,0-0,"['Dan', 'Joe', 'Liam Mc', 'Alfie', 'Liam T', 'Rarnott', 'Jay']",[],[],Dan,Joe,Liam Mc
-4,Beergut,5-4,"['Dan', 'Meadows', 'Liam Mc', 'Alfie', 'Liam T', 'Rarnott', 'Tom']","['Liam T', 'Liam Mc', 'Meadows', 'Alfie']","['Liam Mc', 'Tom', 'Alfie', 'Alfie']",Alfie,Liam T,Liam Mc
-5,Olduns,1-1,"['Dan', 'Joe', 'Tom', 'Alfie', 'Liam T', 'Mepsted', 'Jay']",['Liam T'],['Tom'],Liam T,Tom,Dan
-6,Olduns,1-6,"['Dan', 'Joe', 'Tom', 'Alfie', 'Liam T', 'Mepsted', 'Jay']",['Liam T'],['Tom'],Liam T,Tom,Dan
-7,SJWMS,8-0,"['Dan', 'Joe', 'Tom', 'Alfie', 'Liam T', 'Mepsted', 'Jay', 'Liam Mc', 'Meadows', 'Rarnott']","['Liam T', 'Alfie', 'Liam T', 'Alfie', 'Liam T', 'Jay', 'Jay', 'Joe']","['Tom', 'Joe', 'Joe', 'Joe', 'Liam Mc', 'Liam Mc', 'Liam Mc', 'Liam Mc']",Joe,Liam Mc,Liam T
-8,SJWMS,5-0,"['Dan', 'Tom', 'Alfie', 'Liam T', 'Jay', 'Liam Mc', 'Meadows', 'Rarnott']","['Alfie', 'Liam T', 'Jay', 'Jay', 'Rarnott']","['Tom', 'Jay', 'Jay', 'Rarnott', 'Liam Mc']",Jay,Rarnott,Alfie
+Gameweek,Score,Team,Goal Scorers,Assists,3 Bonus,2 Bonus,1 Bonus
+1,4-0,"['Dan', 'Joe', 'Liam Mc', 'Mepsted', 'Liam T', 'Rarnott', 'Jay']","['Liam T', 'Joe', 'Liam T', 'Mepsted']","['Joe', 'Joe', 'Joe', 'Joe']",Joe,Liam T,Mepsted
+2,1-2,"['Dan', 'Joe', 'Liam Mc', 'Alfie', 'Liam T', 'Rarnott', 'Jay', 'Meadows', 'Mepsted']",['Liam T'],['Liam Mc'],Liam Mc,Liam T,Alfie
+3,0-0,"['Dan', 'Joe', 'Liam Mc', 'Alfie', 'Liam T', 'Rarnott', 'Jay']",[],[],Dan,Joe,Liam Mc
+4,5-4,"['Dan', 'Meadows', 'Liam Mc', 'Alfie', 'Liam T', 'Rarnott', 'Tom']","['Liam T', 'Liam Mc', 'Meadows', 'Alfie']","['Liam Mc', 'Tom', 'Alfie', 'Alfie']",Alfie,Liam T,Liam Mc
+5,1-1,"['Dan', 'Joe', 'Tom', 'Alfie', 'Liam T', 'Mepsted', 'Jay']",['Liam T'],['Tom'],Liam T,Tom,Dan
+6,1-6,"['Dan', 'Joe', 'Tom', 'Alfie', 'Liam T', 'Mepsted', 'Jay']",['Liam T'],['Tom'],Liam T,Tom,Dan
+7,8-0,"['Dan', 'Joe', 'Tom', 'Alfie', 'Liam T', 'Mepsted', 'Jay', 'Liam Mc', 'Meadows', 'Rarnott']","['Liam T', 'Alfie', 'Liam T', 'Alfie', 'Liam T', 'Jay', 'Jay', 'Joe']","['Tom', 'Joe', 'Joe', 'Joe', 'Liam Mc', 'Liam Mc', 'Liam Mc', 'Liam Mc']",Joe,Liam Mc,Liam T
+8,5-0,"['Dan', 'Tom', 'Alfie', 'Liam T', 'Jay', 'Liam Mc', 'Meadows', 'Rarnott']","['Alfie', 'Liam T', 'Jay', 'Jay', 'Rarnott']","['Tom', 'Jay', 'Jay', 'Rarnott', 'Liam Mc']",Jay,Rarnott,Alfie

@@ -1,0 +1,16 @@
+Player,Position,Minutes,Goals,Assists,Bonus,Clean Sheet,Conceded
+Dan,GK,40,0,0,0,0,4
+Zeki,GK,0,0,0,0,0,0
+Liam Mc,DEF,40,1,1,1,0,4
+Joe,DEF,0,0,0,0,0,0
+Alfie,DEF,40,1,2,3,0,4
+Tom,DEF,40,0,1,0,0,4
+Mepsted,MID,0,0,0,0,0,0
+Liam T,MID,40,1,0,2,0,0
+Rarnott,MID,40,0,0,0,0,0
+Rhys,MID,0,0,0,0,0,0
+Charile,MID,0,0,0,0,0,0
+Jay,FWD,0,0,0,0,0,0
+Henry,FWD,0,0,0,0,0,0
+Meadows,FWD,40,1,0,0,0,0
+Cam,FWD,0,0,0,0,0,0
