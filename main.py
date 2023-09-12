@@ -1004,6 +1004,8 @@ def team_of_the_week(team_name, match):
 
     sorted_df = played_scores.sort_values(f'Gameweek {match}', ascending=False)
 
+    player_of_week = sorted_df['Player'].iloc[0]
+
     empty_df = pd.DataFrame(columns=sorted_df.columns)
 
     for _, row in sorted_df.iterrows():
@@ -1103,6 +1105,7 @@ def team_of_the_week(team_name, match):
                             , formation=formation
                             , match=match
                             , player_scores_breakdown=player_scores_breakdown
+                            , man_of_match = player_of_week
     )
 
 #############################################################################################################################
