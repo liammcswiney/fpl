@@ -1,25 +1,30 @@
 import pandas as pd
 import numpy as np
 
-def add_gameweek_score(gameweek, fixture, score, team, goal_scorers, assists, bonus_3, bonus_2, bonus_1):
+def add_gameweek_score(gameweek, score, team, goal_scorers, assists, saves, yellow_cards, red_cards, bonus_3, bonus_2, bonus_1):
 
     results_data = pd.read_csv('data/results.csv')
+
     player_scores_data = pd.read_csv('data/player_score.csv')
     player_scores_data = player_scores_data.drop(columns = f'Gameweek {gameweek}')
     player_stats = pd.read_csv('data/player_database.csv')
     player_goals = pd.read_csv('data/goals.csv')
     player_assists = pd.read_csv('data/assists.csv')
 
-    if gameweek in results_data['Gameweek'].tolist():
+    if results_data.loc[results_data['Gameweek'] == gameweek, 'Score'][gameweek - 1] != '-':
         return 'Gameweek already entered!'
+
+    results_data = results_data.drop(results_data.index[-1])
 
     new_results = {
         'Gameweek': gameweek,
-        'Fixture': fixture,
         'Score': score,
         'Team': team,
         'Goal Scorers': goal_scorers,
         'Assists': assists,
+        'Saves': saves,
+        'Yellow Cards': yellow_cards,
+        'Red Cards': red_cards,
         '3 Bonus': bonus_3,
         '2 Bonus': bonus_2,
         '1 Bonus': bonus_1,
@@ -37,19 +42,37 @@ def add_gameweek_score(gameweek, fixture, score, team, goal_scorers, assists, bo
     new_player_assists_dict = {}
     new_player_matches_dict = {}
 
+    match = gameweek
+    index = match - 1
+
+    minutes = {}
+    goals = {}
+    assists_dict = {}
+    bonus = {}
+    conceded = {}
+    clean_sheet = {}
+    saves = {}
+    yellow_cards = {}
+    red_cards = {}
+
     concede_lost = (goals_conceded // 2) * -1
 
     for player in player_scores_data['Player']:
         player_score = 0
         gw_goals = 0
         gw_assists = 0
+        minutes[player] = 0
+        # gw_played = 0
         
+        if player_scores_data.loc[player_scores_data['Player'] == player, 'Position'].item() in ['GK']:
+            if player in team:
+                player_score += saves // 2
+
         if player_scores_data.loc[player_scores_data['Player'] == player, 'Position'].item() in ['GK', 'DEF']:
             if player in team:
                 if goals_conceded == 0:
                     player_score += 4
                 player_score += concede_lost
-            
 
         if player_scores_data.loc[player_scores_data['Player'] == player, 'Position'].item() == 'MID':
             if player in team:
@@ -59,6 +82,7 @@ def add_gameweek_score(gameweek, fixture, score, team, goal_scorers, assists, bo
         if player in team:
             player_score += 2
             gw_played = 1
+            minutes[player] += 40
                 
         for k in goal_scorers:
             if player == k:
@@ -76,6 +100,14 @@ def add_gameweek_score(gameweek, fixture, score, team, goal_scorers, assists, bo
             if player == k:
                 player_score += 3
                 gw_assists += 1
+
+        for k in yellow_cards:
+            if player == k:
+                player_score -= 1
+
+        for k in red_cards:
+            if player == k:
+                player_score -= 3
                 
         if player == bonus_3:
             player_score += 3
@@ -97,6 +129,41 @@ def add_gameweek_score(gameweek, fixture, score, team, goal_scorers, assists, bo
 
         new_player_assists = player_assists.loc[player_assists['Player'] == player, 'Assists'].item() + gw_assists
         new_player_assists_dict[player] = new_player_assists
+
+        goals[player] = 0
+        assists_dict[player] = 0
+        bonus[player] = 0
+        conceded[player] = 0
+
+        for j in results_data['Goal Scorers'][index]:
+            if player == j:
+                goals[player] += 1
+        for j in results_data['Assists'][index]:
+            if player == j:
+                assists_dict[player] += 1
+        if player == results_data['3 Bonus'][index]:
+            bonus[player] = 3
+        elif player == results_data['2 Bonus'][index]:
+            bonus[player] = 2
+        elif player == results_data['1 Bonus'][index]:
+            bonus[player] = 1
+
+        if player_scores_data.loc[player_scores_data['Player'] == player, 'Position'].item() in ['GK', 'DEF']:
+            if player in team:
+                if goals_conceded == 0:
+                    clean_sheet[player] = 4
+                else:
+                    clean_sheet[player] = 0
+                conceded[player] += goals_conceded
+        elif player_scores_data.loc[player_scores_data['Player'] == player, 'Position'].item() == 'MID':
+            if player in team:    
+                if goals_conceded == 0:
+                    clean_sheet[player] = 1
+                else:
+                    clean_sheet[player] = 0
+        else:
+            clean_sheet[player] = 0
+
     
     gw_column_name = f"Gameweek {gameweek}"
     
@@ -139,6 +206,7 @@ def add_gameweek_score(gameweek, fixture, score, team, goal_scorers, assists, bo
     player_assists['Assists'] = player_assists['Player'].map(new_player_assists_dict)
 
     results_data.to_csv('data/results.csv', index=False)
+
     player_scores_data.to_csv('data/player_score.csv', index=False)
     player_stats.to_csv('data/player_database.csv', index=False)
     player_goals.to_csv('data/goals.csv', index=False)
@@ -201,5 +269,18 @@ def add_gameweek_score(gameweek, fixture, score, team, goal_scorers, assists, bo
         result = 'draw'
     fixtures_data.loc[fixtures_data['Gameweek'] == gameweek, 'Result'] = result
     fixtures_data.to_csv('data/fixtures.csv', index=False)
+
+    data = {'Minutes': minutes, 'Goals': goals, 'Assists': assists_dict, 'Bonus': bonus, 'Clean Sheet': clean_sheet, 'Conceded': conceded}
+    df1 = pd.DataFrame.from_dict(data, orient='index').T
+
+    players_df = player_scores_data[['Player', 'Position']]
+
+    new_player_scores_breakdown = players_df.merge(df1, right_index=True, left_on='Player')
+
+    new_player_scores_breakdown = new_player_scores_breakdown.fillna(0)
+    new_player_scores_breakdown[['Minutes', 'Goals', 'Assists', 'Bonus', 'Clean Sheet', 'Conceded']] = new_player_scores_breakdown[['Minutes', 'Goals', 'Assists', 'Bonus', 'Clean Sheet', 'Conceded']].astype(int)
+
+    new_player_scores_breakdown.to_csv(f'data/{gameweek}_player_stats.csv', index=False)
+
 
     return 'Scores Added!'

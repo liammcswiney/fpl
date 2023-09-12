@@ -64,4 +64,34 @@ def pass_deadline(gameweek):
     player_score = player_score.assign(**{f'Gameweek {gameweek}': 0})
     player_score.to_csv('data/player_score.csv', index=False)
 
+
+    results_data = pd.read_csv('data/results.csv')
+    new_results = {
+        'Gameweek': gameweek,
+        'Score': '-',
+        'Team': [],
+        'Goal Scorers': [],
+        'Assists': [],
+        '3 Bonus': '-',
+        '2 Bonus': '-',
+        '1 Bonus': '-'
+    }
+    
+    new_results_data = pd.DataFrame([new_results])
+    results_data = pd.concat([results_data, new_results_data], ignore_index=True)
+    results_data.to_csv('data/results.csv', index=False)
+
+
+    player_scores_data = pd.read_csv('data/player_score.csv')
+    players_df = player_scores_data[['Player', 'Position']]
+
+    players_df["Minutes"] = 0
+    players_df["Goals"] = 0
+    players_df["Assists"] = 0
+    players_df["Bonus"] = 0
+    players_df["Clean Sheet"] = 0
+    players_df["Conceded"] = 0
+
+    players_df.to_csv(f"data/{gameweek}_player_stats.csv", index=False)
+
     return 'Players locked in!'
