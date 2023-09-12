@@ -762,9 +762,6 @@
             </table>
             <div class="popup-buttons">
                 <div class="form-wrapper">
-                    <form action="/update_team_data/{{ team_name }}/{{ team_data['Player 1']|urlencode }}" method="POST">
-                        <button type="submit">Substitute</button>
-                    </form>
                     <form action="/update_captain/{{ team_name }}/{{ team_data['Player 1']|urlencode }}" method="POST">
                         <button type="submit">Make Captain</button>
                     </form>

@@ -184,13 +184,11 @@
                             {% if gw_info %}
                                 {% set last_dict = gw_info[-1] %}
                                 {% set last_key = last_dict.keys()|last %}
-                                <button type="submit" class="gw-big-button">
-                                    {% if last_dict[last_key] != team_name %}
-                                        {{ last_dict[last_key] }}
-                                    {% else %}
-                                        -
-                                    {% endif %}
-                                </button>
+                                {% if last_dict[last_key] != team_name %}
+                                    <button type="submit" class="gw-big-button">{{ last_dict[last_key] }}</button>
+                                {% else %}
+                                    <button type="button" class="gw-big-button">-</button>
+                                {% endif %}
                                 <br>
                                 <span class="gw-normal-points">Points </span><span>&#8594;</span>
                             {% endif %}
@@ -253,7 +251,7 @@
                 <button type="submit">League Standings</button>
             </form>
         </div>
-        {% if team_name == 'Team Name' %}
+        {% if team_name == 'New Team' %}
         {% if last_key != 'Team Name' %}
             {% set current_gw = last_key %}
         {% else %}

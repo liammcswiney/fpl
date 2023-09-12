@@ -43,6 +43,7 @@
             cursor: pointer;
         }
 
+
         a {
             display: block;
             text-align: center;
@@ -66,9 +67,9 @@
             font-size: 16px;
         }
 
-        .confirmation-popup h2 {
+        /* .confirmation-popup h2 {
             margin-top: 0;
-        }
+        } */
 
         .confirmation-popup button {
             padding: 10px 20px;
@@ -79,6 +80,59 @@
             color: #fff;
             border: none;
             cursor: pointer;
+        }
+
+        .playersScoredContainer {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .playersAssistContainer {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .player-input {
+            text-align: left;
+        }
+
+
+        .player-input-row {
+            display: flex;
+            align-items: center;
+            margin-top: 0px;
+        }
+
+        .player-input-row select {
+            flex: 1;
+            margin-right: 10px;
+            margin-top: 20px;
+        }
+
+        .confirmation-popup .remove-player-button {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            padding: 0px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .confirmation-popup .add-player-button {
+            background-color: #2ecc71;
+            color: #fff;
+            border: none;
+            padding: 0px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .button-container {
+            margin-top: 0px;
+        }
+
+        .button-container button {
+            margin-right: 0px;
         }
 
 
@@ -105,36 +159,111 @@
 
     <div id="resultsConfirmationPopup" class="confirmation-popup">
         <h2>Add Results</h2>
-        <form id="resultsForm" method="POST" action="/add_results">
-            <p id="resultsQuestion">What is the score?</p>
-            <input type="text" id="scoreInput" name="score" placeholder="Enter the score">
-            <div id="playerInputsContainer">
-                <div class="player-input-row">
-                    <select id="playerInput1" name="players[]">
-                        <option value="" disabled selected>Select player</option>
-                        <option value="Player 1">Player 1</option>
-                        <option value="Player 2">Player 2</option>
-                        <option value="Player 3">Player 3</option>
-                        <!-- Add more options as needed -->
-                    </select>
-                    <button type="button" class="remove-player-button" onclick="removePlayerInput(1)">Remove</button>
-                </div>
-                <button type="button" onclick="addPlayerInput()">Add Player</button>
+        <!-- <form id="resultsForm" method="POST" action="/add_next_results"> -->
+          <p id="resultsQuestion">What was the score?</p>
+          <div class="score-input-container">
+            <select id="homeGoalsInput" name="homeGoals">
+              <option value="" disabled selected>Home Goals</option>
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+              <option value="13">13</option>
+              <option value="14">14</option>
+              <option value="15">15</option>
+
+            </select>
+            <span class="versus">-</span>
+            <select id="awayGoalsInput" name="awayGoals">
+              <option value="" disabled selected>Away Goals</option>
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+              <option value="13">13</option>
+              <option value="14">14</option>
+              <option value="15">15</option>
+            </select>
+          </div>
+          <div id="playerInputsContainer">
+            <div class="player-input-row">
+              <select id="playerInput1" name="players[]" onchange="handlePlayerChange(this)">
+                <option value="" disabled selected>Select player</option>
+                <option value="Dan">Dan</option>
+                <option value="Zeki">Zeki</option>
+                <option value="Liam Mc">Liam Mc</option>
+                <option value="Joe">Joe</option>
+                <option value="Alfie">Alfie</option>
+                <option value="Tom">Tom</option>
+                <option value="Mepsted">Mepsted</option>
+                <option value="Liam T">Liam T</option>
+                <option value="Rarnott">Rarnott</option>
+                <option value="Rhys">Rhys</option>
+                <option value="Charlie">Charlie</option>
+                <option value="Jay">Jay</option>
+                <option value="Henry">Henry</option>
+                <option value="Meadows">Meadows</option>
+                <option value="Cam">Cam</option>
+
+                ['Dan', 'Zeki', 'Liam Mc', 'Joe', 'Alfie', 'Tom','Mepsted', 'Liam T', 'Rarnott', 'Rhys', 'Charile', 'Jay', 'Henry', 'Meadows', 'Cam'],
+
+              </select>
+              <div class="button-container">
+                <button type="button" class="add-player-button" onclick="addPlayerInput()">+</button>
+              </div>
             </div>
-            <button type="button" onclick="nextQuestion()">Next</button>
-            <button type="button" onclick="previousQuestion()">Back</button>
-            <button type="button" onclick="hideResultsConfirmationPopup()">Cancel</button>
-            <button type="submit" id="submitButton" style="display: none">Submit</button>
+          </div>
+
+          <div style="display: flex;">
+            <div class="playersScoredContainer" style="margin-right: 10px ;">
+              <div id="playersScoredInputs"></div>
+            </div>
+          
+            <div class="playersAssistContainer" style="margin-bottom: 5px;">
+              <div id="playersAssistInputs"></div>
+            </div>
+          </div>
+          
+
+
+          <div class="bonusContainer" style="display: none;">
+            <div id="bonusInputs"></div>
+          </div>
+
+          <button type="submit" onclick="addResults()" id="submitButton" style="display: none">Submit</button>
+          <button type="button" id= "nextButton" onclick="nextQuestion()">Next</button>
+          <button type="button" id="backButton" onclick="previousQuestion()">Back</button>
+          <button type="button" onclick="hideResultsConfirmationPopup()">Cancel</button>
         </form>
     </div>
-
     <script>
-        var currentQuestionIndex = 0; // Track the current question index
+        var currentQuestionIndex = 0;
         var questions = [
-            "What is the score?",
-            "Who played?"
+          "What was the score?",
+          "Team Lineup",
+          "Players Scored",
+          "Bonus Points"
         ];
-        var playerInputCount = 1; // Track the number of player inputs
+        var playerInputCount = 1;
+        var homeGoals = 0;
 
         function showDeadlineConfirmationPopup() {
             var confirmationPopup = document.getElementById("deadlineConfirmationPopup");
@@ -162,26 +291,123 @@
         }
 
 
+        function addResults() {
+            
+            var home_score = parseInt(document.getElementById("homeGoalsInput").value);
+            var away_score = parseInt(document.getElementById("awayGoalsInput").value);
+            var score = home_score.toString() + '-' + away_score.toString();
+            var team = [];
+            var goalScorers = [];
+            var assists = [];
+            var bonuses = [];
+            
+            var playerInputs = document.querySelectorAll("select[name='players[]']");
+            for (var i = 0; i < playerInputs.length; i++) {
+                var playerInput = playerInputs[i];
+                if (playerInput.value !== "") {
+                    team.push(playerInput.value);
+                }
+            }
+            
+            var scoredInputs = document.querySelectorAll("select[name='playersScored[]']");
+            for (var i = 0; i < scoredInputs.length; i++) {
+                var scoredInput = scoredInputs[i];
+                if (scoredInput.value !== "") {
+                    goalScorers.push(scoredInput.value);
+                }
+            }
+            
+            var assistInputs = document.querySelectorAll("select[name='playersAssist[]']");
+            for (var i = 0; i < assistInputs.length; i++) {
+                var assistInput = assistInputs[i];
+                if (assistInput.value !== "") {
+                    assists.push(assistInput.value);
+                }
+            }
+            
+            var bonusInputs = document.querySelectorAll("select[name='bonus[]']");
+            for (var i = 0; i < bonusInputs.length; i++) {
+                var bonusInput = bonusInputs[i];
+                if (bonusInput.value !== "") {
+                    bonuses.push(bonusInput.value);
+                }
+            }
+            
+            var form = document.createElement("form");
+            form.method = "POST";
+            form.action = "/add_next_results?teamName={{ team_name }}&nextGW={{ next_gw }}";
+            
+            var scoreInput = document.createElement("input");
+            scoreInput.type = "hidden";
+            scoreInput.name = "score";
+            scoreInput.value = score;
+            form.appendChild(scoreInput);
+            
+            var teamInput = document.createElement("input");
+            teamInput.type = "hidden";
+            teamInput.name = "team";
+            teamInput.value = JSON.stringify(team);
+            form.appendChild(teamInput);
+            
+            var goalScorersInput = document.createElement("input");
+            goalScorersInput.type = "hidden";
+            goalScorersInput.name = "goalScorers";
+            goalScorersInput.value = JSON.stringify(goalScorers);
+            form.appendChild(goalScorersInput);
+            
+            var assistsInput = document.createElement("input");
+            assistsInput.type = "hidden";
+            assistsInput.name = "assists";
+            assistsInput.value = JSON.stringify(assists);
+            form.appendChild(assistsInput);
+            
+            var bonusesInput = document.createElement("input");
+            bonusesInput.type = "hidden";
+            bonusesInput.name = "bonuses";
+            bonusesInput.value = JSON.stringify(bonuses);
+            form.appendChild(bonusesInput);
+            
+            var button = document.createElement("button");
+            button.type = "submit";
+            button.textContent = "Add";
+            form.appendChild(button);
+            
+            document.body.appendChild(form);
+            form.submit();
+
+            hideResultsConfirmationPopup();
+        }
+
+      
         function showResultsConfirmationPopup() {
-            var confirmationPopup = document.getElementById("resultsConfirmationPopup");
-            confirmationPopup.style.display = "block";
+          var confirmationPopup = document.getElementById("resultsConfirmationPopup");
+          confirmationPopup.style.display = "block";
+      
+          var scoreInputContainer = document.querySelector(".score-input-container");
+          scoreInputContainer.style.display = "block";
+      
+          var playerInputsContainer = document.getElementById("playerInputsContainer");
+          playerInputsContainer.style.display = "none"; 
+      
+          var nextButton = document.getElementById("nextButton");
 
-            // Show the score input and hide the player input initially
-            var scoreInput = document.getElementById("scoreInput");
-            scoreInput.style.display = "block";
-
-            var playerInputsContainer = document.getElementById("playerInputsContainer");
-            playerInputsContainer.style.display = "none";
-            playerInputCount = 0; // Reset the player input count
+          var backButton = document.getElementById("backButton");
+          backButton.style.display = "none"; 
+      
+          var submitButton = document.getElementById("submitButton");
+          submitButton.style.display = "none"; 
+      
+          currentQuestionIndex = 0;
         }
-
+      
         function hideResultsConfirmationPopup() {
-            var confirmationPopup = document.getElementById("resultsConfirmationPopup");
-            confirmationPopup.style.display = "none";
+          var confirmationPopup = document.getElementById("resultsConfirmationPopup");
+          confirmationPopup.style.display = "none";
+          resetForm(); 
         }
-
+      
         function addPlayerInput() {
-            playerInputCount++; // Increment the player input count
+            playerInputCount++; 
 
             var playerInputsContainer = document.getElementById("playerInputsContainer");
 
@@ -200,75 +426,322 @@
             defaultOption.textContent = "Select player";
             selectInput.appendChild(defaultOption);
 
-            // Add the select input to the player input row
+            var firstSelectInput = document.getElementById("playerInput1");
+            var options = firstSelectInput.querySelectorAll("option");
+            for (var i = 1; i < options.length; i++) {
+                var option = document.createElement("option");
+                option.value = options[i].value;
+                option.textContent = options[i].textContent;
+                selectInput.appendChild(option);
+            }
+
+            var allSelectInputs = document.querySelectorAll("select[name='players[]']");
+            for (var i = 0; i < allSelectInputs.length; i++) {
+                var currentSelectInput = allSelectInputs[i];
+                var selectedOption = currentSelectInput.options[currentSelectInput.selectedIndex];
+                var selectedPlayer = selectedOption.value;
+                var optionToRemove = selectInput.querySelector("option[value='" + selectedPlayer + "']");
+                if (optionToRemove) {
+                    optionToRemove.remove();
+                }
+            }
+
             playerInputRow.appendChild(selectInput);
 
             var removeButton = document.createElement("button");
             removeButton.type = "button";
             removeButton.className = "remove-player-button";
-            removeButton.textContent = "Remove";
+            removeButton.textContent = "-";
             removeButton.setAttribute("onclick", "removePlayerInput(" + playerInputCount + ")");
 
             playerInputRow.appendChild(removeButton);
 
-            // Add the player input row to the player inputs container
             playerInputsContainer.appendChild(playerInputRow);
-
-            // Show the player inputs container
-            playerInputsContainer.style.display = "block";
         }
-
+      
         function removePlayerInput(inputIndex) {
             var playerInputRow = document.getElementById("playerInputRow" + inputIndex);
             playerInputRow.remove();
         }
-
+      
         function nextQuestion() {
             var resultsQuestion = document.getElementById("resultsQuestion");
-            var scoreInput = document.getElementById("scoreInput");
             var playerInputsContainer = document.getElementById("playerInputsContainer");
+            var bonusInputsContainer = document.getElementById("bonusInputs");
+
+            var playersScoredContainer = document.querySelector(".playersScoredContainer");
+            var playersAssistContainer = document.querySelector(".playersAssistContainer");
+
+            var backButton = document.getElementById("backButton");
             var submitButton = document.getElementById("submitButton");
+            var scoreInputContainer = document.querySelector(".score-input-container");
 
             if (currentQuestionIndex === 0) {
+                var homeGoalsInput = document.getElementById("homeGoalsInput");
+                var awayGoalsInput = document.getElementById("awayGoalsInput");
+
+                if (homeGoalsInput.value === "" || awayGoalsInput.value === "") {
+                    alert("Please select both home and away goals.");
+                    return;
+                }
+
+                homeGoals = parseInt(homeGoalsInput.value);
+
+                scoreInputContainer.style.display = "none";
                 resultsQuestion.textContent = questions[currentQuestionIndex + 1];
-                scoreInput.style.display = "none";
                 playerInputsContainer.style.display = "block";
+                backButton.style.display = "inline-block";
+                submitButton.style.display = "none";
                 currentQuestionIndex++;
             } else if (currentQuestionIndex === 1) {
-                submitButton.style.display = "block";
+                resultsQuestion.textContent = questions[currentQuestionIndex + 1];
+                playerInputsContainer.style.display = "none";
+                playersScoredContainer.style.display = "block";
+                playersAssistContainer.style.display = "block";
+                backButton.style.display = "inline-block";
+                submitButton.style.display = "none";
+                currentQuestionIndex++;
+                generatePlayersScoredInputs();
+                generatePlayersAssistInputs();
+            } else if (currentQuestionIndex === 2) {
+                resultsQuestion.textContent = questions[currentQuestionIndex + 1];
+                playerInputsContainer.style.display = "none";
+                playersScoredContainer.style.display = "none";
+                playersAssistContainer.style.display = "none";
+                bonusInputsContainer.style.display = "block";
+                document.querySelector(".bonusContainer").style.display = "block";
+                nextButton.style.display = "none"; 
+                submitButton.style.display = "inline-block";
+                backButton.style.display = "inline-block";
+                currentQuestionIndex++;
+                generateBonusInputs();
             }
         }
 
         function previousQuestion() {
             var resultsQuestion = document.getElementById("resultsQuestion");
-            var scoreInput = document.getElementById("scoreInput");
             var playerInputsContainer = document.getElementById("playerInputsContainer");
+            var bonusInputsContainer = document.getElementById("bonusInputs");
+            var playersScoredContainer = document.getElementById("playersScoredContainer");
+            var playersAssistContainer = document.getElementById("playersAssistContainer");
+            var backButton = document.getElementById("backButton");
             var submitButton = document.getElementById("submitButton");
+            var scoreInputContainer = document.querySelector(".score-input-container");
 
             if (currentQuestionIndex === 1) {
                 resultsQuestion.textContent = questions[currentQuestionIndex - 1];
-                scoreInput.style.display = "block";
+                scoreInputContainer.style.display = "block";
                 playerInputsContainer.style.display = "none";
+                playersScoredContainer.style.display = "none";
+                playersAssistContainer.style.display = "none";
+                bonusInputsContainer.style.display = "none"; // Hide the bonus inputs
+                backButton.style.display = "none";
                 submitButton.style.display = "none";
                 currentQuestionIndex--;
+            } else if (currentQuestionIndex === 2) {
+                var homeGoalsInput = document.getElementById("homeGoalsInput");
+                var awayGoalsInput = document.getElementById("awayGoalsInput");
+
+                if (homeGoalsInput.value === "" || awayGoalsInput.value === "") {
+                    alert("Please select both home and away goals.");
+                    return;
+                }
+                homeGoals = parseInt(homeGoalsInput.value);
+                scoreInputContainer.style.display = "none";
+                resultsQuestion.textContent = questions[currentQuestionIndex - 1];
+                playerInputsContainer.style.display = "block";
+                playersScoredContainer.style.display = "none";
+                playersAssistContainer.style.display = "none";
+                bonusInputsContainer.style.display = "none"; // Hide the bonus inputs
+                backButton.style.display = "inline-block";
+                submitButton.style.display = "none";
+                currentQuestionIndex--;
+            } else if (currentQuestionIndex === 3) {
+                resultsQuestion.textContent = questions[currentQuestionIndex - 1];
+                playerInputsContainer.style.display = "none";
+                playersScoredContainer.style.display = "block";
+                playersAssistContainer.style.display = "block";
+                bonusInputsContainer.style.display = "block"; // Show the bonus inputs
+                backButton.style.display = "inline-block";
+                submitButton.style.display = "none";
+                currentQuestionIndex--;
+                generatePlayersScoredInputs();
+                generatePlayersAssistInputs();
             }
         }
 
         function resetForm() {
             var resultsQuestion = document.getElementById("resultsQuestion");
-            var scoreInput = document.getElementById("scoreInput");
+            var homeGoalsInput = document.getElementById("homeGoalsInput");
+            var awayGoalsInput = document.getElementById("awayGoalsInput");
             var playerInputsContainer = document.getElementById("playerInputsContainer");
+            var playersScoredContainer = document.getElementById("playersScoredContainer");
+            var playersAssistContainer = document.getElementById("playersAssistContainer");
+            var bonusInputsContainer = document.getElementById("bonusInputs"); // Add bonusInputsContainer variable
+            var playersScoredInputs = document.getElementById("playersScoredInputs");
+            var playersAssistInputs = document.getElementById("playersAssistInputs");
+            var backButton = document.getElementById("backButton");
             var submitButton = document.getElementById("submitButton");
 
             resultsQuestion.textContent = questions[0];
-            scoreInput.value = "";
-            scoreInput.style.display = "block";
-            playerInputsContainer.innerHTML = '';
-            playerInputCount = 1;
+            homeGoalsInput.value = "";
+            awayGoalsInput.value = "";
+            playerInputsContainer.style.display = "block";
+            playersScoredContainer.style.display = "none";
+            playersAssistContainer.style.display = "none";
+            bonusInputsContainer.style.display = "none"; // Hide the bonus inputs
+            playersScoredInputs.innerHTML = "";
+            playersAssistInputs.innerHTML = "";
+            backButton.style.display = "none";
             submitButton.style.display = "none";
             currentQuestionIndex = 0;
+            playerInputCount = 1;
+            homeGoals = 0;
+
+            var playerInputRows = document.getElementsByClassName("player-input-row");
+            for (var i = playerInputRows.length - 1; i > 0; i--) {
+                playerInputRows[i].remove();
+            }
+
+            var selectInput = document.getElementById("playerInput1");
+            selectInput.selectedIndex = 0;
+
+            backButton.style.display = "none";
+            submitButton.style.display = "none";
         }
 
+
+        function generatePlayersScoredInputs() {
+            var playersScoredInputs = document.getElementById("playersScoredInputs");
+            playersScoredInputs.innerHTML = "";
+
+            for (var i = 1; i <= homeGoals; i++) {
+                var playerInputContainer = document.createElement("div");
+                playerInputContainer.className = "player-input-container";
+
+                var playerScoredInput = document.createElement("div");
+                playerScoredInput.className = "player-scored-input";
+
+                var labelGoal = document.createElement("label");
+                labelGoal.textContent = "Goal " + i + ": ";
+
+                var selectScoredInput = document.createElement("select");
+                selectScoredInput.id = "playerScoredInput" + i;
+                selectScoredInput.name = "playersScored[]";
+
+                var playerInputs = document.querySelectorAll("[id^=playerInput] option:checked");
+
+                var optionNone = document.createElement("option");
+                optionNone.value = "none";
+                optionNone.textContent = "None";
+                selectScoredInput.appendChild(optionNone);
+
+                for (var j = 0; j < playerInputs.length; j++) {
+                    var optionScored = document.createElement("option");
+                    optionScored.value = playerInputs[j].value;
+                    optionScored.textContent = playerInputs[j].textContent;
+                    selectScoredInput.appendChild(optionScored);
+                }
+
+                playerScoredInput.appendChild(labelGoal);
+                playerScoredInput.appendChild(selectScoredInput);
+                playerInputContainer.appendChild(playerScoredInput);
+                playersScoredInputs.appendChild(playerInputContainer);
+            }
+        }
+
+
+        function generatePlayersAssistInputs() {
+            var playersAssistInputs = document.getElementById("playersAssistInputs");
+            playersAssistInputs.innerHTML = "";
+
+            for (var i = 1; i <= homeGoals; i++) {
+                var playerInputContainer = document.createElement("div");
+                playerInputContainer.className = "player-input-container";
+
+                var playerAssistInput = document.createElement("div");
+                playerAssistInput.className = "player-assist-input";
+
+                var labelAssist = document.createElement("label");
+                labelAssist.textContent = "Assist " + i + ": ";
+
+                var selectAssistInput = document.createElement("select");
+                selectAssistInput.id = "playerAssistInput" + i;
+                selectAssistInput.name = "playersAssist[]";
+
+                var playerInputs = document.querySelectorAll("[id^=playerInput] option:checked");
+
+                var optionNone = document.createElement("option");
+                optionNone.value = "none";
+                optionNone.textContent = "None";
+                selectAssistInput.appendChild(optionNone);
+
+                for (var j = 0; j < playerInputs.length; j++) {
+                    var optionAssist = document.createElement("option");
+                    optionAssist.value = playerInputs[j].value;
+                    optionAssist.textContent = playerInputs[j].textContent;
+                    selectAssistInput.appendChild(optionAssist);
+                }
+
+                playerAssistInput.appendChild(labelAssist);
+                playerAssistInput.appendChild(selectAssistInput);
+                playerInputContainer.appendChild(playerAssistInput);
+                playersAssistInputs.appendChild(playerInputContainer);
+            }
+        }
+
+
+        function generateBonusInputs() {
+            var bonusInputsContainer = document.getElementById("bonusInputs");
+            bonusInputsContainer.innerHTML = "";
+
+            for (var i = 3; i >= 1; i--) {
+                var playerInputContainer = document.createElement("div");
+                playerInputContainer.className = "player-input-container";
+
+                var bonusInput = document.createElement("div");
+                bonusInput.className = "bonus-input";
+
+                var labelBonus = document.createElement("label");
+                labelBonus.textContent = i + " Bonus: ";
+
+                var selectBonusInput = document.createElement("select");
+                selectBonusInput.id = "bonusInput" + i;
+                selectBonusInput.name = "bonus[]";
+
+                var playerInputs = document.querySelectorAll("[id^=playerInput] option:checked");
+                for (var j = 0; j < playerInputs.length; j++) {
+                    var optionBonus = document.createElement("option");
+                    optionBonus.value = playerInputs[j].value;
+                    optionBonus.textContent = playerInputs[j].textContent;
+                    selectBonusInput.appendChild(optionBonus);
+                }
+
+                bonusInput.appendChild(labelBonus);
+                bonusInput.appendChild(selectBonusInput);
+                playerInputContainer.appendChild(bonusInput);
+                bonusInputsContainer.appendChild(playerInputContainer);
+            }
+        }
+
+        function handlePlayerChange(selectInput) {
+            var selectedOption = selectInput.options[selectInput.selectedIndex];
+            var selectedPlayer = selectedOption.value;
+
+            var allSelectInputs = document.querySelectorAll("select[name='players[]']");
+            for (var i = 0; i < allSelectInputs.length; i++) {
+                var currentSelectInput = allSelectInputs[i];
+                if (currentSelectInput.id !== selectInput.id) {
+                    var options = currentSelectInput.querySelectorAll("option");
+                    for (var j = 0; j < options.length; j++) {
+                        var option = options[j];
+                        if (option.value === selectedPlayer) {
+                            option.remove();
+                        }
+                    }
+                }
+            }
+        }
     </script>
 </body>
 </html>
