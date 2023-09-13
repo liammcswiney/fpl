@@ -4,9 +4,18 @@
     <meta charset="UTF-8">
     <title>Player Statistics</title>
     <style>
+        html {
+            height: 100%;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            background-color: #428bca;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: linear-gradient(135deg, #428bca, #00ffd5);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
 
         h1, h2 {
@@ -20,6 +29,14 @@
             background-color: #fff;
             color: #000000;
             border: 2px solid #000;
+        }
+
+        .table-container {
+            position: relative;
+            margin: 0 auto;
+            max-width: 600px; /* Or whatever max-width you prefer */
+            width: 100%;
+            overflow: hidden; /* In case the table stretches beyond its container */
         }
 
         .table-wrapper {
@@ -68,6 +85,49 @@
             background-color: #f2f2f2;
         }
 
+        .return-button-container {
+            position: relative;
+            top: 20px;
+            right: 200px;
+        }
+
+        .return-button {
+            position: absolute;
+            top: 0px; 
+            right: 30px; 
+            padding: 5px 10px;
+            background-color: #dd0e0e;
+            color: #fff;
+            border: 2px solid black;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            z-index: 1;
+        }
+
+        .table-wrapper::-webkit-scrollbar {
+            width: 10px; /* Adjust scrollbar width */
+        }
+
+        .table-wrapper::-webkit-scrollbar-track {
+            background-color: #f2f2f2; /* Track color */
+            border-radius: 10px; /* Adds rounding to the scrollbar track */
+        }
+
+        .table-wrapper::-webkit-scrollbar-thumb {
+            background-color: #428bca; /* Scrollbar color */
+            border-radius: 10px; /* Makes scrollbar rounded */
+            border: 2px solid #f2f2f2; /* Adds a border to the scrollbar */
+        }
+
+        .table-wrapper::-webkit-scrollbar-thumb:hover {
+            background-color: #337ab7; /* Darken scrollbar on hover */
+        }
+
     </style>
 
     <script>
@@ -95,42 +155,45 @@
 <body>
     <h1>Fixtures and Results</h1>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <div class="table-wrapper">
-        <table id="team-stats" class="stats-table">
-            <tr>
-                {% for key in ['Gameweek', 'Fixture', 'Score'] %}
-                    <th>{{ key }}</th>
-                {% endfor %}
-                <th></th>
-            </tr>
-            {% set last_key = fixture_data.keys()|last %}
-            {% for i in range(fixture_data['Gameweek']|length) %}
-                {% set result = fixture_data['Result'][i] %}
-                {% set index = fixture_data['Gameweek'][i] %}
-                <tr 
-                    {% if result == 'win' %}
-                        style="background-color: rgb(0, 210, 0);"
-                        class="clickable-row" result="{{ result }}" gw_num="{{ index }}"
-                    {% elif result == 'loss' %}
-                        style="background-color: red;"
-                        class="clickable-row" result="{{ result }}" gw_num="{{ index }}"
-                    {% elif result == 'draw' %}
-                        style="background-color: rgb(147, 141, 141);"
-                        class="clickable-row" result="{{ result }}" gw_num="{{ index }}"
-                    {% endif %}>
-                    <td><strong>{{ fixture_data['Gameweek'][i] }}</strong></td>
-                    <td><strong>{{ fixture_data['Fixture'][i] }}</strong></td>
-                    <td><strong>{{ fixture_data['Score'][i] }}</strong></td>
-                    {% if result == 'win' or result == 'loss' or result == 'draw' %}
-                        <td>
-                            <i class="fas fa-info-circle"></i>
-                        </td>
-                    {% endif %}
+    <div class="table-container">
+        <button class="return-button" onclick="goBack()">X</button>
+        <div class="table-wrapper">
+            <table id="team-stats" class="stats-table">
+                <button class="return-button" onclick="goBack()">X
+                <tr>
+                    {% for key in ['Gameweek', 'Fixture', 'Score'] %}
+                        <th>{{ key }}</th>
+                    {% endfor %}
+                    <th></th>
                 </tr>
-            {% endfor %}
-        </table>
-    </div>
+                {% set last_key = fixture_data.keys()|last %}
+                {% for i in range(fixture_data['Gameweek']|length) %}
+                    {% set result = fixture_data['Result'][i] %}
+                    {% set index = fixture_data['Gameweek'][i] %}
+                    <tr 
+                        {% if result == 'win' %}
+                            style="background-color: rgb(0, 210, 0);"
+                            class="clickable-row" result="{{ result }}" gw_num="{{ index }}"
+                        {% elif result == 'loss' %}
+                            style="background-color: red;"
+                            class="clickable-row" result="{{ result }}" gw_num="{{ index }}"
+                        {% elif result == 'draw' %}
+                            style="background-color: rgb(147, 141, 141);"
+                            class="clickable-row" result="{{ result }}" gw_num="{{ index }}"
+                        {% endif %}>
+                        <td><strong>{{ fixture_data['Gameweek'][i] }}</strong></td>
+                        <td><strong>{{ fixture_data['Fixture'][i] }}</strong></td>
+                        <td><strong>{{ fixture_data['Score'][i] }}</strong></td>
+                        {% if result == 'win' or result == 'loss' or result == 'draw' %}
+                            <td>
+                                <i class="fas fa-info-circle"></i>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>    
     <br>
-    <a href="{{ url_for('team_management', team_name=team_name) }}">Back to Team Management</a>
 </body>
 </html>

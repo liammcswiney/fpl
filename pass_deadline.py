@@ -91,6 +91,10 @@ def pass_deadline(gameweek):
     players_df["Bonus"] = 0
     players_df["Clean Sheet"] = 0
     players_df["Conceded"] = 0
+    players_df["Saves"] = 0
+    players_df["Yellow Cards"] = 0
+    players_df["Red Cards"] = 0
+    players_df["Own Goals"] = 0
 
     players_df.to_csv(f"data/{gameweek}_player_stats.csv", index=False)
 

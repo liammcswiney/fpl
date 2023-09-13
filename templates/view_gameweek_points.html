@@ -3,13 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <style>
+        html {
+            height: 100%;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            background-color: #428bca;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: linear-gradient(135deg, #428bca, #00ffd5);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
 
         .header {
-            background-color: #428bca;
             padding: 20px;
             color: #fff;
             text-align: center;
@@ -398,9 +406,13 @@
         var score = stats['Score'][playerIndex];
         var goals = stats['Goals'][playerIndex];
         var assists = stats['Assists'][playerIndex];
-        var bonus = stats['Bonus'][playerIndex];
+        var saves = stats['Saves'][playerIndex];
         var clean_sheet = stats['Clean Sheet'][playerIndex];
         var conceded = stats['Conceded'][playerIndex];
+        var yellow_cards = stats['Yellow Cards'][playerIndex];
+        var red_cards = stats['Red Cards'][playerIndex];
+        var own_goals = stats['Own Goals'][playerIndex];
+        var bonus = stats['Bonus'][playerIndex];
 
         var html = '<h2>' + player + '</h2>';
         html += '<table>';
@@ -442,6 +454,18 @@
             html += '</tr>';
         }
 
+        if (saves > 0) {
+            html += '<tr>';
+            html += '<td>Saves</td>';
+            html += '<td>' + saves + '</td>';
+
+            if (position === 'GK') {
+                html += '<td>' + Math.floor(saves / 2) + 'pts</td>';
+            }
+
+            html += '</tr>';
+        }
+
         if (clean_sheet > 0) {
             html += '<tr>';
             html += '<td>Clean Sheet</td>';
@@ -455,6 +479,30 @@
             html += '<td>Conceded</td>';
             html += '<td>' + conceded + '</td>';
             html += '<td>' + Math.floor(conceded / 2) * -1 + 'pts</td>';
+            html += '</tr>';
+        }
+
+        if (yellow_cards > 0) {
+            html += '<tr>';
+            html += '<td>Yellow Cards</td>';
+            html += '<td>' + yellow_cards + '</td>';
+            html += '<td>' + yellow_cards * -1 + 'pts</td>';
+            html += '</tr>';
+        }
+
+        if (red_cards > 0) {
+            html += '<tr>';
+            html += '<td>Red Cards</td>';
+            html += '<td>' + red_cards + '</td>';
+            html += '<td>' + red_cards * -3 + 'pts</td>';
+            html += '</tr>';
+        }
+
+        if (own_goals > 0) {
+            html += '<tr>';
+            html += '<td>Own Goals</td>';
+            html += '<td>' + own_goals + '</td>';
+            html += '<td>' + own_goals * -2 + 'pts</td>';
             html += '</tr>';
         }
 

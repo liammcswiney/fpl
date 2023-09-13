@@ -47,11 +47,11 @@ def create_team():
         with open('data/team_leaderboard.csv', 'r') as csvfile:
             reader = csv.reader(csvfile)
             header = next(reader)  # Read the header row to extract column names
-            columns = header[-2][-1]
+            columns = header[-2].split()[-1]
             team_columns = [['No Player', 'No Player', 'No Player', 'No Player', 'No Player', 'No Player', 'No Player', 'No Player']]
             new_row = [team_name] + [0]
             
-            if columns != 'e':
+            if columns != 'Name':
                 for i in range(1, int(columns) + 1):
                     new_row = new_row + ['-'] + team_columns
 
@@ -421,9 +421,8 @@ def pick_team(team_name):
     player_data = read_csv('data/player_database.csv')
 
     leaderboard_data = pd.read_csv('data/team_leaderboard.csv')
-
     gw_info = leaderboard_data.iloc[:, :-1]
-    next_gw = gw_info.columns[-1][-1]
+    next_gw = int(gw_info.columns[-1].split(' ')[1])
     if next_gw != 'e':
         next_gw_int = int(next_gw) + 1
         next_gw = 'Gameweek ' + str(next_gw_int)
@@ -1048,63 +1047,27 @@ def team_of_the_week(team_name, match):
     elif position_counts['DEF'] == 1:
         formation = 3
 
-    results_new = results.loc[results['Gameweek'] == match]
+    gw = match
+    index = match - 1
 
-    fixture_data = pd.read_csv('data/fixtures.csv')
-    score = fixture_data.loc[fixture_data['Gameweek'] == match, 'Score'][index]
+    score_data = pd.read_csv('data/player_score.csv')
 
-    goals_conceded = int(score.split('-')[1])
+    new_merged_df = sorted_player_scores.rename(columns={f'Gameweek {gw}': 'Score'})
 
-    goals = {}
-    assists = {}
-    bonus = {}
-    conceded = {}
-    clean_sheet = {}
-    for i in eval(played):
-        
-        goals[i] = 0
-        assists[i] = 0
-        bonus[i] = 0
-        conceded[i] = 0
+    new_merged_df = new_merged_df.merge(score_data, on=['Player', 'Position'], how='left')
 
-        for j in eval(results_new['Goal Scorers'][index]):
-            if i == j:
-                goals[i] += 1
-        for j in eval(results_new['Assists'][index]):
-            if i == j:
-                assists[i] += 1
-        if i == results_new['3 Bonus'][index]:
-            bonus[i] = 3
-        elif i == results_new['2 Bonus'][index]:
-            bonus[i] = 2
-        elif i == results_new['1 Bonus'][index]:
-            bonus[i] = 1
+    df1 = pd.read_csv(f'data/{gw}_player_stats.csv')
+    df1.index = df1.index.astype(str)
 
-        if sorted_player_scores.loc[sorted_player_scores['Player'] == i, 'Position'].item() in ['GK', 'DEF']:
-            if goals_conceded == 0:
-                clean_sheet[i] = 4
-            else:
-                clean_sheet[i] = 0
-            conceded[i] += goals_conceded
-        elif sorted_player_scores.loc[sorted_player_scores['Player'] == i, 'Position'].item() == 'MID':
-            if goals_conceded == 0:
-                clean_sheet[i] = 1
-            else:
-                clean_sheet[i] = 0
-        else:
-            clean_sheet[i] = 0
+    new_player_scores_breakdown = new_merged_df.merge(df1, on=['Player', 'Position'], how='left')
 
-    data = {'Goals': goals, 'Assists': assists, 'Bonus': bonus, 'Clean Sheet': clean_sheet, 'Conceded': conceded}
-    df1 = pd.DataFrame.from_dict(data, orient='index').T
-
-    player_scores_breakdown = sorted_player_scores.merge(df1, right_index=True, left_on='Player')
-    player_scores_breakdown = player_scores_breakdown.to_dict(orient='list')
+    new_player_scores_breakdown = new_player_scores_breakdown.to_dict(orient='list')
 
     return render_template('team_of_the_week.html', team_name=team_name
                             , sorted_player_scores=sorted_player_scores
                             , formation=formation
                             , match=match
-                            , player_scores_breakdown=player_scores_breakdown
+                            , player_scores_breakdown=new_player_scores_breakdown
                             , man_of_match = player_of_week
     )
 
@@ -1331,6 +1294,7 @@ def player_statistics(team_name):
     player_data = player_data.to_dict(orient='list')
 
     fixture_data = pd.read_csv('data/fixtures.csv')
+    fixture_data['Gameweek'] = fixture_data['Gameweek'].astype(int)
     fixture_data = fixture_data.drop('Result', axis=1)
     fixture_data = fixture_data.to_dict(orient='list')
 
@@ -1414,12 +1378,17 @@ def add_next_results():
     goal_scorers = json.loads(request.form['goalScorers'])
     assists = json.loads(request.form['assists'])
     bonuses = json.loads(request.form['bonuses'])
+    saves = int(request.form['saves'])
+    yellow_cards = json.loads(request.form['yellow_cards'])
+    red_cards = json.loads(request.form['red_cards'])
+    own_goals = json.loads(request.form['own_goals'])
 
     bonus_3, bonus_2, bonus_1 = bonuses[:3]
 
     add_results.add_gameweek_score(gameweek=next_gw, score=score, team=team
                                    , goal_scorers=goal_scorers, assists=assists
-                                   , bonus_1=bonus_1, bonus_2=bonus_2, bonus_3=bonus_3)
+                                   , bonus_1=bonus_1, bonus_2=bonus_2, bonus_3=bonus_3, saves=saves
+                                   , yellow_cards=yellow_cards, red_cards=red_cards, own_goals=own_goals)
 
     return redirect(url_for('admin', team_name=team_name, current_gw=current_gw))
 

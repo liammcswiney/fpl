@@ -4,13 +4,21 @@
     <meta charset="UTF-8">
     <title>Admin</title>
     <style>
+        html {
+            height: 100%;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            background-color: #428bca;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: linear-gradient(135deg, #428bca, #00ffd5);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
 
         .header {
-            background-color: #428bca;
             padding: 20px;
             color: #fff;
             text-align: center;
@@ -231,7 +239,24 @@
               </div>
             </div>
           </div>
-
+          <div class="saves-input-container">
+            <select id="savesInput" name="saves">
+              <option value="" disabled selected>Number of Saves</option>
+              <option value="0">0</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+            </select>
+          </div>
           <div style="display: flex;">
             <div class="playersScoredContainer" style="margin-right: 10px ;">
               <div id="playersScoredInputs"></div>
@@ -242,7 +267,35 @@
             </div>
           </div>
           
+          <div class="savesContainer" style="display: none;">
+            <div id="savesInputs"></div>
+          </div>
 
+          <div class="yellowCardsContainer" style="display: none;">
+            <div class="yellowCardsInputs"></div>
+            <div class="yellowCardsInputs"></div>
+            <div class="yellowCardsInputs"></div>
+            <div class="yellowCardsInputs"></div>
+            <div class="yellowCardsInputs"></div>
+        </div>
+        
+        
+
+          <div class="redCardsContainer" style="display: none;">
+            <div class="redCardsInputs"></div>
+            <div class="redCardsInputs"></div>
+            <div class="redCardsInputs"></div>
+            <div class="redCardsInputs"></div>
+            <div class="redCardsInputs"></div>
+          </div>
+
+          <div class="ownGoalsContainer" style="display: none;">
+            <div class="ownGoalsInputs"></div>
+            <div class="ownGoalsInputs"></div>
+            <div class="ownGoalsInputs"></div>
+            <div class="ownGoalsInputs"></div>
+            <div class="ownGoalsInputs"></div>
+          </div>
 
           <div class="bonusContainer" style="display: none;">
             <div id="bonusInputs"></div>
@@ -250,17 +303,19 @@
 
           <button type="submit" onclick="addResults()" id="submitButton" style="display: none">Submit</button>
           <button type="button" id= "nextButton" onclick="nextQuestion()">Next</button>
-          <button type="button" id="backButton" onclick="previousQuestion()">Back</button>
-          <button type="button" onclick="hideResultsConfirmationPopup()">Cancel</button>
         </form>
     </div>
     <script>
         var currentQuestionIndex = 0;
         var questions = [
-          "What was the score?",
-          "Team Lineup",
-          "Players Scored",
-          "Bonus Points"
+            "What was the score?",
+            "Team Lineup",
+            "Players Scored",
+            "How many saves were made?",
+            "Did anyone get a yellow card?",
+            "Did anyone get a red card?",
+            "Did anyone score an own goal?",
+            "Bonus Points", 
         ];
         var playerInputCount = 1;
         var homeGoals = 0;
@@ -299,6 +354,10 @@
             var team = [];
             var goalScorers = [];
             var assists = [];
+            var saves = parseInt(document.getElementById("savesInput").value);
+            var yellow_cards = [];
+            var red_cards = [];
+            var own_goals = [];
             var bonuses = [];
             
             var playerInputs = document.querySelectorAll("select[name='players[]']");
@@ -322,6 +381,32 @@
                 var assistInput = assistInputs[i];
                 if (assistInput.value !== "") {
                     assists.push(assistInput.value);
+                }
+            }
+
+            var yellowCardsInputs = document.querySelectorAll("select[name='yellowCards[]']");
+            for (var i = 0; i < yellowCardsInputs.length; i++) {
+                console.log("Checking dropdown ", i); // Add this
+                var yellowCardsInput = yellowCardsInputs[i];
+                if (yellowCardsInput.value !== "") {
+                    yellow_cards.push(yellowCardsInput.value);
+                }
+            }
+            console.log('Collected yellow cards:', yellow_cards);
+
+            var redCardsInputs = document.querySelectorAll("select[name='redCards[]']");
+            for (var i = 0; i < redCardsInputs.length; i++) {
+                var redCardsInput = redCardsInputs[i];
+                if (redCardsInput.value !== "") {
+                    red_cards.push(redCardsInput.value);
+                }
+            }
+
+            var ownGoalsInputs = document.querySelectorAll("select[name='ownGoals[]']");
+            for (var i = 0; i < ownGoalsInputs.length; i++) {
+                var ownGoalsInput = ownGoalsInputs[i];
+                if (ownGoalsInput.value !== "") {
+                    own_goals.push(ownGoalsInput.value);
                 }
             }
             
@@ -360,6 +445,30 @@
             assistsInput.name = "assists";
             assistsInput.value = JSON.stringify(assists);
             form.appendChild(assistsInput);
+
+            var savesInput = document.createElement("input");
+            savesInput.type = "hidden";
+            savesInput.name = "saves";
+            savesInput.value = JSON.stringify(saves);
+            form.appendChild(savesInput);
+
+            var yellowCardsInput = document.createElement("input");
+            yellowCardsInput.type = "hidden";
+            yellowCardsInput.name = "yellow_cards";
+            yellowCardsInput.value = JSON.stringify(yellow_cards);
+            form.appendChild(yellowCardsInput);
+
+            var redCardsInput = document.createElement("input");
+            redCardsInput.type = "hidden";
+            redCardsInput.name = "red_cards";
+            redCardsInput.value = JSON.stringify(red_cards);
+            form.appendChild(redCardsInput);
+
+            var ownGoalsInput = document.createElement("input");
+            ownGoalsInput.type = "hidden";
+            ownGoalsInput.name = "own_goals";
+            ownGoalsInput.value = JSON.stringify(own_goals);
+            form.appendChild(ownGoalsInput);
             
             var bonusesInput = document.createElement("input");
             bonusesInput.type = "hidden";
@@ -374,8 +483,6 @@
             
             document.body.appendChild(form);
             form.submit();
-
-            hideResultsConfirmationPopup();
         }
 
       
@@ -388,22 +495,16 @@
       
           var playerInputsContainer = document.getElementById("playerInputsContainer");
           playerInputsContainer.style.display = "none"; 
+
+          var savesInputsContainer = document.querySelector(".saves-input-container");
+          savesInputsContainer.style.display = "none";
       
           var nextButton = document.getElementById("nextButton");
-
-          var backButton = document.getElementById("backButton");
-          backButton.style.display = "none"; 
       
           var submitButton = document.getElementById("submitButton");
           submitButton.style.display = "none"; 
       
           currentQuestionIndex = 0;
-        }
-      
-        function hideResultsConfirmationPopup() {
-          var confirmationPopup = document.getElementById("resultsConfirmationPopup");
-          confirmationPopup.style.display = "none";
-          resetForm(); 
         }
       
         function addPlayerInput() {
@@ -467,12 +568,20 @@
         function nextQuestion() {
             var resultsQuestion = document.getElementById("resultsQuestion");
             var playerInputsContainer = document.getElementById("playerInputsContainer");
-            var bonusInputsContainer = document.getElementById("bonusInputs");
 
             var playersScoredContainer = document.querySelector(".playersScoredContainer");
             var playersAssistContainer = document.querySelector(".playersAssistContainer");
 
-            var backButton = document.getElementById("backButton");
+            var savesInputsContainer = document.querySelector(".saves-input-container");
+
+            var yellowCardsContainer = document.querySelector(".yellowCardsContainer")
+
+            var redCardsContainer = document.querySelector(".redCardsContainer")
+
+            var ownGoalsContainer = document.querySelector(".ownGoalsContainer")
+
+            var bonusInputsContainer = document.getElementById("bonusInputs");
+
             var submitButton = document.getElementById("submitButton");
             var scoreInputContainer = document.querySelector(".score-input-container");
 
@@ -490,124 +599,69 @@
                 scoreInputContainer.style.display = "none";
                 resultsQuestion.textContent = questions[currentQuestionIndex + 1];
                 playerInputsContainer.style.display = "block";
-                backButton.style.display = "inline-block";
                 submitButton.style.display = "none";
                 currentQuestionIndex++;
+
             } else if (currentQuestionIndex === 1) {
                 resultsQuestion.textContent = questions[currentQuestionIndex + 1];
                 playerInputsContainer.style.display = "none";
                 playersScoredContainer.style.display = "block";
                 playersAssistContainer.style.display = "block";
-                backButton.style.display = "inline-block";
                 submitButton.style.display = "none";
                 currentQuestionIndex++;
                 generatePlayersScoredInputs();
                 generatePlayersAssistInputs();
-            } else if (currentQuestionIndex === 2) {
+
+            } else if (currentQuestionIndex === 2) {       
                 resultsQuestion.textContent = questions[currentQuestionIndex + 1];
-                playerInputsContainer.style.display = "none";
                 playersScoredContainer.style.display = "none";
                 playersAssistContainer.style.display = "none";
+                playerInputsContainer.style.display = "none";
+                savesInputsContainer.style.display = "block";
+                submitButton.style.display = "none";
+                currentQuestionIndex++;
+
+            } else if (currentQuestionIndex === 3) {  
+                resultsQuestion.textContent = questions[currentQuestionIndex + 1];
+                savesInputsContainer.style.display = "none";
+                yellowCardsContainer.style.display = "block";
+                nextButton.style.display = "block";
+                currentQuestionIndex++;
+                generateYellowCardsInputs();
+
+            } else if (currentQuestionIndex === 4) {  
+                resultsQuestion.textContent = questions[currentQuestionIndex + 1];
+                yellowCardsContainer.style.display = "none";
+                redCardsContainer.style.display = "block";
+                nextButton.style.display = "block";
+                currentQuestionIndex++;
+                generateRedCardsInputs();
+
+            } else if (currentQuestionIndex === 5) {  
+                resultsQuestion.textContent = questions[currentQuestionIndex + 1];
+                redCardsContainer.style.display = "none";
+                ownGoalsContainer.style.display = "block";
+                nextButton.style.display = "block";
+                currentQuestionIndex++;
+                generateOwnGoalsInputs();
+
+            } else if (currentQuestionIndex === 6) {
+
+                var savesInput = document.getElementById("savesInput");
+
+                if (savesInput.value === "") {
+                    alert("Please select the number of saves.");
+                    return;  // If they haven't selected saves, we stop here.
+                }
+                resultsQuestion.textContent = questions[currentQuestionIndex + 1];
+                ownGoalsContainer.style.display = "none";
                 bonusInputsContainer.style.display = "block";
                 document.querySelector(".bonusContainer").style.display = "block";
                 nextButton.style.display = "none"; 
                 submitButton.style.display = "inline-block";
-                backButton.style.display = "inline-block";
                 currentQuestionIndex++;
                 generateBonusInputs();
             }
-        }
-
-        function previousQuestion() {
-            var resultsQuestion = document.getElementById("resultsQuestion");
-            var playerInputsContainer = document.getElementById("playerInputsContainer");
-            var bonusInputsContainer = document.getElementById("bonusInputs");
-            var playersScoredContainer = document.getElementById("playersScoredContainer");
-            var playersAssistContainer = document.getElementById("playersAssistContainer");
-            var backButton = document.getElementById("backButton");
-            var submitButton = document.getElementById("submitButton");
-            var scoreInputContainer = document.querySelector(".score-input-container");
-
-            if (currentQuestionIndex === 1) {
-                resultsQuestion.textContent = questions[currentQuestionIndex - 1];
-                scoreInputContainer.style.display = "block";
-                playerInputsContainer.style.display = "none";
-                playersScoredContainer.style.display = "none";
-                playersAssistContainer.style.display = "none";
-                bonusInputsContainer.style.display = "none"; // Hide the bonus inputs
-                backButton.style.display = "none";
-                submitButton.style.display = "none";
-                currentQuestionIndex--;
-            } else if (currentQuestionIndex === 2) {
-                var homeGoalsInput = document.getElementById("homeGoalsInput");
-                var awayGoalsInput = document.getElementById("awayGoalsInput");
-
-                if (homeGoalsInput.value === "" || awayGoalsInput.value === "") {
-                    alert("Please select both home and away goals.");
-                    return;
-                }
-                homeGoals = parseInt(homeGoalsInput.value);
-                scoreInputContainer.style.display = "none";
-                resultsQuestion.textContent = questions[currentQuestionIndex - 1];
-                playerInputsContainer.style.display = "block";
-                playersScoredContainer.style.display = "none";
-                playersAssistContainer.style.display = "none";
-                bonusInputsContainer.style.display = "none"; // Hide the bonus inputs
-                backButton.style.display = "inline-block";
-                submitButton.style.display = "none";
-                currentQuestionIndex--;
-            } else if (currentQuestionIndex === 3) {
-                resultsQuestion.textContent = questions[currentQuestionIndex - 1];
-                playerInputsContainer.style.display = "none";
-                playersScoredContainer.style.display = "block";
-                playersAssistContainer.style.display = "block";
-                bonusInputsContainer.style.display = "block"; // Show the bonus inputs
-                backButton.style.display = "inline-block";
-                submitButton.style.display = "none";
-                currentQuestionIndex--;
-                generatePlayersScoredInputs();
-                generatePlayersAssistInputs();
-            }
-        }
-
-        function resetForm() {
-            var resultsQuestion = document.getElementById("resultsQuestion");
-            var homeGoalsInput = document.getElementById("homeGoalsInput");
-            var awayGoalsInput = document.getElementById("awayGoalsInput");
-            var playerInputsContainer = document.getElementById("playerInputsContainer");
-            var playersScoredContainer = document.getElementById("playersScoredContainer");
-            var playersAssistContainer = document.getElementById("playersAssistContainer");
-            var bonusInputsContainer = document.getElementById("bonusInputs"); // Add bonusInputsContainer variable
-            var playersScoredInputs = document.getElementById("playersScoredInputs");
-            var playersAssistInputs = document.getElementById("playersAssistInputs");
-            var backButton = document.getElementById("backButton");
-            var submitButton = document.getElementById("submitButton");
-
-            resultsQuestion.textContent = questions[0];
-            homeGoalsInput.value = "";
-            awayGoalsInput.value = "";
-            playerInputsContainer.style.display = "block";
-            playersScoredContainer.style.display = "none";
-            playersAssistContainer.style.display = "none";
-            bonusInputsContainer.style.display = "none"; // Hide the bonus inputs
-            playersScoredInputs.innerHTML = "";
-            playersAssistInputs.innerHTML = "";
-            backButton.style.display = "none";
-            submitButton.style.display = "none";
-            currentQuestionIndex = 0;
-            playerInputCount = 1;
-            homeGoals = 0;
-
-            var playerInputRows = document.getElementsByClassName("player-input-row");
-            for (var i = playerInputRows.length - 1; i > 0; i--) {
-                playerInputRows[i].remove();
-            }
-
-            var selectInput = document.getElementById("playerInput1");
-            selectInput.selectedIndex = 0;
-
-            backButton.style.display = "none";
-            submitButton.style.display = "none";
         }
 
 
@@ -691,6 +745,7 @@
         }
 
 
+
         function generateBonusInputs() {
             var bonusInputsContainer = document.getElementById("bonusInputs");
             bonusInputsContainer.innerHTML = "";
@@ -724,6 +779,124 @@
             }
         }
 
+        function generateYellowCardsInputs() {
+            var yellowCardsInputsList = document.querySelectorAll(".yellowCardsInputs");
+
+            yellowCardsInputsList.forEach(yellowCardsInputs => {
+                yellowCardsInputs.innerHTML = "";
+
+                var playerInputContainer = document.createElement("div");
+                playerInputContainer.className = "player-input-container";
+
+                var playerYellowCardInput = document.createElement("div");
+                playerYellowCardInput.className = "player-yellow-card-input";
+
+                var labelYellowCard = document.createElement("label");
+                labelYellowCard.textContent = "Yellow Card: ";
+
+                var selectYellowCardInput = document.createElement("select");
+                selectYellowCardInput.name = "yellowCards[]"; 
+
+                var playerInputs = document.querySelectorAll("[id^=playerInput] option:checked");
+
+                var optionNone = document.createElement("option");
+                optionNone.value = "none";
+                optionNone.textContent = "None";
+                selectYellowCardInput.appendChild(optionNone);
+
+                for (var j = 0; j < playerInputs.length; j++) {
+                    var optionYellowCard = document.createElement("option");
+                    optionYellowCard.value = playerInputs[j].value;
+                    optionYellowCard.textContent = playerInputs[j].textContent;
+                    selectYellowCardInput.appendChild(optionYellowCard);
+                }
+
+                playerYellowCardInput.appendChild(labelYellowCard);
+                playerYellowCardInput.appendChild(selectYellowCardInput);
+                playerInputContainer.appendChild(playerYellowCardInput);
+                yellowCardsInputs.appendChild(playerInputContainer);
+            });
+        }
+
+        function generateRedCardsInputs() {
+            var redCardsInputsList = document.querySelectorAll(".redCardsInputs");
+
+            redCardsInputsList.forEach(redCardsInputs => {
+                redCardsInputs.innerHTML = "";
+
+                var playerInputContainer = document.createElement("div");
+                playerInputContainer.className = "player-input-container";
+
+                var playerRedCardInput = document.createElement("div");
+                playerRedCardInput.className = "player-red-card-input";
+
+                var labelRedCard = document.createElement("label");
+                labelRedCard.textContent = "Red Card: ";
+
+                var selectRedCardInput = document.createElement("select");
+                selectRedCardInput.name = "redCards[]"; 
+
+                var playerInputs = document.querySelectorAll("[id^=playerInput] option:checked");
+
+                var optionNone = document.createElement("option");
+                optionNone.value = "none";
+                optionNone.textContent = "None";
+                selectRedCardInput.appendChild(optionNone);
+
+                for (var j = 0; j < playerInputs.length; j++) {
+                    var optionRedCard = document.createElement("option");
+                    optionRedCard.value = playerInputs[j].value;
+                    optionRedCard.textContent = playerInputs[j].textContent;
+                    selectRedCardInput.appendChild(optionRedCard);
+                }
+
+                playerRedCardInput.appendChild(labelRedCard);
+                playerRedCardInput.appendChild(selectRedCardInput);
+                playerInputContainer.appendChild(playerRedCardInput);
+                redCardsInputs.appendChild(playerInputContainer);
+            });
+        }
+
+        function generateOwnGoalsInputs() {
+            var ownGoalsInputsList = document.querySelectorAll(".ownGoalsInputs");
+
+            ownGoalsInputsList.forEach(ownGoalsInputs => {
+                ownGoalsInputs.innerHTML = "";
+
+                var playerInputContainer = document.createElement("div");
+                playerInputContainer.className = "player-input-container";
+
+                var playerOwnGoalInput = document.createElement("div");
+                playerOwnGoalInput.className = "player-own-goals-input";
+
+                var labelOwnGoal = document.createElement("label");
+                labelOwnGoal.textContent = "Own Goals: ";
+
+                var selectOwnGoalInput = document.createElement("select");
+                selectOwnGoalInput.name = "ownGoals[]"; 
+
+                var playerInputs = document.querySelectorAll("[id^=playerInput] option:checked");
+
+                var optionNone = document.createElement("option");
+                optionNone.value = "none";
+                optionNone.textContent = "None";
+                selectOwnGoalInput.appendChild(optionNone);
+
+                for (var j = 0; j < playerInputs.length; j++) {
+                    var optionOwnGoal = document.createElement("option");
+                    optionOwnGoal.value = playerInputs[j].value;
+                    optionOwnGoal.textContent = playerInputs[j].textContent;
+                    selectOwnGoalInput.appendChild(optionOwnGoal);
+                }
+
+                playerOwnGoalInput.appendChild(labelOwnGoal);
+                playerOwnGoalInput.appendChild(selectOwnGoalInput);
+                playerInputContainer.appendChild(playerOwnGoalInput);
+                ownGoalsInputs.appendChild(playerInputContainer);
+            });
+        }
+
+
         function handlePlayerChange(selectInput) {
             var selectedOption = selectInput.options[selectInput.selectedIndex];
             var selectedPlayer = selectedOption.value;
@@ -742,6 +915,8 @@
                 }
             }
         }
+
+
     </script>
 </body>
 </html>
