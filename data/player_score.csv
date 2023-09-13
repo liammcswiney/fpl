@@ -1,16 +1,16 @@
-Player,Position
-Dan,GK
-Zeki,GK
-Liam Mc,DEF
-Joe,DEF
-Alfie,DEF
-Tom,DEF
-Mepsted,MID
-Liam T,MID
-Rarnott,MID
-Rhys,MID
-Charile,MID
-Jay,FWD
-Henry,FWD
-Meadows,FWD
-Cam,FWD
+Player,Position,Gameweek 1,Gameweek 2,Gameweek 3,Gameweek 4,Gameweek 5,Gameweek 6,Gameweek 7
+Dan,GK,7,13,2,-3,7,8,0
+Zeki,GK,0,0,0,0,0,0,2
+Liam Mc,DEF,5,6,4,3,0,0,0
+Joe,DEF,27,6,0,0,7,6,-2
+Alfie,DEF,0,0,0,9,15,0,0
+Tom,DEF,3,6,0,-2,0,0,0
+Mepsted,MID,9,0,0,0,0,0,0
+Liam T,MID,15,8,2,2,3,3,2
+Rarnott,MID,3,3,2,18,2,2,1
+Rhys,MID,0,3,2,9,3,3,2
+Charile,MID,0,0,0,0,0,0,0
+Jay,FWD,2,2,2,2,7,1,1
+Henry,FWD,0,7,7,3,0,0,0
+Meadows,FWD,0,0,0,0,0,13,13
+Cam,FWD,0,0,0,5,2,6,6

@@ -1,16 +1,16 @@
-Player,Position,Form,Price,Total Points
-Dan,GK,0,£5.0m,0
-Zeki,GK,0,£4.0m,0
-Liam Mc,DEF,0,£6.0m,0
-Joe,DEF,0,£6.0m,0
-Alfie,DEF,0,£6.0m,0
-Tom,DEF,0,£5.0m,0
-Mepsted,MID,0,£12.0m,0
-Liam T,MID,0,£12.0m,0
-Rarnott,MID,0,£8.0m,0
-Rhys,MID,0,£9.0m,0
-Charile,MID,0,£6.0m,0
-Jay,FWD,0,£9.0m,0
-Henry,FWD,0,£11.0m,0
-Meadows,FWD,0,£7.0m,0
-Cam,FWD,0,£5.0m,0
+Player,Position,Price,Form,Total Points
+Dan,GK,£5.0m,5.0,34
+Zeki,GK,£4.0m,0.7,2
+Liam Mc,DEF,£6.0m,0.0,18
+Joe,DEF,£6.0m,3.7,44
+Alfie,DEF,£6.0m,5.0,24
+Tom,DEF,£5.0m,0.0,7
+Mepsted,MID,£12.0m,0.0,9
+Liam T,MID,£12.0m,2.7,35
+Rarnott,MID,£8.0m,1.7,31
+Rhys,MID,£9.0m,2.7,22
+Charile,MID,£6.0m,0.0,0
+Jay,FWD,£9.0m,3.0,17
+Henry,FWD,£11.0m,0.0,17
+Meadows,FWD,£7.0m,8.7,26
+Cam,FWD,£5.0m,4.7,19

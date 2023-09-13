@@ -422,8 +422,8 @@ def pick_team(team_name):
 
     leaderboard_data = pd.read_csv('data/team_leaderboard.csv')
     gw_info = leaderboard_data.iloc[:, :-1]
-    next_gw = int(gw_info.columns[-1].split(' ')[1])
-    if next_gw != 'e':
+    next_gw = gw_info.columns[-1].split(' ')[1]
+    if next_gw != 'Name':
         next_gw_int = int(next_gw) + 1
         next_gw = 'Gameweek ' + str(next_gw_int)
     else:

@@ -1,16 +1,16 @@
-Player,Position,Minutes,Goals,Assists,Bonus,Clean Sheet,Conceded
-Dan,GK,40,0,0,0,0,4
-Zeki,GK,0,0,0,0,0,0
-Liam Mc,DEF,40,1,1,1,0,4
-Joe,DEF,0,0,0,0,0,0
-Alfie,DEF,40,1,2,3,0,4
-Tom,DEF,40,0,1,0,0,4
-Mepsted,MID,0,0,0,0,0,0
-Liam T,MID,40,1,0,2,0,0
-Rarnott,MID,40,0,0,0,0,0
-Rhys,MID,0,0,0,0,0,0
-Charile,MID,0,0,0,0,0,0
-Jay,FWD,0,0,0,0,0,0
-Henry,FWD,0,0,0,0,0,0
-Meadows,FWD,40,1,0,0,0,0
-Cam,FWD,0,0,0,0,0,0
+Player,Position,Minutes,Goals,Assists,Bonus,Clean Sheet,Conceded,Saves,Yellow Cards,Red Cards,Own Goals
+Dan,GK,40,0,0,0,0,10,1,0,0,0
+Zeki,GK,0,0,0,0,0,0,0,0,0,0
+Liam Mc,DEF,40,1,0,0,0,10,0,0,0,0
+Joe,DEF,0,0,0,0,0,0,0,0,0,0
+Alfie,DEF,40,2,0,2,0,10,0,0,0,1
+Tom,DEF,0,0,0,0,0,0,0,0,0,1
+Mepsted,MID,0,0,0,0,0,0,0,0,0,0
+Liam T,MID,40,0,0,0,0,0,0,0,0,0
+Rarnott,MID,40,2,1,3,0,0,0,0,0,0
+Rhys,MID,40,0,2,1,0,0,0,0,0,0
+Charile,MID,0,0,0,0,0,0,0,0,0,0
+Jay,FWD,40,0,0,0,0,0,0,0,0,0
+Henry,FWD,0,0,1,0,0,0,0,0,0,0
+Meadows,FWD,0,0,0,0,0,0,0,0,0,0
+Cam,FWD,40,0,1,0,0,0,0,0,0,0

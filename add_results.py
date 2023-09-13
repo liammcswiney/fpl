@@ -63,6 +63,7 @@ def add_gameweek_score(gameweek, score, team, goal_scorers, assists, saves, yell
         player_score = 0
         gw_goals = 0
         gw_assists = 0
+        gw_played = 0
         minutes[player] = 0
         saves_dict[player] = 0
         yellow_cards_dict[player] = 0
