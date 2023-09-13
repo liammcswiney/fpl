@@ -163,9 +163,10 @@
             height: 40px; 
             border-radius: 50%;
             background-color: rgb(15, 200, 206);
-            margin-bottom: 3px;
             border: 2px solid #000000; 
-            margin-top: 15px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .bench-container .player-list .name {
@@ -268,7 +269,7 @@
             bottom: 20%;
             left: 50%;
             transform: translateX(-50%);
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 255, 221, 0.687);
             width: 300px;
             padding: 20px;
             display: none;
@@ -284,7 +285,7 @@
             bottom: 20%;
             left: 50%;
             transform: translateX(-50%);
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 255, 221, 0.687);
             width: 300px;
             padding: 20px;
             display: none;
@@ -300,7 +301,7 @@
             bottom: 20%;
             left: 50%;
             transform: translateX(-50%);
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 255, 221, 0.687);
             width: 300px;
             padding: 20px;
             display: none;
@@ -316,7 +317,7 @@
             bottom: 20%;
             left: 50%;
             transform: translateX(-50%);
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 255, 221, 0.687);
             width: 300px;
             padding: 20px;
             display: none;
@@ -332,7 +333,7 @@
             bottom: 20%;
             left: 50%;
             transform: translateX(-50%);
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 255, 221, 0.687);
             width: 300px;
             padding: 20px;
             display: none;
@@ -348,7 +349,7 @@
             bottom: 20%;
             left: 50%;
             transform: translateX(-50%);
-            background-color: rgba(0, 0, 0, 0.5);
+            background-color: rgba(0, 255, 221, 0.687);
             width: 300px;
             padding: 20px;
             display: none;
@@ -519,6 +520,17 @@
             background-color: #990404;
         }
 
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7); /* Black background with 70% opacity */
+            display: none;
+            z-index: 999; /* Ensuring the overlay appears on top */
+        }
+
 
     </style>
 <script>
@@ -529,32 +541,153 @@
 
     function togglePopup1() {
         const popup = document.querySelector('.popup1');
+        const overlay = document.getElementById('modalOverlay');
+        const injuryDivRed = popup.querySelector('[data-color-red]');
+        const injuryDivYellow = popup.querySelector('[data-color-yellow]');
+
+        if (injuryDivRed) {
+            popup.style.backgroundColor = "rgba(255, 0, 0, 0.7)";
+        }
+
+        if (injuryDivYellow) {
+            popup.style.backgroundColor = "rgba(255, 221, 0, 0.7)";
+        }
+        
+        // Toggling the popup visibility using class
         popup.classList.toggle('show');
+
+        // If popup is visible, show the overlay, else hide it
+        if (popup.classList.contains('show')) {
+            overlay.style.display = 'block';
+        } else {
+            overlay.style.display = 'none';
+        }
     }
+
 
     function togglePopup2() {
         const popup = document.querySelector('.popup2');
+        const overlay = document.getElementById('modalOverlay');
+        const injuryDivRed = popup.querySelector('[data-color-red]');
+        const injuryDivYellow = popup.querySelector('[data-color-yellow]');
+
+        if (injuryDivRed) {
+            popup.style.backgroundColor = "rgba(255, 0, 0, 0.7)";
+        }
+
+        if (injuryDivYellow) {
+            popup.style.backgroundColor = "rgba(255, 221, 0, 0.7)";
+        }
+        
+        // Toggling the popup visibility using class
         popup.classList.toggle('show');
+
+        // If popup is visible, show the overlay, else hide it
+        if (popup.classList.contains('show')) {
+            overlay.style.display = 'block';
+        } else {
+            overlay.style.display = 'none';
+        }
     }
 
     function togglePopup3() {
         const popup = document.querySelector('.popup3');
+        const overlay = document.getElementById('modalOverlay');
+        const injuryDivRed = popup.querySelector('[data-color-red]');
+        const injuryDivYellow = popup.querySelector('[data-color-yellow]');
+
+        if (injuryDivRed) {
+            popup.style.backgroundColor = "rgba(255, 0, 0, 0.7)";
+        }
+
+        if (injuryDivYellow) {
+            popup.style.backgroundColor = "rgba(255, 221, 0, 0.7)";
+        }
+        
+        // Toggling the popup visibility using class
         popup.classList.toggle('show');
+
+        // If popup is visible, show the overlay, else hide it
+        if (popup.classList.contains('show')) {
+            overlay.style.display = 'block';
+        } else {
+            overlay.style.display = 'none';
+        }
     }
 
     function togglePopup4() {
         const popup = document.querySelector('.popup4');
+        const overlay = document.getElementById('modalOverlay');
+        const injuryDivRed = popup.querySelector('[data-color-red]');
+        const injuryDivYellow = popup.querySelector('[data-color-yellow]');
+
+        if (injuryDivRed) {
+            popup.style.backgroundColor = "rgba(255, 0, 0, 0.7)";
+        }
+
+        if (injuryDivYellow) {
+            popup.style.backgroundColor = "rgba(255, 221, 0, 0.7)";
+        }
+        
+        // Toggling the popup visibility using class
         popup.classList.toggle('show');
+
+        // If popup is visible, show the overlay, else hide it
+        if (popup.classList.contains('show')) {
+            overlay.style.display = 'block';
+        } else {
+            overlay.style.display = 'none';
+        }
     }
 
     function togglePopup5() {
         const popup = document.querySelector('.popup5');
+        const overlay = document.getElementById('modalOverlay');
+        const injuryDivRed = popup.querySelector('[data-color-red]');
+        const injuryDivYellow = popup.querySelector('[data-color-yellow]');
+
+        if (injuryDivRed) {
+            popup.style.backgroundColor = "rgba(255, 0, 0, 0.7)";
+        }
+
+        if (injuryDivYellow) {
+            popup.style.backgroundColor = "rgba(255, 221, 0, 0.7)";
+        }
+        
+        // Toggling the popup visibility using class
         popup.classList.toggle('show');
+
+        // If popup is visible, show the overlay, else hide it
+        if (popup.classList.contains('show')) {
+            overlay.style.display = 'block';
+        } else {
+            overlay.style.display = 'none';
+        }
     }
 
     function togglePopup6() {
         const popup = document.querySelector('.popup6');
+        const overlay = document.getElementById('modalOverlay');
+        const injuryDivRed = popup.querySelector('[data-color-red]');
+        const injuryDivYellow = popup.querySelector('[data-color-yellow]');
+
+        if (injuryDivRed) {
+            popup.style.backgroundColor = "rgba(255, 0, 0, 0.7)";
+        }
+
+        if (injuryDivYellow) {
+            popup.style.backgroundColor = "rgba(255, 221, 0, 0.7)";
+        }
+        
+        // Toggling the popup visibility using class
         popup.classList.toggle('show');
+
+        // If popup is visible, show the overlay, else hide it
+        if (popup.classList.contains('show')) {
+            overlay.style.display = 'block';
+        } else {
+            overlay.style.display = 'none';
+        }
     }
 
     document.addEventListener('DOMContentLoaded', function() {
@@ -613,334 +746,727 @@
             <div class="penalty-box1"></div>
             <div class="halfway-line2"></div>
             <div class="player-row">
-                <div class="player-position">
-                    <div class="player-info">
-                        <button class="options-button1">
-                            {% if team_data['Captain'] == team_data['Player 1'] %}
-                                <span class="captain-letter">C</span>
-                            {% endif %}
-                        </button>
-                        <div class="name">{{ team_data['Player 1'] }}</div>
-                    </div>
-                </div>
+                {% for player in injury_data %}
+                    {% if player['Player'] == team_data['Player 1'] %}
+                        {% if player['injury_colour'] == 'Red' %}
+                            <div class="player-position" style="background-color: #ff00007f;">
+                                <div class="player-info">
+                                    <button class="options-button1"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% elif player['injury_colour'] == 'Yellow' %}
+                            <div class="player-position" style="background-color: #fffb007f;">
+                                <div class="player-info">
+                                    <button class="options-button1"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="player-position">
+                                <div class="player-info">
+                                    <button class="options-button1">
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
             </div>
             {% if team_data['Bench'] == team_data['Player 3'] %}
             <div class="player-row">
-                <div class="player-position">
-                    <div class="player-info">
-                        <button class="options-button2">
-                            {% if team_data['Captain'] == team_data['Player 2'] %}
-                                <span class="captain-letter">C</span>
-                            {% endif %}
-                        </button>
-                        <div class="name">{{ team_data['Player 2'] }}</div>
-                    </div>
-                </div>
+                {% for player in injury_data %}
+                    {% if player['Player'] == team_data['Player 2'] %}
+                        {% if player['injury_colour'] == 'Red' %}
+                            <div class="player-position" style="background-color: #ff00007f;">
+                                <div class="player-info">
+                                    <button class="options-button2"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% elif player['injury_colour'] == 'Yellow' %}
+                            <div class="player-position" style="background-color: #fffb007f;">
+                                <div class="player-info">
+                                    <button class="options-button2"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="player-position">
+                                <div class="player-info">
+                                    <button class="options-button2">
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
             </div>
             {% elif team_data['Bench'] == team_data['Player 2'] %}
             <div class="player-row">
-                <div class="player-position">
-                    <div class="player-info">
-                        <button class="options-button3">
-                            {% if team_data['Captain'] == team_data['Player 3'] %}
-                                <span class="captain-letter">C</span>
-                            {% endif %}
-                        </button>
-                        <div class="name">{{ team_data['Player 3'] }}</div>
-                    </div>
-                </div>
+                {% for player in injury_data %}
+                    {% if player['Player'] == team_data['Player 3'] %}
+                        {% if player['injury_colour'] == 'Red' %}
+                            <div class="player-position" style="background-color: #ff00007f;">
+                                <div class="player-info">
+                                    <button class="options-button3"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% elif player['injury_colour'] == 'Yellow' %}
+                            <div class="player-position" style="background-color: #fffb007f;">
+                                <div class="player-info">
+                                    <button class="options-button3"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="player-position">
+                                <div class="player-info">
+                                    <button class="options-button3">
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
             </div>
             {% else %}
             <div class="player-row">
-                <div class="player-position">
-                    <div class="player-info">
-                        <button class="options-button2">
-                            {% if team_data['Captain'] == team_data['Player 2'] %}
-                                <span class="captain-letter">C</span>
-                            {% endif %}
-                        </button>
-                        <div class="name">{{ team_data['Player 2'] }}</div>
-                    </div>
-                </div>
-                <div class="player-position">
-                    <div class="player-info">
-                        <button class="options-button3">
-                            {% if team_data['Captain'] == team_data['Player 3'] %}
-                                <span class="captain-letter">C</span>
-                            {% endif %}
-                        </button>
-                        <div class="name">{{ team_data['Player 3'] }}</div>
-                    </div>
-                </div>
+                {% for player in injury_data %}
+                    {% if player['Player'] == team_data['Player 2'] %}
+                        {% if player['injury_colour'] == 'Red' %}
+                            <div class="player-position" style="background-color: #ff00007f;">
+                                <div class="player-info">
+                                    <button class="options-button2"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% elif player['injury_colour'] == 'Yellow' %}
+                            <div class="player-position" style="background-color: #fffb007f;">
+                                <div class="player-info">
+                                    <button class="options-button2"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="player-position">
+                                <div class="player-info">
+                                    <button class="options-button2">
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% for player in injury_data %}
+                    {% if player['Player'] == team_data['Player 3'] %}
+                        {% if player['injury_colour'] == 'Red' %}
+                            <div class="player-position" style="background-color: #ff00007f;">
+                                <div class="player-info">
+                                    <button class="options-button3"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% elif player['injury_colour'] == 'Yellow' %}
+                            <div class="player-position" style="background-color: #fffb007f;">
+                                <div class="player-info">
+                                    <button class="options-button3"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="player-position">
+                                <div class="player-info">
+                                    <button class="options-button3">
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
             </div>
             {% endif %}
             {% if team_data['Bench'] == team_data['Player 5'] %}
             <div class="player-row">
-                <div class="player-position">
-                    <div class="player-info">
-                        <button class="options-button4">
-                            {% if team_data['Captain'] == team_data['Player 4'] %}
-                                <span class="captain-letter">C</span>
-                            {% endif %}
-                        </button>
-                        <div class="name">{{ team_data['Player 4'] }}</div>
-                    </div>
-                </div>
+                {% for player in injury_data %}
+                    {% if player['Player'] == team_data['Player 4'] %}
+                        {% if player['injury_colour'] == 'Red' %}
+                            <div class="player-position" style="background-color: #ff00007f;">
+                                <div class="player-info">
+                                    <button class="options-button4"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% elif player['injury_colour'] == 'Yellow' %}
+                            <div class="player-position" style="background-color: #fffb007f;">
+                                <div class="player-info">
+                                    <button class="options-button4"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="player-position">
+                                <div class="player-info">
+                                    <button class="options-button4">
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
             </div>
             {% elif team_data['Bench'] == team_data['Player 4'] %}
             <div class="player-row"> 
-                <div class="player-position">
-                    <div class="player-info">
-                        <button class="options-button5">
-                            {% if team_data['Captain'] == team_data['Player 5'] %}
-                                <span class="captain-letter">C</span>
-                            {% endif %}
-                        </button>
-                        <div class="name">{{ team_data['Player 5'] }}</div>
-                    </div>
-                </div>
+                {% for player in injury_data %}
+                    {% if player['Player'] == team_data['Player 5'] %}
+                        {% if player['injury_colour'] == 'Red' %}
+                            <div class="player-position" style="background-color: #ff00007f;">
+                                <div class="player-info">
+                                    <button class="options-button5"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% elif player['injury_colour'] == 'Yellow' %}
+                            <div class="player-position" style="background-color: #fffb007f;">
+                                <div class="player-info">
+                                    <button class="options-button5"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="player-position">
+                                <div class="player-info">
+                                    <button class="options-button5">
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
             </div>
             {% else %}
             <div class="player-row">
-                <div class="player-position">
-                    <div class="player-info">
-                        <button class="options-button4">
-                            {% if team_data['Captain'] == team_data['Player 4'] %}
-                                <span class="captain-letter">C</span>
-                            {% endif %}
-                        </button>
-                        <div class="name">{{ team_data['Player 4'] }}</div>
-                    </div>
-                </div>
-                <div class="player-position">
-                    <div class="player-info">
-                        <button class="options-button5">
-                            {% if team_data['Captain'] == team_data['Player 5'] %}
-                                <span class="captain-letter">C</span>
-                            {% endif %}
-                        </button>
-                        <div class="name">{{ team_data['Player 5'] }}</div>
-                    </div>
-                </div>
+                {% for player in injury_data %}
+                    {% if player['Player'] == team_data['Player 4'] %}
+                        {% if player['injury_colour'] == 'Red' %}
+                            <div class="player-position" style="background-color: #ff00007f;">
+                                <div class="player-info">
+                                    <button class="options-button4"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% elif player['injury_colour'] == 'Yellow' %}
+                            <div class="player-position" style="background-color: #fffb007f;">
+                                <div class="player-info">
+                                    <button class="options-button4"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="player-position">
+                                <div class="player-info">
+                                    <button class="options-button4">
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% for player in injury_data %}
+                    {% if player['Player'] == team_data['Player 5'] %}
+                        {% if player['injury_colour'] == 'Red' %}
+                            <div class="player-position" style="background-color: #ff00007f;">
+                                <div class="player-info">
+                                    <button class="options-button5"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% elif player['injury_colour'] == 'Yellow' %}
+                            <div class="player-position" style="background-color: #fffb007f;">
+                                <div class="player-info">
+                                    <button class="options-button5"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="player-position">
+                                <div class="player-info">
+                                    <button class="options-button5">
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
             </div>
             {% endif %}
             {% if team_data['Bench'] != team_data['Player 6'] %}
             <div class="player-row">
-                <div class="player-position">
-                    <div class="player-info">
-                        <button class="options-button6">
-                            {% if team_data['Captain'] == team_data['Player 6'] %}
-                                <span class="captain-letter">C</span>
-                            {% endif %}
-                        </button>
-                        <div class="name">{{ team_data['Player 6'] }}</div>
-                    </div>
-                </div>
+                {% for player in injury_data %}
+                    {% if player['Player'] == team_data['Player 6'] %}
+                        {% if player['injury_colour'] == 'Red' %}
+                            <div class="player-position" style="background-color: #ff00007f;">
+                                <div class="player-info">
+                                    <button class="options-button6"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% elif player['injury_colour'] == 'Yellow' %}
+                            <div class="player-position" style="background-color: #fffb007f;">
+                                <div class="player-info">
+                                    <button class="options-button6"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="player-position">
+                                <div class="player-info">
+                                    <button class="options-button6">
+                                    {% if team_data['Captain'] == player['Player'] %}
+                                        <span class="captain-letter">C</span>
+                                    {% endif %}
+                                    </button>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
             </div>
             {% endif %}
             <div class="bench-container">
                 <h2>Bench</h2>
-                <ul class="player-list">
-                    <li>
-                        <div class="icon"></div>
-                        <div class="name">{{ team_data['Bench'] }}</div>
-                    </li>
-                </ul>
+                {% for player in injury_data %}
+                    {% if player['Player'] == team_data['Bench'] %}
+                        {% if player['injury_colour'] == 'Red' %}
+                            <ul class="player-list" style="background-color: #ff00007f;">
+                                <div class="player-info">
+                                    <div class="icon"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i></div>
+                                    <div class="name">{{ team_data['Bench'] }}</div>
+                                </div>
+                            </ul>
+                        {% elif player['injury_colour'] == 'Yellow' %}
+                            <ul class="player-list" style="background-color: #fffb007f;">
+                                <div class="player-info">
+                                    <div class="icon"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i></div>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </ul>
+                        {% else %}
+                            <ul class="player-list">
+                                <div class="player-info">
+                                    <div class="icon"></div>
+                                    <div class="name">{{ player['Player'] }}</div>
+                                </div>
+                            </ul>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
             </div>
         </div>
     </div>
-    <div class="popup1">
-        <div class="popup-content1">
-            <h3>{{ team_data['Player 1'] }}</h3>
-            <table id="player-stats" class="stats-table">
-                <tr>
-                    <th>Price</th>
-                    <th>Form</th>
-                    <th>Total Score</th>
-                </tr>
-                {% for i in range(player_data['Player']|length) %}
-                    {% if player_data['Player'][i] == team_data['Player 1'] %}
-                        <tr>
-                            <td>{{ player_data['Price'][i] }}</td>
-                            <td>{{ player_data['Form'][i] }}</td>
-                            <td>{{ player_data['Total Points'][i] }}</td>
-                        </tr>
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="popup1">
+            <div class="popup-content1">
+                <h3>{{ team_data['Player 1'] }}</h3>
+                {% for player in injury_data %}
+                    {% if player['Player'] == team_data['Player 1'] %}
+                        {% if player['injury_colour'] == 'Red' %}
+                            <div data-color-red="red" style="background-color: red; color: white; padding: 5px; border-radius: 5px;">
+                                {{ player['injury_type'] }}<br>
+                                Expected back {{ player['return_date'] }}
+                            </div>
+                        {% elif player['injury_colour'] == 'Yellow' %}
+                            <div data-color-yellow="rgb(255, 221, 0)" style="background-color: rgb(255, 255, 0); color: rgb(0, 0, 0); padding: 5px; border-radius: 5px;">
+                                {{ player['injury_type'] }}<br>
+                                {{ player['return_date'] }} chance of playing
+                            </div>
+                        {% endif %}
                     {% endif %}
                 {% endfor %}
-            </table>
-            <div class="popup-buttons">
-                <div class="form-wrapper">
-                    <form action="/update_captain/{{ team_name }}/{{ team_data['Player 1']|urlencode }}" method="POST">
-                        <button type="submit">Make Captain</button>
-                    </form>
+                <table id="player-stats" class="stats-table">
+                    <tr>
+                        <th>Price</th>
+                        <th>Form</th>
+                        <th>Total Score</th>
+                    </tr>
+                    {% for i in range(player_data['Player']|length) %}
+                        {% if player_data['Player'][i] == team_data['Player 1'] %}
+                            <tr>
+                                <td>{{ player_data['Price'][i] }}</td>
+                                <td>{{ player_data['Form'][i] }}</td>
+                                <td>{{ player_data['Total Points'][i] }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+                <div class="popup-buttons">
+                    <div class="form-wrapper">
+                        <form action="/update_captain/{{ team_name }}/{{ team_data['Player 1']|urlencode }}" method="POST">
+                            <button type="submit">Make Captain</button>
+                        </form>
+                    </div>
+                    <br>
+                    <a href="javascript:togglePopup1()" style="margin-bottom: 0px;">Cancel</a>
                 </div>
-                <br>
-                <a href="javascript:togglePopup1()" style="margin-bottom: 0px;">Cancel</a>
             </div>
         </div>
-    </div>
-    <div class="popup2">
-        <div class="popup-content2">
-            <h3>{{ team_data['Player 2'] }}</h3>
-            <table id="player-stats" class="stats-table">
-                <tr>
-                    <th>Price</th>
-                    <th>Form</th>
-                    <th>Total Score</th>
-                </tr>
-                {% for i in range(player_data['Player']|length) %}
-                    {% if player_data['Player'][i] == team_data['Player 2'] %}
-                        <tr>
-                            <td>{{ player_data['Price'][i] }}</td>
-                            <td>{{ player_data['Form'][i] }}</td>
-                            <td>{{ player_data['Total Points'][i] }}</td>
-                        </tr>
+
+        <div class="popup2">
+            <div class="popup-content2">
+                <h3>{{ team_data['Player 2'] }}</h3>
+                {% for player in injury_data %}
+                    {% if player['Player'] == team_data['Player 2'] %}
+                        {% if player['injury_colour'] == 'Red' %}
+                            <div data-color-red="red" style="background-color: red; color: white; padding: 5px; border-radius: 5px;">
+                                {{ player['injury_type'] }}<br>
+                                Expected back {{ player['return_date'] }}
+                            </div>
+                        {% elif player['injury_colour'] == 'Yellow' %}
+                            <div data-color-yellow="rgb(255, 221, 0)" style="background-color: rgb(255, 221, 0); color: rgb(0, 0, 0); padding: 5px; border-radius: 5px;">
+                                {{ player['injury_type'] }}<br>
+                                {{ player['return_date'] }} chance of playing
+                            </div>
+                        {% endif %}
                     {% endif %}
                 {% endfor %}
-            </table>
-            <div class="popup-buttons">
-                <div class="form-wrapper">
-                    <form action="/update_team_data/{{ team_name }}/{{ team_data['Player 2']|urlencode }}" method="POST">
-                        <button type="submit">Substitute</button>
-                    </form>
-                    <form action="/update_captain/{{ team_name }}/{{ team_data['Player 2']|urlencode }}" method="POST">
-                        <button type="submit">Make Captain</button>
-                    </form>
+                <table id="player-stats" class="stats-table">
+                    <tr>
+                        <th>Price</th>
+                        <th>Form</th>
+                        <th>Total Score</th>
+                    </tr>
+                    {% for i in range(player_data['Player']|length) %}
+                        {% if player_data['Player'][i] == team_data['Player 2'] %}
+                            <tr>
+                                <td>{{ player_data['Price'][i] }}</td>
+                                <td>{{ player_data['Form'][i] }}</td>
+                                <td>{{ player_data['Total Points'][i] }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+                <div class="popup-buttons">
+                    <div class="form-wrapper">
+                        <form action="/update_team_data/{{ team_name }}/{{ team_data['Player 2']|urlencode }}" method="POST">
+                            <button type="submit">Substitute</button>
+                        </form>
+                        <form action="/update_captain/{{ team_name }}/{{ team_data['Player 2']|urlencode }}" method="POST">
+                            <button type="submit">Make Captain</button>
+                        </form>
+                    </div>
+                    <br>
+                    <a href="javascript:togglePopup2()" style="margin-bottom: 0px;">Cancel</a>
                 </div>
-                <br>
-                <a href="javascript:togglePopup2()" style="margin-bottom: 0px;">Cancel</a>
             </div>
         </div>
-    </div>
-    <div class="popup3">
-        <div class="popup-content3">
-            <h3>{{ team_data['Player 3'] }}</h3>
-            <table id="player-stats" class="stats-table">
-                <tr>
-                    <th>Price</th>
-                    <th>Form</th>
-                    <th>Total Score</th>
-                </tr>
-                {% for i in range(player_data['Player']|length) %}
-                    {% if player_data['Player'][i] == team_data['Player 3'] %}
-                        <tr>
-                            <td>{{ player_data['Price'][i] }}</td>
-                            <td>{{ player_data['Form'][i] }}</td>
-                            <td>{{ player_data['Total Points'][i] }}</td>
-                        </tr>
+        <div class="popup3">
+            <div class="popup-content3">
+                <h3>{{ team_data['Player 3'] }}</h3>
+                {% for player in injury_data %}
+                    {% if player['Player'] == team_data['Player 3'] %}
+                        {% if player['injury_colour'] == 'Red' %}
+                            <div data-color-red="red" style="background-color: red; color: white; padding: 5px; border-radius: 5px;">
+                                {{ player['injury_type'] }}<br>
+                                Expected back {{ player['return_date'] }}
+                            </div>
+                        {% elif player['injury_colour'] == 'Yellow' %}
+                            <div data-color-yellow="rgb(255, 221, 0)" style="background-color: rgb(255, 221, 0); color: rgb(0, 0, 0); padding: 5px; border-radius: 5px;">
+                                {{ player['injury_type'] }}<br>
+                                {{ player['return_date'] }} chance of playing
+                            </div>
+                        {% endif %}
                     {% endif %}
                 {% endfor %}
-            </table>
-            <div class="popup-buttons">
-                <div class="form-wrapper">
-                    <form action="/update_team_data/{{ team_name }}/{{ team_data['Player 3']|urlencode }}" method="POST">
-                        <button type="submit">Substitute</button>
-                    </form>
-                    <form action="/update_captain/{{ team_name }}/{{ team_data['Player 3']|urlencode }}" method="POST">
-                        <button type="submit">Make Captain</button>
-                    </form>
+                <table id="player-stats" class="stats-table">
+                    <tr>
+                        <th>Price</th>
+                        <th>Form</th>
+                        <th>Total Score</th>
+                    </tr>
+                    {% for i in range(player_data['Player']|length) %}
+                        {% if player_data['Player'][i] == team_data['Player 3'] %}
+                            <tr>
+                                <td>{{ player_data['Price'][i] }}</td>
+                                <td>{{ player_data['Form'][i] }}</td>
+                                <td>{{ player_data['Total Points'][i] }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+                <div class="popup-buttons">
+                    <div class="form-wrapper">
+                        <form action="/update_team_data/{{ team_name }}/{{ team_data['Player 3']|urlencode }}" method="POST">
+                            <button type="submit">Substitute</button>
+                        </form>
+                        <form action="/update_captain/{{ team_name }}/{{ team_data['Player 3']|urlencode }}" method="POST">
+                            <button type="submit">Make Captain</button>
+                        </form>
+                    </div>
+                    <br>
+                    <a href="javascript:togglePopup3()" style="margin-bottom: 0px;">Cancel</a>
                 </div>
-                <br>
-                <a href="javascript:togglePopup3()" style="margin-bottom: 0px;">Cancel</a>
             </div>
         </div>
-    </div>
-    <div class="popup4">
-        <div class="popup-content4">
-            <h3>{{ team_data['Player 4'] }}</h3>
-            <table id="player-stats" class="stats-table">
-                <tr>
-                    <th>Price</th>
-                    <th>Form</th>
-                    <th>Total Score</th>
-                </tr>
-                {% for i in range(player_data['Player']|length) %}
-                    {% if player_data['Player'][i] == team_data['Player 4'] %}
-                        <tr>
-                            <td>{{ player_data['Price'][i] }}</td>
-                            <td>{{ player_data['Form'][i] }}</td>
-                            <td>{{ player_data['Total Points'][i] }}</td>
-                        </tr>
+        <div class="popup4">
+            <div class="popup-content4">
+                <h3>{{ team_data['Player 4'] }}</h3>
+                {% for player in injury_data %}
+                    {% if player['Player'] == team_data['Player 4'] %}
+                        {% if player['injury_colour'] == 'Red' %}
+                            <div data-color-red="red" style="background-color: red; color: white; padding: 5px; border-radius: 5px;">
+                                {{ player['injury_type'] }}<br>
+                                Expected back {{ player['return_date'] }}
+                            </div>
+                        {% elif player['injury_colour'] == 'Yellow' %}
+                            <div data-color-yellow="rgb(255, 221, 0)" style="background-color: rgb(255, 221, 0); color: rgb(0, 0, 0); padding: 5px; border-radius: 5px;">
+                                {{ player['injury_type'] }}<br>
+                                {{ player['return_date'] }} chance of playing
+                            </div>
+                        {% endif %}
                     {% endif %}
                 {% endfor %}
-            </table>
-            <div class="popup-buttons">
-                <div class="form-wrapper">
-                    <form action="/update_team_data/{{ team_name }}/{{ team_data['Player 4']|urlencode }}" method="POST">
-                        <button type="submit">Substitute</button>
-                    </form>
-                    <form action="/update_captain/{{ team_name }}/{{ team_data['Player 4']|urlencode }}" method="POST">
-                        <button type="submit">Make Captain</button>
-                    </form>
+                <table id="player-stats" class="stats-table">
+                    <tr>
+                        <th>Price</th>
+                        <th>Form</th>
+                        <th>Total Score</th>
+                    </tr>
+                    {% for i in range(player_data['Player']|length) %}
+                        {% if player_data['Player'][i] == team_data['Player 4'] %}
+                            <tr>
+                                <td>{{ player_data['Price'][i] }}</td>
+                                <td>{{ player_data['Form'][i] }}</td>
+                                <td>{{ player_data['Total Points'][i] }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+                <div class="popup-buttons">
+                    <div class="form-wrapper">
+                        <form action="/update_team_data/{{ team_name }}/{{ team_data['Player 4']|urlencode }}" method="POST">
+                            <button type="submit">Substitute</button>
+                        </form>
+                        <form action="/update_captain/{{ team_name }}/{{ team_data['Player 4']|urlencode }}" method="POST">
+                            <button type="submit">Make Captain</button>
+                        </form>
+                    </div>
+                    <br>
+                    <a href="javascript:togglePopup4()" style="margin-bottom: 0px;">Cancel</a>
                 </div>
-                <br>
-                <a href="javascript:togglePopup4()" style="margin-bottom: 0px;">Cancel</a>
             </div>
         </div>
-    </div>
-    <div class="popup5">
-        <div class="popup-content5">
-            <h3>{{ team_data['Player 5'] }}</h3>
-            <table id="player-stats" class="stats-table">
-                <tr>
-                    <th>Price</th>
-                    <th>Form</th>
-                    <th>Total Score</th>
-                </tr>
-                {% for i in range(player_data['Player']|length) %}
-                    {% if player_data['Player'][i] == team_data['Player 5'] %}
-                        <tr>
-                            <td>{{ player_data['Price'][i] }}</td>
-                            <td>{{ player_data['Form'][i] }}</td>
-                            <td>{{ player_data['Total Points'][i] }}</td>
-                        </tr>
+        <div class="popup5">
+            <div class="popup-content5">
+                <h3>{{ team_data['Player 5'] }}</h3>
+                {% for player in injury_data %}
+                    {% if player['Player'] == team_data['Player 5'] %}
+                        {% if player['injury_colour'] == 'Red' %}
+                            <div data-color-red="red" style="background-color: red; color: white; padding: 5px; border-radius: 5px;">
+                                {{ player['injury_type'] }}<br>
+                                Expected back {{ player['return_date'] }}
+                            </div>
+                        {% elif player['injury_colour'] == 'Yellow' %}
+                            <div data-color-yellow="rgb(255, 221, 0)" style="background-color: rgb(255, 221, 0); color: rgb(0, 0, 0); padding: 5px; border-radius: 5px;">
+                                {{ player['injury_type'] }}<br>
+                                {{ player['return_date'] }} chance of playing
+                            </div>
+                        {% endif %}
                     {% endif %}
                 {% endfor %}
-            </table>
-            <div class="popup-buttons">
-                <div class="form-wrapper">
-                    <form action="/update_team_data/{{ team_name }}/{{ team_data['Player 5']|urlencode }}" method="POST">
-                        <button type="submit">Substitute</button>
-                    </form>
-                    <form action="/update_captain/{{ team_name }}/{{ team_data['Player 5']|urlencode }}" method="POST">
-                        <button type="submit">Make Captain</button>
-                    </form>
+                <table id="player-stats" class="stats-table">
+                    <tr>
+                        <th>Price</th>
+                        <th>Form</th>
+                        <th>Total Score</th>
+                    </tr>
+                    {% for i in range(player_data['Player']|length) %}
+                        {% if player_data['Player'][i] == team_data['Player 5'] %}
+                            <tr>
+                                <td>{{ player_data['Price'][i] }}</td>
+                                <td>{{ player_data['Form'][i] }}</td>
+                                <td>{{ player_data['Total Points'][i] }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+                <div class="popup-buttons">
+                    <div class="form-wrapper">
+                        <form action="/update_team_data/{{ team_name }}/{{ team_data['Player 5']|urlencode }}" method="POST">
+                            <button type="submit">Substitute</button>
+                        </form>
+                        <form action="/update_captain/{{ team_name }}/{{ team_data['Player 5']|urlencode }}" method="POST">
+                            <button type="submit">Make Captain</button>
+                        </form>
+                    </div>
+                    <br>
+                    <a href="javascript:togglePopup5()" style="margin-bottom: 0px;">Cancel</a>
                 </div>
-                <br>
-                <a href="javascript:togglePopup5()" style="margin-bottom: 0px;">Cancel</a>
             </div>
         </div>
-    </div>
-    <div class="popup6">
-        <div class="popup-content6">
-            <h3>{{ team_data['Player 6'] }}</h3>
-            <table id="player-stats" class="stats-table">
-                <tr>
-                    <th>Price</th>
-                    <th>Form</th>
-                    <th>Total Score</th>
-                </tr>
-                {% for i in range(player_data['Player']|length) %}
-                    {% if player_data['Player'][i] == team_data['Player 6'] %}
-                        <tr>
-                            <td>{{ player_data['Price'][i] }}</td>
-                            <td>{{ player_data['Form'][i] }}</td>
-                            <td>{{ player_data['Total Points'][i] }}</td>
-                        </tr>
+        <div class="popup6">
+            <div class="popup-content6">
+                <h3>{{ team_data['Player 6'] }}</h3>
+                {% for player in injury_data %}
+                    {% if player['Player'] == team_data['Player 6'] %}
+                        {% if player['injury_colour'] == 'Red' %}
+                            <div data-color-red="red" style="background-color: red; color: white; padding: 5px; border-radius: 5px;">
+                                {{ player['injury_type'] }}<br>
+                                Expected back {{ player['return_date'] }}
+                            </div>
+                        {% elif player['injury_colour'] == 'Yellow' %}
+                            <div data-color-yellow="rgb(255, 221, 0)" style="background-color: rgb(255, 221, 0); color: rgb(0, 0, 0); padding: 5px; border-radius: 5px;">
+                                {{ player['injury_type'] }}<br>
+                                {{ player['return_date'] }} chance of playing
+                            </div>
+                        {% endif %}
                     {% endif %}
                 {% endfor %}
-            </table>
-            <div class="popup-buttons">
-                <div class="form-wrapper">
-                    <form action="/update_team_data/{{ team_name }}/{{ team_data['Player 6']|urlencode }}" method="POST">
-                        <button type="submit">Substitute</button>
-                    </form>
-                    <form action="/update_captain/{{ team_name }}/{{ team_data['Player 6']|urlencode }}" method="POST">
-                        <button type="submit">Make Captain</button>
-                    </form>
+                <table id="player-stats" class="stats-table">
+                    <tr>
+                        <th>Price</th>
+                        <th>Form</th>
+                        <th>Total Score</th>
+                    </tr>
+                    {% for i in range(player_data['Player']|length) %}
+                        {% if player_data['Player'][i] == team_data['Player 6'] %}
+                            <tr>
+                                <td>{{ player_data['Price'][i] }}</td>
+                                <td>{{ player_data['Form'][i] }}</td>
+                                <td>{{ player_data['Total Points'][i] }}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                </table>
+                <div class="popup-buttons">
+                    <div class="form-wrapper">
+                        <form action="/update_team_data/{{ team_name }}/{{ team_data['Player 6']|urlencode }}" method="POST">
+                            <button type="submit">Substitute</button>
+                        </form>
+                        <form action="/update_captain/{{ team_name }}/{{ team_data['Player 6']|urlencode }}" method="POST">
+                            <button type="submit">Make Captain</button>
+                        </form>
+                    </div>
+                    <br>
+                    <a href="javascript:togglePopup6()" style="margin-bottom: 0px;">Cancel</a>
                 </div>
-                <br>
-                <a href="javascript:togglePopup6()" style="margin-bottom: 0px;">Cancel</a>
             </div>
         </div>
     </div>

@@ -362,6 +362,8 @@ def transfers(team_name):
                 transfer_data = row
                 break
 
+    injury_data = pd.read_csv('data/injuries.csv')
+    injury_data = injury_data.to_dict(orient='records')
 
     reader = pd.read_csv('data/player_database.csv')
     for i in reader['Player']:
@@ -404,11 +406,15 @@ def transfers(team_name):
         else:
             # Handle the case when not all players have been selected
             error_message = "Please select all players before submitting."
-            return render_template('transfers.html', team_name=team_name, error_message=error_message, team_data=team_data, player_index=player_index, player_databases=player_databases, transfer_data=transfer_data)
+            return render_template('transfers.html', team_name=team_name, error_message=error_message
+                                   , team_data=team_data, player_index=player_index, player_databases=player_databases
+                                   , transfer_data=transfer_data, injury_data=injury_data)
 
     else:
         # Render the build team page with a form to select players
-        return render_template('transfers.html', team_name=team_name, team_data=team_data, player_index=player_index, player_databases=player_databases, transfer_data=transfer_data)
+        return render_template('transfers.html', team_name=team_name, team_data=team_data
+                               , player_index=player_index, player_databases=player_databases
+                               , transfer_data=transfer_data, injury_data=injury_data)
 
 
 #############################################################################################################################
@@ -444,6 +450,9 @@ def pick_team(team_name):
 
     fixtures_data = pd.read_csv('data/fixtures.csv')
 
+    injury_data = pd.read_csv('data/injuries.csv')
+    injury_data = injury_data.to_dict(orient='records')
+
     player_index = int(request.args.get('playerIndex', default=1))
 
     if not team_data:
@@ -475,13 +484,14 @@ def pick_team(team_name):
             error_message = "Please select all players before submitting."
             return render_template('pick_team.html', team_name=team_name, error_message=error_message, team_data=team_data
                                    , player_index=player_index, player_databases=player_databases, next_gw_int=next_gw_int
-                                   , player_data=player_data, next_gw=next_gw, fixtures_data=fixtures_data)
+                                   , player_data=player_data, next_gw=next_gw, fixtures_data=fixtures_data, injury_data=injury_data)
 
     else:
         # Render the build team page with a form to select players
         return render_template('pick_team.html', team_name=team_name, team_data=team_data, player_index=player_index
                                , player_databases=player_databases, fixtures_data=fixtures_data
-                               , player_data=player_data, next_gw=next_gw, next_gw_int=next_gw_int)
+                               , player_data=player_data, next_gw=next_gw
+                               , next_gw_int=next_gw_int, injury_data=injury_data)
 
 
 #############################################################################################################################
@@ -994,6 +1004,13 @@ def team_of_the_week(team_name, match):
     match = int(match)
     index = match - 1
 
+    fixtures = pd.read_csv('data/fixtures.csv')
+    opponent = fixtures['Fixture'][index]
+    score = fixtures['Score'][index]
+    goals_for = (score.split('-')[0])
+    goals_against = (score.split('-')[1])
+
+
     played = results.loc[results['Gameweek'] == match, 'Team'][index]
     df = pd.DataFrame({'Player': eval(played)})
 
@@ -1069,6 +1086,9 @@ def team_of_the_week(team_name, match):
                             , match=match
                             , player_scores_breakdown=new_player_scores_breakdown
                             , man_of_match = player_of_week
+                            , goals_for=goals_for
+                            , goals_against=goals_against
+                            , opponent=opponent
     )
 
 #############################################################################################################################

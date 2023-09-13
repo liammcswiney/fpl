@@ -5,4 +5,4 @@ Gameweek,Score,Team,Goal Scorers,Assists,3 Bonus,2 Bonus,1 Bonus,Saves,Yellow Ca
 4,5-10,"['Dan', 'Alfie', 'Liam Mc', 'Cam', 'Liam T', 'Rarnott', 'Jay', 'Charlie', 'Rhys']","['Liam Mc', 'Rarnott', 'Rarnott', 'Alfie', 'Alfie']","['Henry', 'Rhys', 'Rhys', 'Cam', 'Rarnott']",Rarnott,Alfie,Rhys,1.0,[],[],"['Tom', 'Alfie']"
 5,2-0,"['Dan', 'Alfie', 'Joe', 'Cam', 'Liam T', 'Rarnott', 'Jay', 'Rhys']","['Alfie', 'Jay']",[],Alfie,Jay,Joe,2.0,"['Rarnott', 'Jay']",[],[]
 6,2-0,"['Dan', 'Meadows', 'Joe', 'Cam', 'Liam T', 'Rarnott', 'Jay', 'Rhys']","['Meadows', 'Meadows']","['Charlie', 'Cam']",Meadows,Charlie,Cam,4.0,"['Rarnott', 'Jay']",[],[]
-7,2-8,"['Zeki', 'Meadows', 'Joe', 'Cam', 'Liam T', 'Rarnott', 'Jay', 'Rhys']","['Meadows', 'Meadows']","['Charlie', 'Cam']",Meadows,Charlie,Cam,9.0,"['Rarnott', 'Jay']",[],[]
+7,2-8,"['Zeki', 'Meadows', 'Joe', 'Cam', 'Henry', 'Rarnott', 'Jay', 'Rhys']","['Jay', 'Meadows']","['Henry', 'Henry']",Henry,Meadows,Jay,9.0,"['Rarnott', 'Jay']",['Joe'],"['Joe', 'Joe', 'Joe']"

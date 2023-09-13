@@ -156,6 +156,7 @@
 
         h2 {
             color: rgb(0, 0, 0);
+            margin: 0 0 20px 0;
         }
 
         .clickable-row {
@@ -246,19 +247,22 @@
 
         function getPlayerStatsHtml(playerIndex) {
             var stats = JSON.parse('{{ player_score|tojson|safe }}');
+            var data = JSON.parse('{{ player_data|tojson|safe }}');
             var fixtures = JSON.parse('{{ fixture_data|tojson|safe }}');
 
             var player = stats['Player'][playerIndex];
             var position = stats['Position'][playerIndex];
+            var price = data['Price'][playerIndex];
             var gameweeks = Object.keys(stats).filter(key => key.includes('Gameweek'));
 
             // Sort gameweeks as integers
             gameweeks.sort((a, b) => parseInt(a.replace('Gameweek', '')) - parseInt(b.replace('Gameweek', '')));
 
-            var html = '<h2>' + player + '</h2>';
+            var html = '<h2>' + player + ' (' + position + ')' + '</h2>';
+            html += '<h2>' + price + '</h2>';
             // html += '<p><strong>Gameweek History</strong></p>';
             html += '<table>';
-            html += '<tr><th>GW</th><th>Team</th><th>Score</th><th>Points</th></tr>';
+            html += '<tr><th>Gameweek</th><th>Fixture</th><th>Score</th><th>Points</th></tr>';
 
             for (var i = gameweeks.length - 1; i >= 0; i--) {
                 var gameweek = gameweeks[i];
@@ -271,7 +275,7 @@
                 var score = fixtures['Score'][i];
 
                 html += '<tr>';
-                html += '<td>' + gameweekNumber + '</td>'; // Use the integer gameweekNumber
+                html += '<td>' + 'Gameweek ' + gameweekNumber + '</td>'; // Use the integer gameweekNumber
                 html += '<td>' + fixture + '</td>';
                 html += '<td>' + score + '</td>';
                 html += '<td>' + points + '</td>';
