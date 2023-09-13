@@ -184,6 +184,9 @@ def build_team(team_name):
     team_data = {}
     player_databases = {}
 
+    injury_data = pd.read_csv('data/injuries.csv')
+    injury_data = injury_data.to_dict(orient='records')
+
     # Read team data from CSV file
     with open('data/team_data.csv', 'r') as csvfile:
         reader = csv.DictReader(csvfile)
@@ -240,12 +243,13 @@ def build_team(team_name):
             # Handle the case when not all players have been selected
             error_message = "Please select all players before submitting."
             return render_template('build_team.html', team_name=team_name, error_message=error_message,
-                                   team_data=team_data, player_index=player_index, player_databases=player_databases)
+                                   team_data=team_data, player_index=player_index
+                                   , player_databases=player_databases, injury_data=injury_data)
 
     else:
         # Render the build team page with a form to select players
         return render_template('build_team.html', team_name=team_name, team_data=team_data,
-                               player_index=player_index, player_databases=player_databases)
+                               player_index=player_index, player_databases=player_databases, injury_data=injury_data)
 
 
 
@@ -278,6 +282,9 @@ def load_transfers(team_name):
     
     team_data = {}
     player_databases = {}
+
+    injury_data = pd.read_csv('data/injuries.csv')
+    injury_data = injury_data.to_dict(orient='records')
 
     with open('data/team_data.csv', 'r') as csvfile:
         reader = pd.read_csv(csvfile)
@@ -331,7 +338,8 @@ def load_transfers(team_name):
         # Team not found in CSV file
         return render_template('team_not_found.html', team_name=team_name)
     
-    return render_template('transfers.html', team_name=team_name, team_data=team_data, player_index=player_index, player_databases=player_databases, transfer_data = transfer_data)
+    return render_template('transfers.html', team_name=team_name, team_data=team_data, player_index=player_index
+                           , player_databases=player_databases, transfer_data = transfer_data, injury_data=injury_data)
 
 #############################################################################################################################
 
@@ -341,13 +349,9 @@ def transfers(team_name):
     team_data = {}
     player_databases = {}
 
-    # with open('data/team_data.csv', 'r') as csvfile:
-    #     temp = pd.read_csv(csvfile)
+    injury_data = pd.read_csv('data/injuries.csv')
+    injury_data = injury_data.to_dict(orient='records')
 
-    # temp = temp.loc[temp['Team Name'] == team_name]
-    # temp.to_csv('data/team_data_temp.csv', index=False)
-
-    # Read team data from CSV file
     with open('data/team_data_temp.csv', 'r') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
@@ -361,9 +365,6 @@ def transfers(team_name):
             if row['Team Name'] == team_name:
                 transfer_data = row
                 break
-
-    injury_data = pd.read_csv('data/injuries.csv')
-    injury_data = injury_data.to_dict(orient='records')
 
     reader = pd.read_csv('data/player_database.csv')
     for i in reader['Player']:

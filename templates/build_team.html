@@ -344,90 +344,240 @@
         <div class="halfway-line"></div>
         <div class="halfway-line2"></div>
         <div class="player-row">
-            <div class="player-position">
-                {% if team_data['Player 1'] == '0' %}
-                <button type="button" class="add-button" onclick="changePlayer(1)">
-                    <i class="fas fa-plus"></i>
-                </button>
-                {% else %}
-                <button type="button" class="change-button" onclick="changePlayer(1)">
-                    <i class="fas fa-exchange-alt"></i>
-                </button>
-                {% endif %}
-                <div class="name">{{ team_data['Player 1'] if team_data['Player 1'] != '0' else 'Select Player' }}</div>
-                <div class="price">{{ player_databases[team_data['Player 1']] if team_data['Player 1'] != '0'}}</div>
-            </div>
+            {% if team_data['Player 1'] == '0' %}
+                <div class="player-position">
+                    <button type="button" class="add-button" onclick="changePlayer(1)">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <div class="name">Select Player</div>
+                </div>
+            {% else %}
+                {% for player in injury_data %}
+                    {% if player['Player'] == team_data['Player 1'] %}
+                        {% if player['injury_colour'] == 'Red' %}
+                            <div class="player-position" style="background-color: #ff00007f;">
+                                <button type="button" class="change-button" onclick="changePlayer(1)">
+                                    <i class="fas fa-exchange-alt" style="color: #ff0000;"></i>
+                                </button>
+                                <div class="name">{{ player['Player'] }}</div>
+                                <div class="price">{{ player_databases[player['Player']] }}</div>
+                            </div>
+                        {% elif player['injury_colour'] == 'Yellow' %}
+                            <div class="player-position" style="background-color: #fffb007f;">
+                                <button type="button" class="change-button" onclick="changePlayer(1)">
+                                    <i class="fas fa-exchange-alt" style="color: #fffb00;"></i>
+                                </button>
+                                <div class="name">{{ player['Player'] }}</div>
+                                <div class="price">{{ player_databases[player['Player']] }}</div>
+                            </div>
+                        {% else %}
+                            <div class="player-position">
+                                <button type="button" class="change-button" onclick="changePlayer(1)">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </button>
+                                <div class="name">{{ player['Player'] }}</div>
+                                <div class="price">{{ player_databases[player['Player']] }}</div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         </div>
         <div class="player-row">
-            <div class="player-position">
-                {% if team_data['Player 2'] == '0' %}
-                <button type="button" class="add-button" onclick="changePlayer(2)">
-                    <i class="fas fa-plus"></i>
-                </button>
-                {% else %}
-                <button type="button" class="change-button" onclick="changePlayer(2)">
-                    <i class="fas fa-exchange-alt"></i>
-                </button>
-                {% endif %}
-                <div class="name">{{ team_data['Player 2'] if team_data['Player 2'] != '0' else 'Select Player' }}</div>
-                <div class="price">{{ player_databases[team_data['Player 2']] if team_data['Player 2'] != '0'}}</div>
-            </div>
-            <div class="player-position">
-                {% if team_data['Player 3'] == '0' %}
-                <button type="button" class="add-button" onclick="changePlayer(3)">
-                    <i class="fas fa-plus"></i>
-                </button>
-                {% else %}
-                <button type="button" class="change-button" onclick="changePlayer(3)">
-                    <i class="fas fa-exchange-alt"></i>
-                </button>
-                {% endif %}
-                <div class="name">{{ team_data['Player 3'] if team_data['Player 3'] != '0' else 'Select Player' }}</div>
-                <div class="price">{{ player_databases[team_data['Player 3']] if team_data['Player 3'] != '0'}}</div>
-            </div>
+            {% if team_data['Player 2'] == '0' %}
+                <div class="player-position">
+                    <button type="button" class="add-button" onclick="changePlayer(2)">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <div class="name">Select Player</div>
+                </div>
+            {% else %}
+                {% for player in injury_data %}
+                    {% if player['Player'] == team_data['Player 2'] %}
+                        {% if player['injury_colour'] == 'Red' %}
+                            <div class="player-position" style="background-color: #ff00007f;">
+                                <button type="button" class="change-button" onclick="changePlayer(2)">
+                                    <i class="fas fa-exchange-alt" style="color: #ff0000;"></i>
+                                </button>
+                                <div class="name">{{ player['Player'] }}</div>
+                                <div class="price">{{ player_databases[player['Player']] }}</div>
+                            </div>
+                        {% elif player['injury_colour'] == 'Yellow' %}
+                            <div class="player-position" style="background-color: #fffb007f;">
+                                <button type="button" class="change-button" onclick="changePlayer(2)">
+                                    <i class="fas fa-exchange-alt" style="color: #fffb00;"></i>
+                                </button>
+                                <div class="name">{{ player['Player'] }}</div>
+                                <div class="price">{{ player_databases[player['Player']] }}</div>
+                            </div>
+                        {% else %}
+                            <div class="player-position">
+                                <button type="button" class="change-button" onclick="changePlayer(2)">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </button>
+                                <div class="name">{{ player['Player'] }}</div>
+                                <div class="price">{{ player_databases[player['Player']] }}</div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% if team_data['Player 3'] == '0' %}
+                <div class="player-position">
+                    <button type="button" class="add-button" onclick="changePlayer(3)">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <div class="name">Select Player</div>
+                </div>
+            {% else %}
+                {% for player in injury_data %}
+                    {% if player['Player'] == team_data['Player 3'] %}
+                        {% if player['injury_colour'] == 'Red' %}
+                            <div class="player-position" style="background-color: #ff00007f;">
+                                <button type="button" class="change-button" onclick="changePlayer(3)">
+                                    <i class="fas fa-exchange-alt" style="color: #ff0000;"></i>
+                                </button>
+                                <div class="name">{{ player['Player'] }}</div>
+                                <div class="price">{{ player_databases[player['Player']] }}</div>
+                            </div>
+                        {% elif player['injury_colour'] == 'Yellow' %}
+                            <div class="player-position" style="background-color: #fffb007f;">
+                                <button type="button" class="change-button" onclick="changePlayer(3)">
+                                    <i class="fas fa-exchange-alt" style="color: #fffb00;"></i>
+                                </button>
+                                <div class="name">{{ player['Player'] }}</div>
+                                <div class="price">{{ player_databases[player['Player']] }}</div>
+                            </div>
+                        {% else %}
+                            <div class="player-position">
+                                <button type="button" class="change-button" onclick="changePlayer(3)">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </button>
+                                <div class="name">{{ player['Player'] }}</div>
+                                <div class="price">{{ player_databases[player['Player']] }}</div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         </div>
         <div class="player-row">
-            <div class="player-position">
-                {% if team_data['Player 4'] == '0' %}
-                <button type="button" class="add-button" onclick="changePlayer(4)">
-                    <i class="fas fa-plus"></i>
-                </button>
-                {% else %}
-                <button type="button" class="change-button" onclick="changePlayer(4)">
-                    <i class="fas fa-exchange-alt"></i>
-                </button>
-                {% endif %}
-                <div class="name">{{ team_data['Player 4'] if team_data['Player 4'] != '0' else 'Select Player' }}</div>
-                <div class="price">{{ player_databases[team_data['Player 4']] if team_data['Player 4'] != '0'}}</div>
-            </div>
-            <div class="player-position">
-                {% if team_data['Player 5'] == '0' %}
-                <button type="button" class="add-button" onclick="changePlayer(5)">
-                    <i class="fas fa-plus"></i>
-                </button>
-                {% else %}
-                <button type="button" class="change-button" onclick="changePlayer(5)">
-                    <i class="fas fa-exchange-alt"></i>
-                </button>
-                {% endif %}
-                <div class="name">{{ team_data['Player 5'] if team_data['Player 5'] != '0' else 'Select Player' }}</div>
-                <div class="price">{{ player_databases[team_data['Player 5']] if team_data['Player 5'] != '0'}}</div>
-            </div>
+            {% if team_data['Player 4'] == '0' %}
+                <div class="player-position">
+                    <button type="button" class="add-button" onclick="changePlayer(4)">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <div class="name">Select Player</div>
+                </div>
+            {% else %}
+                {% for player in injury_data %}
+                    {% if player['Player'] == team_data['Player 4'] %}
+                        {% if player['injury_colour'] == 'Red' %}
+                            <div class="player-position" style="background-color: #ff00007f;">
+                                <button type="button" class="change-button" onclick="changePlayer(4)">
+                                    <i class="fas fa-exchange-alt" style="color: #ff0000;"></i>
+                                </button>
+                                <div class="name">{{ player['Player'] }}</div>
+                                <div class="price">{{ player_databases[player['Player']] }}</div>
+                            </div>
+                        {% elif player['injury_colour'] == 'Yellow' %}
+                            <div class="player-position" style="background-color: #fffb007f;">
+                                <button type="button" class="change-button" onclick="changePlayer(4)">
+                                    <i class="fas fa-exchange-alt" style="color: #fffb00;"></i>
+                                </button>
+                                <div class="name">{{ player['Player'] }}</div>
+                                <div class="price">{{ player_databases[player['Player']] }}</div>
+                            </div>
+                        {% else %}
+                            <div class="player-position">
+                                <button type="button" class="change-button" onclick="changePlayer(4)">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </button>
+                                <div class="name">{{ player['Player'] }}</div>
+                                <div class="price">{{ player_databases[player['Player']] }}</div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% if team_data['Player 5'] == '0' %}
+                <div class="player-position">
+                    <button type="button" class="add-button" onclick="changePlayer(5)">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <div class="name">Select Player</div>
+                </div>
+            {% else %}
+                {% for player in injury_data %}
+                    {% if player['Player'] == team_data['Player 5'] %}
+                        {% if player['injury_colour'] == 'Red' %}
+                            <div class="player-position" style="background-color: #ff00007f;">
+                                <button type="button" class="change-button" onclick="changePlayer(5)">
+                                    <i class="fas fa-exchange-alt" style="color: #ff0000;"></i>
+                                </button>
+                                <div class="name">{{ player['Player'] }}</div>
+                                <div class="price">{{ player_databases[player['Player']] }}</div>
+                            </div>
+                        {% elif player['injury_colour'] == 'Yellow' %}
+                            <div class="player-position" style="background-color: #fffb007f;">
+                                <button type="button" class="change-button" onclick="changePlayer(5)">
+                                    <i class="fas fa-exchange-alt" style="color: #fffb00;"></i>
+                                </button>
+                                <div class="name">{{ player['Player'] }}</div>
+                                <div class="price">{{ player_databases[player['Player']] }}</div>
+                            </div>
+                        {% else %}
+                            <div class="player-position">
+                                <button type="button" class="change-button" onclick="changePlayer(5)">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </button>
+                                <div class="name">{{ player['Player'] }}</div>
+                                <div class="price">{{ player_databases[player['Player']] }}</div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         </div>
         <div class="player-row">
-            <div class="player-position">
-                {% if team_data['Player 6'] == '0' %}
-                <button type="button" class="add-button" onclick="changePlayer(6)">
-                    <i class="fas fa-plus"></i>
-                </button>
-                {% else %}
-                <button type="button" class="change-button" onclick="changePlayer(6)">
-                    <i class="fas fa-exchange-alt"></i>
-                </button>
-                {% endif %}
-                <div class="name">{{ team_data['Player 6'] if team_data['Player 6'] != '0' else 'Select Player' }}</div>
-                <div class="price">{{ player_databases[team_data['Player 6']] if team_data['Player 6'] != '0'}}</div>
-            </div>
+            {% if team_data['Player 6'] == '0' %}
+                <div class="player-position">
+                    <button type="button" class="add-button" onclick="changePlayer(6)">
+                        <i class="fas fa-plus"></i>
+                    </button>
+                    <div class="name">Select Player</div>
+                </div>
+            {% else %}
+                {% for player in injury_data %}
+                    {% if player['Player'] == team_data['Player 6'] %}
+                        {% if player['injury_colour'] == 'Red' %}
+                            <div class="player-position" style="background-color: #ff00007f;">
+                                <button type="button" class="change-button" onclick="changePlayer(6)">
+                                    <i class="fas fa-exchange-alt" style="color: #ff0000;"></i>
+                                </button>
+                                <div class="name">{{ player['Player'] }}</div>
+                                <div class="price">{{ player_databases[player['Player']] }}</div>
+                            </div>
+                        {% elif player['injury_colour'] == 'Yellow' %}
+                            <div class="player-position" style="background-color: #fffb007f;">
+                                <button type="button" class="change-button" onclick="changePlayer(6)">
+                                    <i class="fas fa-exchange-alt" style="color: #fffb00;"></i>
+                                </button>
+                                <div class="name">{{ player['Player'] }}</div>
+                                <div class="price">{{ player_databases[player['Player']] }}</div>
+                            </div>
+                        {% else %}
+                            <div class="player-position">
+                                <button type="button" class="change-button" onclick="changePlayer(6)">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </button>
+                                <div class="name">{{ player['Player'] }}</div>
+                                <div class="price">{{ player_databases[player['Player']] }}</div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 </body>
