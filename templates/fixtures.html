@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <title>Player Statistics</title>
     <style>
-        html {
+        html, body {
             height: 100%;
+            margin: 0;
+            padding: 0;
         }
 
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            height: 100%;
             background: linear-gradient(135deg, #428bca, #00ffd5);
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -23,110 +22,91 @@
             text-align: center;
         }
 
+        .table-container {
+            position: relative;
+            margin: 20px auto;
+            max-width: 800px;
+            box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 2%;
+            /* border: 2px solid #000; */
+        }
+
+        .table-wrapper {
+            height: 400px;
+            overflow-y: auto;
+            border-radius: 2%;
+        }
+
         table {
             border-collapse: collapse;
             width: 100%;
             background-color: #fff;
-            color: #000000;
-            border: 2px solid #000;
-        }
-
-        .table-container {
-            position: relative;
-            margin: 0 auto;
-            max-width: 600px; /* Or whatever max-width you prefer */
-            width: 100%;
-            overflow: hidden; /* In case the table stretches beyond its container */
-        }
-
-        .table-wrapper {
-            height: 400px; /* Set the fixed height for the table */
-            overflow-y: auto;
-            margin: 10px auto;
+            color: #333; /* Made text a bit lighter */
         }
 
         th, td {
-            padding: 25px;
+            padding: 20px;
             text-align: left;
             border-bottom: 1px solid #ddd;
-            font-weight: bold;
         }
 
         th {
-            background-color: #e5e5e5;
+            background-color: #d5d5d5; /* Darkened headers */
+            font-weight: 600; /* Made headers slightly bolder */
         }
 
-        tr {
-            border-bottom: 1.5px solid #000;
-        }
-
-        .stats-table {
-            margin: 0 auto;
-            max-width: 600px;
-        }
-
-        a {
-            display: block;
-            text-align: center;
-            color: #fff;
-            text-decoration: none;
-            margin-top: 5px;
-        }
-
-        a:hover {
-            text-decoration: underline;
+        tr:last-child td {
+            border-bottom: none; /* Remove bottom border for the last row */
         }
 
         .clickable-row {
             cursor: pointer;
+            transition: background-color 0.3s; /* Added smooth transition */
         }
 
         .clickable-row:hover {
             background-color: #f2f2f2;
         }
 
-        .return-button-container {
-            position: relative;
-            top: 20px;
-            right: 200px;
-        }
-
         .return-button {
             position: absolute;
-            top: 0px; 
+            top: -10px; 
             right: 30px; 
-            padding: 5px 10px;
+            padding: 5px 15px;
             background-color: #dd0e0e;
             color: #fff;
-            border: 2px solid black;
+            border: none;
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-            display: flex;
-            align-items: center;
-            font-weight: bold;
-            z-index: 1;
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Added transition for hover effect */
+            font-weight: 500; /* Adjusted font-weight */
+        }
+
+        .return-button:hover {
+            background-color: #cc0d0d;
+            transform: scale(1.05); /* Slightly enlarge button on hover */
         }
 
         .table-wrapper::-webkit-scrollbar {
-            width: 10px; /* Adjust scrollbar width */
+            width: 10px;
         }
 
         .table-wrapper::-webkit-scrollbar-track {
-            background-color: #f2f2f2; /* Track color */
-            border-radius: 10px; /* Adds rounding to the scrollbar track */
+            background-color: #f2f2f2;
+            border-radius: 10px;
         }
 
         .table-wrapper::-webkit-scrollbar-thumb {
-            background-color: #428bca; /* Scrollbar color */
-            border-radius: 10px; /* Makes scrollbar rounded */
-            border: 2px solid #f2f2f2; /* Adds a border to the scrollbar */
+            background-color: #428bca;
+            border-radius: 10px;
+            border: 2px solid #f2f2f2;
         }
 
         .table-wrapper::-webkit-scrollbar-thumb:hover {
-            background-color: #337ab7; /* Darken scrollbar on hover */
+            background-color: #337ab7;
         }
+
 
     </style>
 
@@ -159,7 +139,6 @@
         <button class="return-button" onclick="goBack()">X</button>
         <div class="table-wrapper">
             <table id="team-stats" class="stats-table">
-                <button class="return-button" onclick="goBack()">X
                 <tr>
                     {% for key in ['Gameweek', 'Fixture', 'Score'] %}
                         <th>{{ key }}</th>
@@ -172,10 +151,10 @@
                     {% set index = fixture_data['Gameweek'][i] %}
                     <tr 
                         {% if result == 'win' %}
-                            style="background-color: rgb(0, 210, 0);"
+                            style="background-color: rgba(0, 210, 0, 0.776);"
                             class="clickable-row" result="{{ result }}" gw_num="{{ index }}"
                         {% elif result == 'loss' %}
-                            style="background-color: red;"
+                            style="background-color: rgba(255, 0, 0, 0.732);"
                             class="clickable-row" result="{{ result }}" gw_num="{{ index }}"
                         {% elif result == 'draw' %}
                             style="background-color: rgb(147, 141, 141);"

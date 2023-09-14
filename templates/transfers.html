@@ -117,6 +117,7 @@
             background-color: rgba(205, 195, 195, 0.3); /* Adjust the background color */
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a box shadow effect */
             margin-top: 20px; /* Adjust the margin-top as needed */
+            border-radius: 10%;
         }
 
         .player-position .name {
@@ -186,13 +187,15 @@
             top: 10px;
             left: 10px;
             padding: 5px 10px;
-            background-color: #428bca;
+            background-color: #1c9800;
             color: #fff;
-            border: 2px solid black; /* Add a black border */
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center; 
         }
 
         .return-button {
@@ -202,64 +205,72 @@
             padding: 5px 10px;
             background-color: #dd0e0e;
             color: #fff;
-            border: 2px solid black; /* Add a black border */
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.1s ease; /* Added a quick transform transition */
+            font-weight: bold;
             display: flex;
             align-items: center;
-            font-weight: bold;
+            justify-content: center; /* Centers the content */
         }
 
-
-
-        /* .return-button:hover {
-            background-color: #357ebd;
-        } */
-
-        .free-transfers {
+        .button-base {
             position: absolute;
-            top: 10px;
-            left: 125px;
             padding: 5px 10px;
-            background-color: #000000;
+            background-color: #1a1a1a; /* Slightly lighter than pure black for better visuals */
             color: #fff;
-            border: 2px solid black; 
+            border: 2px solid #333; /* Slightly grayish border for a bit of depth */
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.1s ease; /* Added a quick transform transition */
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Centers the content */
+        }
+
+        .button-base:hover {
+            background-color: #333;
+            transform: scale(1.05); /* Slightly enlarges button on hover for feedback */
+        }
+
+        .free-transfers {
+            top: 10px;
+            left: 125px;
         }
 
         .cost {
-            position: absolute;
             top: 10px;
             left: 290px;
-            padding: 5px 10px;
-            background-color: #000000;
-            color: #fff;
-            border: 2px solid black; /* Add a black border */
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
         }
 
         .total-price {
-            position: absolute;
             top: 10px;
             right: 10px;
+        }
+
+        .button-base {
+            position: absolute;
             padding: 5px 10px;
-            background-color: #000000;
+            background-color: #1a1a1a; /* Slightly lighter than pure black for better visuals */
             color: #fff;
-            border: 2px solid black; /* Add a black border */
+            border: 2px solid #333; /* Slightly grayish border for a bit of depth */
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.1s ease; /* Added a quick transform transition */
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Centers the content */
         }
 
+        .button-base:hover {
+            background-color: #333;
+            transform: scale(1.05); /* Slightly enlarges button on hover for feedback */
+        }
         
         .disabled {
             background-color: #ccc;
@@ -344,10 +355,10 @@
     </div>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <div class="menu">
-        <div class="total-price" id="totalPrice">
+        <div class="button-base total-price" id="totalPrice">
             <span id="budgetValue"></span>
         </div>
-        <div class="free-transfers">Free Transfers:
+        <div class="button-base free-transfers">Free Transfers:
             {% set transfer_data_keys = transfer_data.keys() %}
             {% if transfer_data_keys|last == 'GW 1 Cost' %}
                 <i class="fas fa-infinity"></i>
@@ -355,7 +366,7 @@
                 {{ transfer_data['Free Transfers'] }}
             {% endif %}
         </div>
-        <div class="cost" id="cost">Cost: <span id="transferCost">{{ transfer_data.values()|last }}</span></div>
+        <div class="button-base cost" id="cost">Cost: <span id="transferCost">{{ transfer_data.values()|last }}</span></div>
         <form id="saveForm" action="/save_transfers/{{ team_name }}">
             <button id="saveButton" class="save-button">Save</button>
         </form>

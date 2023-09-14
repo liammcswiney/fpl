@@ -97,6 +97,7 @@
             background-color: rgba(205, 195, 195, 0.3); 
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
             font-size: 15px; 
+            border-radius: 10%;
         }
         
         .player-position .name {
@@ -108,7 +109,7 @@
             width: 40px; 
             height: 40px; 
             border-radius: 50%;
-            background-color: rgb(15, 200, 206);
+            background-color: #00ffd9;
             font-size: 14px; 
             margin-top: 5px; 
             position: relative;
@@ -116,6 +117,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            cursor: pointer;
+        }
+
+        .player-position .icon:hover {
+            background-color: #00d5d1;
+            transform: scale(1.05); /* Slightly enlarges button on hover for feedback */
         }
 
         .total-price {
@@ -162,6 +169,7 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             font-size: 15px; 
             height: 70px;
+            border-radius: 10%;
         }
 
         .bench-container .player-list li {
@@ -176,10 +184,16 @@
             width: 40px; 
             height: 40px; 
             border-radius: 50%;
-            background-color: rgb(15, 200, 206);
+            background-color: #00ffd9;
             margin-bottom: 3px;
             border: 2px solid #000000; 
             margin-top: 15px; 
+            cursor: pointer;
+        }
+
+        .bench-container .player-list .icon:hover {
+            background-color: #00d5d1;
+            transform: scale(1.05); /* Slightly enlarges button on hover for feedback */
         }
 
         .bench-container .player-list .name {
@@ -227,72 +241,58 @@
 
         .return-button {
             position: absolute;
-            top: 10px;
-            left: 10px;
-            padding: 5px 10px;
+            top: 10px; 
+            left: 10px; 
+            padding: 5px 15px;
             background-color: #dd0e0e;
             color: #fff;
-            border: 2px solid black; /* Add a black border */
+            border: none;
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-            display: flex;
-            align-items: center;
-            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease; 
+            font-weight: 500;
         }
 
         .return-button:hover {
-            background-color: #990404;
+            background-color: #cc0d0d;
+            transform: scale(1.05);
+        }
+
+        .button-base {
+            position: absolute;
+            padding: 5px 10px;
+            background-color: #1a1a1a; /* Slightly lighter than pure black for better visuals */
+            color: #fff;
+            border: 2px solid #333; /* Slightly grayish border for a bit of depth */
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease; /* Added a quick transform transition */
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Centers the content */
+        }
+
+        .button-base:hover {
+            background-color: #333;
+            transform: scale(1.05); /* Slightly enlarges button on hover for feedback */
         }
 
         .free-transfers {
-            position: absolute;
-            /* width:150px; */
             top: 10px;
             left: 185px;
-            padding: 5px 10px;
-            background-color: #000000;
-            color: #fff;
-            border: 2px solid black; 
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
         }
 
         .changeGwButtonLeft {
-            position: absolute;
             top: 10px;
             left: 130px;
-            padding: 5px 10px;
-            background-color: #000000;
-            color: #fff;
-            border: 2px solid black; /* Add a black border */
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            display: flex;
-            align-items: center;
-            font-weight: bold;
         }
 
         .changeGwButtonRight {
-            position: absolute;
             top: 10px;
             left: 335px;
-            padding: 5px 10px;
-            background-color: #000000;
-            color: #fff;
-            border: 2px solid black; /* Add a black border */
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            display: flex;
-            align-items: center;
-            font-weight: bold;
         }
 
         .popup {
@@ -545,9 +545,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <div class="menu">
         <button class="return-button" onclick="goBack()">X</button>
-        <button class="changeGwButtonLeft" id="changeGwButton" onclick="changeGameweekDecrease()"><i class="fas fa-arrow-left"></i></button>
-        <div class="free-transfers">Total Points: <span id="gwValue">{{ gw_team_data1['Gameweek ' ~ gw|string][index] }}</span></div>
-        <button class="changeGwButtonRight" id="changeGwButton" onclick="changeGameweekIncrease()"><i class="fas fa-arrow-right"></i></button>
+        <button class="button-base changeGwButtonLeft" id="changeGwButtonLeft" onclick="changeGameweekDecrease()">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <div class="button-base free-transfers">Total Points: <span id="gwValue">{{ gw_team_data1['Gameweek ' ~ gw|string][index] }}</span></div>
+        <button class="button-base changeGwButtonRight" id="changeGwButtonRight" onclick="changeGameweekIncrease()">
+            <i class="fas fa-arrow-right"></i>
+        </button>
     </div>
     <div class="container">
         <div class="team-container">

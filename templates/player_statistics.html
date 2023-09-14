@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <title>Player Statistics</title>
     <style>
-        html {
+        html, body {
             height: 100%;
+            margin: 0;
+            padding: 0;
         }
 
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            height: 100%;
             background: linear-gradient(135deg, #428bca, #00ffd5);
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -34,10 +33,11 @@
             padding: 8px 16px;
             background-color: #fff;
             color: #333;
-            border: none;
+            border: 1px solid #ddd; /* Added border */
             border-radius: 4px;
             margin: 0 5px;
             cursor: pointer;
+            transition: background-color 0.3s;
         }
 
         .toggle-buttons button:hover {
@@ -49,25 +49,31 @@
         }
 
         .table-container {
-            width: 70%;
-            height: 400px;
-            margin: 0 auto;
-            overflow-y: auto;
             position: relative;
-            padding-top: 10px;
+            margin: 20px auto;
+            max-width: 800px;
+            box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 2%;
+            /* border: 2px solid #000; */
+        }
+
+        .table-wrapper {
+            height: 400px;
+            overflow-y: auto;
+            border-radius: 2%;
         }
 
         .stats-table {
             border-collapse: collapse;
             width: 100%;
-            background-color: #c0fffd;
+            background-color: #ceffff;  /* Lighter blueish-gray */
             color: #333;
-            border: 2px solid #000;
         }
 
         .stats-table tr:nth-child(odd):not(.clickable-row:hover) {
-            background-color: #ffffff;
+            background-color: #eeeff1d4;  /* Slightly darker blueish-gray */
         }
+
 
         th, td {
             padding: 8px;
@@ -76,7 +82,8 @@
         }
 
         th {
-            background-color: #f2f2f2;
+            background-color: #d4d4d4; /* Darkened headers slightly */
+            font-weight: 600;
         }
 
         .team-management-link {
@@ -124,8 +131,7 @@
             border-collapse: collapse;
         }
 
-        .popup th,
-        .popup td {
+        .popup th, .popup td {
             padding: 10px;
             text-align: left;
             border-bottom: 2px solid #ddd;
@@ -133,9 +139,7 @@
         }
 
         .popup th {
-            background-color: #f7f7f7;
-            font-weight: 600;
-            letter-spacing: 1px;
+            background-color: #f5f5f5; /* Slightly different header color for popup */
         }
 
         .popup td button {
@@ -153,6 +157,9 @@
             transform: scale(1.05);
         }
 
+        .popup tr:hover {
+            background-color: #f2f2f2; /* hover effect for popup rows */
+        }
 
         h2 {
             color: rgb(0, 0, 0);
@@ -161,6 +168,7 @@
 
         .clickable-row {
             cursor: pointer;
+            transition: background-color 0.3s; /* Added smooth transition */
         }
 
         .clickable-row:hover {
@@ -172,45 +180,49 @@
             top: 20px;
             right: 20px;
         }
-        
+
         .return-button {
             position: absolute;
-            top: 0px; 
-            right: 15px; 
-            padding: 5px 10px;
+            top: -10px; 
+            right: 30px; 
+            padding: 5px 15px;
             background-color: #dd0e0e;
             color: #fff;
-            border: 2px solid black;
+            border: none;
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-            display: flex;
-            align-items: center;
-            font-weight: bold;
-            z-index: 1;
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Added transition for hover effect */
+            font-weight: 500; /* Adjusted font-weight */
         }
 
-        .table-container::-webkit-scrollbar {
-            width: 10px; /* Adjust scrollbar width */
+        .return-button:hover {
+            background-color: #cc0d0d;
+            transform: scale(1.05); /* Slightly enlarge button on hover */
         }
 
-        .table-container::-webkit-scrollbar-track {
-            background-color: #f2f2f2; /* Track color */
-            border-radius: 10px; /* Adds rounding to the scrollbar track */
+        .table-wrapper::-webkit-scrollbar {
+            width: 10px;
         }
 
-        .table-container::-webkit-scrollbar-thumb {
-            background-color: #428bca; /* Scrollbar color */
-            border-radius: 10px; /* Makes scrollbar rounded */
-            border: 2px solid #f2f2f2; /* Adds a border to the scrollbar */
+        .table-wrapper::-webkit-scrollbar-track {
+            background-color: #f2f2f2;
+            border-radius: 10px;
         }
 
-        .table-container::-webkit-scrollbar-thumb:hover {
-            background-color: #337ab7; /* Darken scrollbar on hover */
+        .table-wrapper::-webkit-scrollbar-thumb {
+            background-color: #428bca;
+            border-radius: 10px;
+            border: 2px solid #f2f2f2;
         }
+
+        .table-wrapper::-webkit-scrollbar-thumb:hover {
+            background-color: #337ab7;
+        }
+
 
     </style>
+
     <script>
         function toggleTable(tableId) {
             var tables = document.querySelectorAll('.stats-table');
@@ -314,55 +326,57 @@
         <button onclick="toggleTable('assists')">Assists</button>
     </div>
     <div class="table-container">
-        <table id="player-stats" class="stats-table">
-            <button class="return-button" onclick="goBack()">X
-            <tr>
-                {% for key in player_data.keys() %}
-                    <th>{{ key }}</th>
-                {% endfor %}
-                <th></th>
-            </tr>
-            {% for i in range(player_data['Player']|length) %}
-                <tr class="clickable-row" onclick="showPopup('{{ loop.index0 }}')">
-                    {% for value in player_data.values() %}
-                        <td>{{ value[i] }}</td>
-                    {% endfor %}
-                    <td><i class="fas fa-info-circle" onclick="showPopup('{{ loop.index0 }}')"></i></td>
-                </tr>
-            {% endfor %}
-        </table>
-        <div id="overlay" class="overlay" onclick="hidePopup()"></div>
-        <div id="popup" class="popup"></div>
-
-        <table id="goals" class="stats-table hidden">
-            <tr>
-                {% for key in goals_data.keys() %}
-                    <th>{{ key }}</th>
-                {% endfor %}
-            </tr>
-            {% for i in range(goals_data['Player']|length) %}
+        <button class="return-button" onclick="goBack()">X</button>
+        <div class="table-wrapper">
+            <table id="player-stats" class="stats-table">
                 <tr>
-                    {% for value in goals_data.values() %}
-                        <td>{{ value[i] }}</td>
+                    {% for key in player_data.keys() %}
+                        <th>{{ key }}</th>
                     {% endfor %}
+                    <th></th>
                 </tr>
-            {% endfor %}
-        </table>
-
-        <table id="assists" class="stats-table hidden">
-            <tr>
-                {% for key in assists_data.keys() %}
-                    <th>{{ key }}</th>
+                {% for i in range(player_data['Player']|length) %}
+                    <tr class="clickable-row" onclick="showPopup('{{ loop.index0 }}')">
+                        {% for value in player_data.values() %}
+                            <td>{{ value[i] }}</td>
+                        {% endfor %}
+                        <td><i class="fas fa-info-circle" onclick="showPopup('{{ loop.index0 }}')"></i></td>
+                    </tr>
                 {% endfor %}
-            </tr>
-            {% for i in range(assists_data['Player']|length) %}
+            </table>
+            <div id="overlay" class="overlay" onclick="hidePopup()"></div>
+            <div id="popup" class="popup"></div>
+
+            <table id="goals" class="stats-table hidden">
                 <tr>
-                    {% for value in assists_data.values() %}
-                        <td>{{ value[i] }}</td>
+                    {% for key in goals_data.keys() %}
+                        <th>{{ key }}</th>
                     {% endfor %}
                 </tr>
-            {% endfor %}
-        </table>
+                {% for i in range(goals_data['Player']|length) %}
+                    <tr>
+                        {% for value in goals_data.values() %}
+                            <td>{{ value[i] }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+
+            <table id="assists" class="stats-table hidden">
+                <tr>
+                    {% for key in assists_data.keys() %}
+                        <th>{{ key }}</th>
+                    {% endfor %}
+                </tr>
+                {% for i in range(assists_data['Player']|length) %}
+                    <tr>
+                        {% for value in assists_data.values() %}
+                            <td>{{ value[i] }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
     </div>
 </body>
 </html>
