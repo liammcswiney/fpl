@@ -1078,10 +1078,10 @@ def team_of_the_week(team_name, match):
     df1.index = df1.index.astype(str)
 
     new_player_scores_breakdown = new_merged_df.merge(df1, on=['Player', 'Position'], how='left')
-    new_player_scores_breakdown = new_player_scores_breakdown.sort_values(by='Bonus', ascending=False)
-
+    new_player_scores_breakdown_bonus_ordered = new_player_scores_breakdown.sort_values(by='Bonus', ascending=False)
 
     new_player_scores_breakdown = new_player_scores_breakdown.to_dict(orient='list')
+    new_player_scores_breakdown_bonus_ordered = new_player_scores_breakdown_bonus_ordered.to_dict(orient='list')
 
     return render_template('team_of_the_week.html', team_name=team_name
                             , sorted_player_scores=sorted_player_scores
@@ -1092,6 +1092,7 @@ def team_of_the_week(team_name, match):
                             , goals_for=goals_for
                             , goals_against=goals_against
                             , opponent=opponent
+                            , bonus_ordered=new_player_scores_breakdown_bonus_ordered
     )
 
 #############################################################################################################################

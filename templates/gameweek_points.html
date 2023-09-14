@@ -132,12 +132,6 @@
             font-weight: bold;
         }
 
-        .return-button {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-        }
-
         .bench-container {
             display: flex;
             flex-direction: column;
@@ -252,6 +246,8 @@
             cursor: pointer;
             transition: background-color 0.3s ease, transform 0.3s ease; 
             font-weight: 500;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transition for shadow too */
         }
 
         .return-button:hover {
@@ -301,14 +297,13 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: #fff;
+            background: linear-gradient(135deg, #d5fff8, #a7fff2);
             padding: 20px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
             z-index: 9999;
             max-height: 60vh;
-            overflow-y: auto;
             border: 2px solid #000000; 
-            border-radius: 5%;
+            border-radius: 2%;
         }
 
         .overlay {
@@ -318,7 +313,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.75);
             z-index: 9998;
         }
 
