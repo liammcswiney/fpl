@@ -182,7 +182,7 @@
             align-items: center;
         }
 
-        .options-button1 {
+        .options-button {
             width: 40px; /* Adjust the icon size */
             height: 40px; /* Adjust the icon size */
             border-radius: 50%;
@@ -197,107 +197,8 @@
             cursor: pointer;
         }
 
-        .options-button2 {
-            width: 40px; /* Adjust the icon size */
-            height: 40px; /* Adjust the icon size */
-            border-radius: 50%;
-            background-color: #00ffd9;
-            font-size: 14px; /* Adjust the font size */
-            margin-top: 5px; /* Add margin for spacing */
-            position: relative;
-            border: 2px solid black; /* Add a black border */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-        }
 
-        .options-button3 {
-            width: 40px; /* Adjust the icon size */
-            height: 40px; /* Adjust the icon size */
-            border-radius: 50%;
-            background-color: #00ffd9;
-            font-size: 14px; /* Adjust the font size */
-            margin-top: 5px; /* Add margin for spacing */
-            position: relative;
-            border: 2px solid black; /* Add a black border */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .options-button4 {
-            width: 40px; /* Adjust the icon size */
-            height: 40px; /* Adjust the icon size */
-            border-radius: 50%;
-            background-color: #00ffd9;
-            font-size: 14px; /* Adjust the font size */
-            margin-top: 5px; /* Add margin for spacing */
-            position: relative;
-            border: 2px solid black; /* Add a black border */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .options-button5 {
-            width: 40px; /* Adjust the icon size */
-            height: 40px; /* Adjust the icon size */
-            border-radius: 50%;
-            background-color: #00ffd9;
-            font-size: 14px; /* Adjust the font size */
-            margin-top: 5px; /* Add margin for spacing */
-            position: relative;
-            border: 2px solid black; /* Add a black border */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .options-button6 {
-            width: 40px; /* Adjust the icon size */
-            height: 40px; /* Adjust the icon size */
-            border-radius: 50%;
-            background-color: #00ffd9;
-            font-size: 14px; /* Adjust the font size */
-            margin-top: 5px; /* Add margin for spacing */
-            position: relative;
-            border: 2px solid black; /* Add a black border */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .options-button1:hover {
-            background-color: #00d5d1;
-            transform: scale(1.05); /* Slightly enlarges button on hover for feedback */
-        }
-
-        .options-button2:hover {
-            background-color: #00d5d1;
-            transform: scale(1.05); /* Slightly enlarges button on hover for feedback */
-        }
-
-        .options-button3:hover {
-            background-color: #00d5d1;
-            transform: scale(1.05); /* Slightly enlarges button on hover for feedback */
-        }
-
-        .options-button4:hover {
-            background-color: #00d5d1;
-            transform: scale(1.05); /* Slightly enlarges button on hover for feedback */
-        }
-
-        .options-button5:hover {
-            background-color: #00d5d1;
-            transform: scale(1.05); /* Slightly enlarges button on hover for feedback */
-        }
-
-        .options-button6:hover {
+        .options-button:hover {
             background-color: #00d5d1;
             transform: scale(1.05); /* Slightly enlarges button on hover for feedback */
         }
@@ -307,7 +208,7 @@
             bottom: 20%;
             left: 50%;
             transform: translateX(-50%);
-            background-color: #00ffd9bd;
+            background: linear-gradient(135deg, #428bcab9, #8dffeebd);
             width: 300px;
             padding: 20px;
             display: none;
@@ -316,6 +217,7 @@
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
             z-index: 9999;
+            transition: opacity 0.3s, visibility 0.3s;
         }
 
         .popup2 {
@@ -323,7 +225,7 @@
             bottom: 20%;
             left: 50%;
             transform: translateX(-50%);
-            background-color: #00ffd9bd;
+            background: linear-gradient(135deg, #428bcab9, #8dffeebd);
             width: 300px;
             padding: 20px;
             display: none;
@@ -339,7 +241,7 @@
             bottom: 20%;
             left: 50%;
             transform: translateX(-50%);
-            background-color: #00ffd9bd;
+            background: linear-gradient(135deg, #428bcab9, #8dffeebd);
             width: 300px;
             padding: 20px;
             display: none;
@@ -355,7 +257,7 @@
             bottom: 20%;
             left: 50%;
             transform: translateX(-50%);
-            background-color: #00ffd9bd;
+            background: linear-gradient(135deg, #428bcab9, #8dffeebd);
             width: 300px;
             padding: 20px;
             display: none;
@@ -371,7 +273,7 @@
             bottom: 20%;
             left: 50%;
             transform: translateX(-50%);
-            background-color: #00ffd9bd;
+            background: linear-gradient(135deg, #428bcab9, #8dffeebd);
             width: 300px;
             padding: 20px;
             display: none;
@@ -387,7 +289,7 @@
             bottom: 20%;
             left: 50%;
             transform: translateX(-50%);
-            background-color: #00ffd9bd;
+            background: linear-gradient(135deg, #428bcab9, #8dffeebd);
             width: 300px;
             padding: 20px;
             display: none;
@@ -491,20 +393,27 @@
         }
 
         .popup-buttons button {
-            padding: 10px 20px;
-            background-color: #428bca;
-            color: #fff;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #428bca, #00a6ff);
+            color: #ffffff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 14px;
             margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* subtle shadow to give it a raised look */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease; /* smooth transition for hover effects */
         }
 
         .popup-buttons button:hover {
-            background-color: #3071a9;
+            background-color: #9fb5c8;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* slightly intensified shadow on hover */
         }
-        
+
+        .popup-buttons button:active {
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15); /* pressed-in effect */
+            transform: scale(0.98); /* subtle shrink effect to give a pressed feel */
+        }
+
         .captain-letter {
         position: absolute;
         top: 50%;
@@ -563,9 +472,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7); /* Black background with 70% opacity */
+            background: rgba(0, 0, 0, 0.8); 
             display: none;
-            z-index: 999; /* Ensuring the overlay appears on top */
+            z-index: 999; 
         }
 
 
@@ -575,19 +484,19 @@
         var teamName = "{{ team_name }}";
         window.location.href = "/team_management/{{ team_name }}";
     }
-
-    function togglePopup1() {
-        const popup = document.querySelector('.popup1');
+    
+    function togglePopup(number) {
+        const popup = document.querySelector('.popup' + number);
         const overlay = document.getElementById('modalOverlay');
         const injuryDivRed = popup.querySelector('[data-color-red]');
         const injuryDivYellow = popup.querySelector('[data-color-yellow]');
 
         if (injuryDivRed) {
-            popup.style.backgroundColor = "rgba(255, 0, 0, 0.7)";
+            popup.style.background = "rgba(255, 0, 0, 0.7)";
         }
 
         if (injuryDivYellow) {
-            popup.style.backgroundColor = "rgba(255, 221, 0, 0.7)";
+            popup.style.background = "rgba(255, 221, 0, 0.7)";
         }
         
         // Toggling the popup visibility using class
@@ -596,178 +505,38 @@
         // If popup is visible, show the overlay, else hide it
         if (popup.classList.contains('show')) {
             overlay.style.display = 'block';
+            popup.style.display = 'block';
         } else {
             overlay.style.display = 'none';
-        }
-    }
-
-
-    function togglePopup2() {
-        const popup = document.querySelector('.popup2');
-        const overlay = document.getElementById('modalOverlay');
-        const injuryDivRed = popup.querySelector('[data-color-red]');
-        const injuryDivYellow = popup.querySelector('[data-color-yellow]');
-
-        if (injuryDivRed) {
-            popup.style.backgroundColor = "rgba(255, 0, 0, 0.7)";
-        }
-
-        if (injuryDivYellow) {
-            popup.style.backgroundColor = "rgba(255, 221, 0, 0.7)";
         }
         
-        // Toggling the popup visibility using class
-        popup.classList.toggle('show');
-
-        // If popup is visible, show the overlay, else hide it
-        if (popup.classList.contains('show')) {
-            overlay.style.display = 'block';
-        } else {
-            overlay.style.display = 'none';
-        }
     }
 
-    function togglePopup3() {
-        const popup = document.querySelector('.popup3');
+    function hidePopup() {
+        const popups = document.querySelectorAll('.popup1, .popup2, .popup3, .popup4, .popup5, .popup6');
         const overlay = document.getElementById('modalOverlay');
-        const injuryDivRed = popup.querySelector('[data-color-red]');
-        const injuryDivYellow = popup.querySelector('[data-color-yellow]');
 
-        if (injuryDivRed) {
-            popup.style.backgroundColor = "rgba(255, 0, 0, 0.7)";
-        }
+        popups.forEach(popup => {
+            popup.style.display = 'none';
+            popup.classList.remove('show');  // ensure the class is removed
+        });
 
-        if (injuryDivYellow) {
-            popup.style.backgroundColor = "rgba(255, 221, 0, 0.7)";
-        }
-        
-        // Toggling the popup visibility using class
-        popup.classList.toggle('show');
-
-        // If popup is visible, show the overlay, else hide it
-        if (popup.classList.contains('show')) {
-            overlay.style.display = 'block';
-        } else {
-            overlay.style.display = 'none';
-        }
+        overlay.style.display = 'none';
     }
 
-    function togglePopup4() {
-        const popup = document.querySelector('.popup4');
-        const overlay = document.getElementById('modalOverlay');
-        const injuryDivRed = popup.querySelector('[data-color-red]');
-        const injuryDivYellow = popup.querySelector('[data-color-yellow]');
 
-        if (injuryDivRed) {
-            popup.style.backgroundColor = "rgba(255, 0, 0, 0.7)";
-        }
-
-        if (injuryDivYellow) {
-            popup.style.backgroundColor = "rgba(255, 221, 0, 0.7)";
-        }
+    document.addEventListener('DOMContentLoaded', function() {
+        const optionsButtons = document.querySelectorAll('.options-button');
         
-        // Toggling the popup visibility using class
-        popup.classList.toggle('show');
-
-        // If popup is visible, show the overlay, else hide it
-        if (popup.classList.contains('show')) {
-            overlay.style.display = 'block';
-        } else {
-            overlay.style.display = 'none';
-        }
-    }
-
-    function togglePopup5() {
-        const popup = document.querySelector('.popup5');
-        const overlay = document.getElementById('modalOverlay');
-        const injuryDivRed = popup.querySelector('[data-color-red]');
-        const injuryDivYellow = popup.querySelector('[data-color-yellow]');
-
-        if (injuryDivRed) {
-            popup.style.backgroundColor = "rgba(255, 0, 0, 0.7)";
-        }
-
-        if (injuryDivYellow) {
-            popup.style.backgroundColor = "rgba(255, 221, 0, 0.7)";
-        }
-        
-        // Toggling the popup visibility using class
-        popup.classList.toggle('show');
-
-        // If popup is visible, show the overlay, else hide it
-        if (popup.classList.contains('show')) {
-            overlay.style.display = 'block';
-        } else {
-            overlay.style.display = 'none';
-        }
-    }
-
-    function togglePopup6() {
-        const popup = document.querySelector('.popup6');
-        const overlay = document.getElementById('modalOverlay');
-        const injuryDivRed = popup.querySelector('[data-color-red]');
-        const injuryDivYellow = popup.querySelector('[data-color-yellow]');
-
-        if (injuryDivRed) {
-            popup.style.backgroundColor = "rgba(255, 0, 0, 0.7)";
-        }
-
-        if (injuryDivYellow) {
-            popup.style.backgroundColor = "rgba(255, 221, 0, 0.7)";
-        }
-        
-        // Toggling the popup visibility using class
-        popup.classList.toggle('show');
-
-        // If popup is visible, show the overlay, else hide it
-        if (popup.classList.contains('show')) {
-            overlay.style.display = 'block';
-        } else {
-            overlay.style.display = 'none';
-        }
-    }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const optionsButtons = document.querySelectorAll('.options-button1');
         optionsButtons.forEach(function(button) {
-            button.addEventListener('click', togglePopup1);
+            const popupNumber = button.getAttribute('data-popup-number');
+            
+            button.addEventListener('click', function() {
+                togglePopup(popupNumber);
+            });
         });
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const optionsButtons = document.querySelectorAll('.options-button2');
-        optionsButtons.forEach(function(button) {
-            button.addEventListener('click', togglePopup2);
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const optionsButtons = document.querySelectorAll('.options-button3');
-        optionsButtons.forEach(function(button) {
-            button.addEventListener('click', togglePopup3);
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const optionsButtons = document.querySelectorAll('.options-button4');
-        optionsButtons.forEach(function(button) {
-            button.addEventListener('click', togglePopup4);
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const optionsButtons = document.querySelectorAll('.options-button5');
-        optionsButtons.forEach(function(button) {
-            button.addEventListener('click', togglePopup5);
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const optionsButtons = document.querySelectorAll('.options-button6');
-        optionsButtons.forEach(function(button) {
-            button.addEventListener('click', togglePopup6);
-        });
-    });
 </script>
 </head>
 <body>
@@ -788,7 +557,7 @@
                         {% if player['injury_colour'] == 'Red' %}
                             <div class="player-position" style="background-color: #ff00007f;">
                                 <div class="player-info">
-                                    <button class="options-button1"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
+                                    <button class="options-button" data-popup-number="1"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -799,7 +568,7 @@
                         {% elif player['injury_colour'] == 'Yellow' %}
                             <div class="player-position" style="background-color: #fffb007f;">
                                 <div class="player-info">
-                                    <button class="options-button1"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
+                                    <button class="options-button" data-popup-number="1"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -810,7 +579,7 @@
                         {% else %}
                             <div class="player-position">
                                 <div class="player-info">
-                                    <button class="options-button1">
+                                    <button class="options-button" data-popup-number="1">
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -829,7 +598,7 @@
                         {% if player['injury_colour'] == 'Red' %}
                             <div class="player-position" style="background-color: #ff00007f;">
                                 <div class="player-info">
-                                    <button class="options-button2"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
+                                    <button class="options-button" data-popup-number="2"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -840,7 +609,7 @@
                         {% elif player['injury_colour'] == 'Yellow' %}
                             <div class="player-position" style="background-color: #fffb007f;">
                                 <div class="player-info">
-                                    <button class="options-button2"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
+                                    <button class="options-button" data-popup-number="2"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -851,7 +620,7 @@
                         {% else %}
                             <div class="player-position">
                                 <div class="player-info">
-                                    <button class="options-button2">
+                                    <button class="options-button" data-popup-number="2">
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -870,7 +639,7 @@
                         {% if player['injury_colour'] == 'Red' %}
                             <div class="player-position" style="background-color: #ff00007f;">
                                 <div class="player-info">
-                                    <button class="options-button3"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
+                                    <button class="options-button" data-popup-number="3"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -881,7 +650,7 @@
                         {% elif player['injury_colour'] == 'Yellow' %}
                             <div class="player-position" style="background-color: #fffb007f;">
                                 <div class="player-info">
-                                    <button class="options-button3"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
+                                    <button class="options-button" data-popup-number="3"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -892,7 +661,7 @@
                         {% else %}
                             <div class="player-position">
                                 <div class="player-info">
-                                    <button class="options-button3">
+                                    <button class="options-button" data-popup-number="3">
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -911,7 +680,7 @@
                         {% if player['injury_colour'] == 'Red' %}
                             <div class="player-position" style="background-color: #ff00007f;">
                                 <div class="player-info">
-                                    <button class="options-button2"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
+                                    <button class="options-button" data-popup-number="2"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -922,7 +691,7 @@
                         {% elif player['injury_colour'] == 'Yellow' %}
                             <div class="player-position" style="background-color: #fffb007f;">
                                 <div class="player-info">
-                                    <button class="options-button2"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
+                                    <button class="options-button" data-popup-number="2"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -933,7 +702,7 @@
                         {% else %}
                             <div class="player-position">
                                 <div class="player-info">
-                                    <button class="options-button2">
+                                    <button class="options-button" data-popup-number="2">
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -949,7 +718,7 @@
                         {% if player['injury_colour'] == 'Red' %}
                             <div class="player-position" style="background-color: #ff00007f;">
                                 <div class="player-info">
-                                    <button class="options-button3"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
+                                    <button class="options-button" data-popup-number="3"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -960,7 +729,7 @@
                         {% elif player['injury_colour'] == 'Yellow' %}
                             <div class="player-position" style="background-color: #fffb007f;">
                                 <div class="player-info">
-                                    <button class="options-button3"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
+                                    <button class="options-button" data-popup-number="3"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -971,7 +740,7 @@
                         {% else %}
                             <div class="player-position">
                                 <div class="player-info">
-                                    <button class="options-button3">
+                                    <button class="options-button" data-popup-number="3">
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -991,7 +760,7 @@
                         {% if player['injury_colour'] == 'Red' %}
                             <div class="player-position" style="background-color: #ff00007f;">
                                 <div class="player-info">
-                                    <button class="options-button4"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
+                                    <button class="options-button" data-popup-number="4"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -1002,7 +771,7 @@
                         {% elif player['injury_colour'] == 'Yellow' %}
                             <div class="player-position" style="background-color: #fffb007f;">
                                 <div class="player-info">
-                                    <button class="options-button4"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
+                                    <button class="options-button" data-popup-number="4"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -1013,7 +782,7 @@
                         {% else %}
                             <div class="player-position">
                                 <div class="player-info">
-                                    <button class="options-button4">
+                                    <button class="options-button" data-popup-number="4">
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -1032,7 +801,7 @@
                         {% if player['injury_colour'] == 'Red' %}
                             <div class="player-position" style="background-color: #ff00007f;">
                                 <div class="player-info">
-                                    <button class="options-button5"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
+                                    <button class="options-button" data-popup-number="5"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -1043,7 +812,7 @@
                         {% elif player['injury_colour'] == 'Yellow' %}
                             <div class="player-position" style="background-color: #fffb007f;">
                                 <div class="player-info">
-                                    <button class="options-button5"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
+                                    <button class="options-button" data-popup-number="5"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -1054,7 +823,7 @@
                         {% else %}
                             <div class="player-position">
                                 <div class="player-info">
-                                    <button class="options-button5">
+                                    <button class="options-button" data-popup-number="5">
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -1073,7 +842,7 @@
                         {% if player['injury_colour'] == 'Red' %}
                             <div class="player-position" style="background-color: #ff00007f;">
                                 <div class="player-info">
-                                    <button class="options-button4"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
+                                    <button class="options-button" data-popup-number="4"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -1084,7 +853,7 @@
                         {% elif player['injury_colour'] == 'Yellow' %}
                             <div class="player-position" style="background-color: #fffb007f;">
                                 <div class="player-info">
-                                    <button class="options-button4"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
+                                    <button class="options-button" data-popup-number="4"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -1095,7 +864,7 @@
                         {% else %}
                             <div class="player-position">
                                 <div class="player-info">
-                                    <button class="options-button4">
+                                    <button class="options-button" data-popup-number="4">
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -1111,7 +880,7 @@
                         {% if player['injury_colour'] == 'Red' %}
                             <div class="player-position" style="background-color: #ff00007f;">
                                 <div class="player-info">
-                                    <button class="options-button5"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
+                                    <button class="options-button" data-popup-number="5"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -1122,7 +891,7 @@
                         {% elif player['injury_colour'] == 'Yellow' %}
                             <div class="player-position" style="background-color: #fffb007f;">
                                 <div class="player-info">
-                                    <button class="options-button5"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
+                                    <button class="options-button" data-popup-number="5"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -1133,7 +902,7 @@
                         {% else %}
                             <div class="player-position">
                                 <div class="player-info">
-                                    <button class="options-button5">
+                                    <button class="options-button" data-popup-number="5">
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -1153,7 +922,7 @@
                         {% if player['injury_colour'] == 'Red' %}
                             <div class="player-position" style="background-color: #ff00007f;">
                                 <div class="player-info">
-                                    <button class="options-button6"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
+                                    <button class="options-button" data-popup-number="6"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -1164,7 +933,7 @@
                         {% elif player['injury_colour'] == 'Yellow' %}
                             <div class="player-position" style="background-color: #fffb007f;">
                                 <div class="player-info">
-                                    <button class="options-button6"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
+                                    <button class="options-button" data-popup-number="6"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -1175,7 +944,7 @@
                         {% else %}
                             <div class="player-position">
                                 <div class="player-info">
-                                    <button class="options-button6">
+                                    <button class="options-button" data-popup-number="6">
                                     {% if team_data['Captain'] == player['Player'] %}
                                         <span class="captain-letter">C</span>
                                     {% endif %}
@@ -1219,7 +988,7 @@
             </div>
         </div>
     </div>
-    <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-overlay" id="modalOverlay" onclick="hidePopup()">
         <div class="popup1">
             <div class="popup-content1">
                 <h3>{{ team_data['Player 1'] }}</h3>
@@ -1261,7 +1030,6 @@
                         </form>
                     </div>
                     <br>
-                    <a href="javascript:togglePopup1()" style="margin-bottom: 0px;">Cancel</a>
                 </div>
             </div>
         </div>
@@ -1310,7 +1078,6 @@
                         </form>
                     </div>
                     <br>
-                    <a href="javascript:togglePopup2()" style="margin-bottom: 0px;">Cancel</a>
                 </div>
             </div>
         </div>
@@ -1358,7 +1125,6 @@
                         </form>
                     </div>
                     <br>
-                    <a href="javascript:togglePopup3()" style="margin-bottom: 0px;">Cancel</a>
                 </div>
             </div>
         </div>
@@ -1406,7 +1172,6 @@
                         </form>
                     </div>
                     <br>
-                    <a href="javascript:togglePopup4()" style="margin-bottom: 0px;">Cancel</a>
                 </div>
             </div>
         </div>
@@ -1454,7 +1219,6 @@
                         </form>
                     </div>
                     <br>
-                    <a href="javascript:togglePopup5()" style="margin-bottom: 0px;">Cancel</a>
                 </div>
             </div>
         </div>
@@ -1502,7 +1266,6 @@
                         </form>
                     </div>
                     <br>
-                    <a href="javascript:togglePopup6()" style="margin-bottom: 0px;">Cancel</a>
                 </div>
             </div>
         </div>

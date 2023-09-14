@@ -18,6 +18,7 @@
         h1, h2 {
             color: #fff;
             text-align: center;
+            margin: 20px 0;
         }
     
         .content {
@@ -26,14 +27,27 @@
             align-items: center;
             justify-content: center;
         }
-    
-        table {
+
+        .table-container {
+            position: relative;
+            margin: 20px auto;
+            box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 2%;
+            width: 60%;
+        }
+
+        .table-wrapper {
+            max-height: 300px; /* This will allow it to grow until 300px and then start scrolling */
+            overflow-y: auto;
+            border-radius: 2%;
+        }
+
+
+        .stats-table {
             border-collapse: collapse;
-            width: 80%;
-            background-color: #fff;
+            width: 100%;
+            background-color: #f9f9f9; 
             color: #333;
-            margin-bottom: 20px;
-            border: 2px solid #000;
         }
     
         th, td {
@@ -43,50 +57,264 @@
         }
     
         th {
-            background-color: #f2f2f2;
+            background-color: #d4d4d4;
+            font-weight: 600;
         }
-    
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
+
     
         tr:hover {
             background-color: #e9e9e9;
         }
     
         button {
-            padding: 6px 12px;
+            padding: 6px 20px;
             border: none;
+            border-radius: 4px;           /* rounded corners */
             background-color: #428bca;
             color: white;
             cursor: pointer;
+            transition: all 0.3s;         /* smooth transition effect */
+            font-size: 14px;              /* adjust font-size if needed */
+            font-weight: 600;             /* making the text a bit bold */
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
         }
-    
+
         button:hover {
             background-color: #0c7bbf;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);   /* shadow effect on hover */
+        }
+
+        button:focus {
+            outline: none; /* remove the default browser outline on focus */
         }
     
         .existing-player {
             color: #595050;
-            background-color: #f2f2f2;
+            background-color: #e2e2e27c;
         }
     
         .existing-button::after {
             content: none;
         }
-    
+
+        i.existing-button {
+            color: #595050;
+            background-color: #e2e2e27c;
+        }
+
         .return-button {
+            position: absolute;
+            top: -10px; 
+            left: 10px; 
+            padding: 5px 15px;
+            background-color: #dd0e0e;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Added transition for hover effect */
+            font-weight: 500; /* Adjusted font-weight */
+        }
+
+        .return-button:hover {
+            background-color: #cc0d0d;
+            transform: scale(1.05); /* Slightly enlarge button on hover */
+        }
+    
+        .return-button1 {
             padding: 10px 20px;
             font-size: 20px;
             background-color: #428bca;
             color: white;
         }
     
-        .return-button:hover {
+        .return-button1:hover {
             background-color: #0c7bbf;
         }
+
+        .table-wrapper::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .table-wrapper::-webkit-scrollbar-track {
+            background-color: #f2f2f2;
+            border-radius: 10px;
+        }
+
+        .table-wrapper::-webkit-scrollbar-thumb {
+            background-color: #428bca;
+            border-radius: 10px;
+            border: 2px solid #f2f2f2;
+        }
+
+        .table-wrapper::-webkit-scrollbar-thumb:hover {
+            background-color: #337ab7;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #ceffff, #ffffff);
+            padding: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            z-index: 9999;
+            max-height: 60vh;
+            width: 80vw;
+            border-radius: 15px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 9998;
+        }
+
+        .popup table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .popup th, .popup td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 2px solid #ddd;
+            font-weight: 500;
+        }
+
+        .popup th {
+            background-color: #f5f5f5; /* Slightly different header color for popup */
+        }
+
+        .popup td button {
+            padding: 6px 12px;
+            background-color: #428bca;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup td button:hover {
+            background-color: #337ab7;
+            transform: scale(1.05);
+        }
+
+        .popup tr:hover {
+            background-color: #f2f2f2; /* hover effect for popup rows */
+        }
+
+        h2 {
+            color: rgb(0, 0, 0);
+            margin: 0 0 20px 0;
+        }
+
+        .popup::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .popup::-webkit-scrollbar-track {
+            background-color: #f2f2f2;
+            border-radius: 10px;
+        }
+
+        .popup::-webkit-scrollbar-thumb {
+            background-color: #428bca;
+            border-radius: 10px;
+            border: 2px solid #f2f2f2;
+        }
+
+        .popup::-webkit-scrollbar-thumb:hover {
+            background-color: #337ab7;
+        }
+
     </style>
-        
+    
+    <script>
+
+        var playerStats = '{{ players }}';
+
+        function showPopup(playerIndex) {
+            var popup = document.getElementById('popup');
+            var overlay = document.getElementById('overlay');
+
+            // Set the player stats in the popup
+            popup.innerHTML = getPlayerStatsHtml(playerIndex);
+
+            // Show the popup and overlay
+            popup.style.display = 'block';
+            overlay.style.display = 'block';
+        }
+
+        function getPlayerStatsHtml(playerIndex) {
+            var stats = JSON.parse('{{ players|tojson|safe }}');
+            var data = JSON.parse('{{ player_data|tojson|safe }}');
+            var fixtures = JSON.parse('{{ fixture_data|tojson|safe }}');
+
+            var player = stats['Player'][playerIndex];
+            var position = stats['Position'][playerIndex];
+            var price = data['Price'][playerIndex];
+            var gameweeks = Object.keys(stats).filter(key => key.includes('Gameweek'));
+
+            // Sort gameweeks as integers
+            gameweeks.sort((a, b) => parseInt(a.replace('Gameweek', '')) - parseInt(b.replace('Gameweek', '')));
+
+            var html = '<h2>' + player + ' (' + position + ')' + '</h2>';
+            html += '<h2>' + price + '</h2>';
+            // html += '<p><strong>Gameweek History</strong></p>';
+            html += '<table>';
+            html += '<tr><th>Gameweek</th><th>Fixture</th><th>Score</th><th>Points</th></tr>';
+
+            for (var i = gameweeks.length - 1; i >= 0; i--) {
+                var gameweek = gameweeks[i];
+
+                // Cast the gameweek number to integer (after stripping off the 'Gameweek' string part)
+                var gameweekNumber = parseInt(gameweek.replace('Gameweek', ''));
+
+                var points = stats[gameweek][playerIndex];
+                var fixture = fixtures['Fixture'][i];
+                var score = fixtures['Score'][i];
+
+                html += '<tr>';
+                html += '<td>' + 'Gameweek ' + gameweekNumber + '</td>'; // Use the integer gameweekNumber
+                html += '<td>' + fixture + '</td>';
+                html += '<td>' + score + '</td>';
+                html += '<td>' + points + '</td>';
+                html += '</tr>';
+            }
+
+            html += '</table>';
+
+            return html;
+        }
+
+        function hidePopup() {
+            var popup = document.getElementById('popup');
+            var overlay = document.getElementById('overlay');
+
+            popup.style.display = 'none';
+            overlay.style.display = 'none';
+        }
+
+        function stopEventPropagation(event) {
+            event.stopPropagation();
+        }
+
+    </script>
+
 </head>
 <body>
     <h1>
@@ -101,42 +329,50 @@
         {% endif %}
     </h1>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <table>
-        <thead>
-            <tr>
-                <th {% if 'Player' in team_data %}class="existing-player"{% endif %}></th>
-                <th {% if 'Player' in team_data %}class="existing-player"{% endif %}>Player</th>
-                <th {% if 'Position' in team_data %}class="existing-player"{% endif %}>Position</th>
-                <th {% if 'Price' in team_data %}class="existing-player"{% endif %}>Price</th>
-                <th {% if 'Form' in team_data %}class="existing-player"{% endif %}>Form</th>
-                <th {% if 'Total Points' in team_data %}class="existing-player"{% endif %}>Total Points</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for player in players %}
-            <tr>
-                <td {% if player['Player'] in team_data %}class="existing-player"{% endif %}>
-                    {% if player['Player'] not in team_data %}
-                    <form method="POST" action="/add_player_transfer?playerIndex={{ player_index }}&teamName={{ team_name }}">
-                        <input type="hidden" name="playerName" value="{{ player['Player'] }}">
-                        <button type="submit">Add</button>
-                    </form>
-                    {% else %}
-                    <span class="existing-button">Already Selected</span>
-                    {% endif %}
-                </td>
-                <td {% if player['Player'] in team_data %}class="existing-player"{% endif %}>{{ player['Player'] }}</td>
-                <td {% if 'Position' in team_data or player['Player'] in team_data %}class="existing-player"{% endif %}>{{ player['Position'] }}</td>
-                <td {% if 'Price' in team_data or player['Player'] in team_data %}class="existing-player"{% endif %}>{{ player['Price'] }}</td>
-                <td {% if 'Form' in team_data or player['Player'] in team_data %}class="existing-player"{% endif %}>{{ player['Form'] }}</td>
-                <td {% if 'Total Points' in team_data or player['Player'] in team_data %}class="existing-player"{% endif %}>{{ player['Total Points'] }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <button class="return-button" onclick="goBack()">Return to Team Build</button>
-
+    <div class="table-container">
+        <button class="return-button" onclick="goBack()">X</button>
+        <div class="table-wrapper">
+            <table class="stats-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Player</th>
+                        <th>Position</th>
+                        <th>Price</th>
+                        <th>Form</th>
+                        <th>Total Points</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for index in range(players['Player']|length) %}
+                        <tr class="clickable-row" onclick="showPopup('{{ index }}')">
+                            <td {% if players['Player'][index] in team_data %}class="existing-player"{% endif %}>
+                                {% if players['Player'][index] not in team_data %}
+                                <form method="POST" action="/add_player_transfer?playerIndex={{ player_index }}&teamName={{ team_name }}">
+                                    <input type="hidden" name="playerName" value="{{ players['Player'][index] }}">
+                                    <button type="submit" onclick="stopEventPropagation(event)">Add</button>
+                                </form>
+                                {% else %}
+                                <span class="existing-button">Already Selected</span>
+                                {% endif %}
+                            </td>
+                            <td {% if players['Player'][index] in team_data %}class="existing-player"{% endif %}>{{ players['Player'][index] }}</td>
+                            <td {% if 'Position' in team_data or players['Player'][index] in team_data %}class="existing-player"{% endif %}>{{ players['Position'][index] }}</td>
+                            <td {% if 'Price' in team_data or players['Player'][index] in team_data %}class="existing-player"{% endif %}>{{ players['Price'][index] }}</td>
+                            <td {% if 'Form' in team_data or players['Player'][index] in team_data %}class="existing-player"{% endif %}>{{ players['Form'][index] }}</td>
+                            <td {% if 'Total Points' in team_data or players['Player'][index] in team_data %}class="existing-player"{% endif %}>{{ players['Total Points'][index] }}</td>
+                            <td {% if players['Player'][index] in team_data %}class="existing-player"{% endif %}>
+                                <i class="fas fa-info-circle" onclick="showPopup('{{ loop.index0 }}')"></i>
+                            </td>                                                  
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="overlay" class="overlay" onclick="hidePopup()"></div>
+    <div id="popup" class="popup"></div>
     <script>
         function goBack() {
             window.location.href = "/transfers/{{ team_name }}";

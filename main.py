@@ -1102,8 +1102,12 @@ def change_player_build():
     team_name = request.args.get('teamName')  # Get the team_name from the URL parameter
     new_team_name = team_name.replace('%20', ' ')
 
-    # Read the player data from player_database.csv
     player_data = pd.read_csv('data/player_database.csv')
+
+    fixture_data = pd.read_csv('data/fixtures.csv')
+    fixture_data['Gameweek'] = fixture_data['Gameweek'].astype(int)
+    fixture_data = fixture_data.drop('Result', axis=1)
+    fixture_data = fixture_data.to_dict(orient='list')
 
     # Read the existing team data from team_data.csv
     with open('data/team_data.csv', 'r') as csvfile:
@@ -1114,22 +1118,28 @@ def change_player_build():
         if row[0] == new_team_name:
             team_data.extend(row[1:7])  # Append individual player names to team_data
 
-    # Filter the players based on player_index and position
+    player_score = pd.read_csv('data/player_score.csv')
+    player_score = player_score.merge(player_data, on=['Player', 'Position'])
+    player_score = player_score.sort_values('Price', ascending=False)
+
     if player_index == 1:
-        filtered_players = player_data[player_data['Position'] == 'GK']
+        filtered_players = player_score[player_score['Position'] == 'GK']
     elif player_index in [2, 3]:
-        filtered_players = player_data[player_data['Position'] == 'DEF']
+        filtered_players = player_score[player_score['Position'] == 'DEF']
     elif player_index in [4, 5]:
-        filtered_players = player_data[player_data['Position'] == 'MID']
+        filtered_players = player_score[player_score['Position'] == 'MID']
     elif player_index == 6:
-        filtered_players = player_data[player_data['Position'] == 'FWD']
-    else:
-        filtered_players = pd.DataFrame()  # Empty DataFrame if player_index doesn't match
-    
+        filtered_players = player_score[player_score['Position'] == 'FWD']
+
     # Convert the filtered players to a list of dictionaries
-    players = filtered_players.to_dict('records')
+    players = filtered_players.to_dict('list')
+
+    player_data = player_data.sort_values('Price', ascending=False)
+    player_data = player_data.to_dict(orient='list')
     
-    return render_template('change_player_build.html', player_index=player_index, players=players, team_name=team_name, team_data=team_data)
+    return render_template('change_player_build.html', player_index=player_index
+                           , players=players, team_name=team_name, team_data=team_data
+                           , fixture_data=fixture_data, player_data=player_data)
 
 #############################################################################################################################
 
@@ -1142,6 +1152,11 @@ def change_player_transfer():
     # Read the player data from player_database.csv
     player_data = pd.read_csv('data/player_database.csv')
 
+    fixture_data = pd.read_csv('data/fixtures.csv')
+    fixture_data['Gameweek'] = fixture_data['Gameweek'].astype(int)
+    fixture_data = fixture_data.drop('Result', axis=1)
+    fixture_data = fixture_data.to_dict(orient='list')
+
     # Read the existing team data from team_data.csv
     with open('data/team_data_temp.csv', 'r') as csvfile:
         reader = pd.read_csv(csvfile)
@@ -1149,24 +1164,39 @@ def change_player_transfer():
     team_data = []
     for row in reader.itertuples(index=False):
         if row[0] == new_team_name:
-            team_data.extend(row[1:7])  # Append individual player names to team_data
+            team_data.extend(row[1:7])
 
-    # Filter the players based on player_index and position
+    player_score = pd.read_csv('data/player_score.csv')
+    player_score = player_score.merge(player_data, on=['Player', 'Position'])
+
     if player_index == 1:
-        filtered_players = player_data[player_data['Position'] == 'GK']
+        filtered_players = player_score[player_score['Position'] == 'GK']
     elif player_index in [2, 3]:
-        filtered_players = player_data[player_data['Position'] == 'DEF']
+        filtered_players = player_score[player_score['Position'] == 'DEF']
     elif player_index in [4, 5]:
-        filtered_players = player_data[player_data['Position'] == 'MID']
+        filtered_players = player_score[player_score['Position'] == 'MID']
     elif player_index == 6:
-        filtered_players = player_data[player_data['Position'] == 'FWD']
-    else:
-        filtered_players = pd.DataFrame()  # Empty DataFrame if player_index doesn't match
+        filtered_players = player_score[player_score['Position'] == 'FWD']
+
+    filtered_players = filtered_players.sort_values('Total Points', ascending=False)
+
+    players = filtered_players.to_dict('list')
+
+    if player_index == 1:
+        player_data = player_data[player_data['Position'] == 'GK']
+    elif player_index in [2, 3]:
+        player_data = player_data[player_data['Position'] == 'DEF']
+    elif player_index in [4, 5]:
+        player_data = player_data[player_data['Position'] == 'MID']
+    elif player_index == 6:
+        player_data = player_data[player_data['Position'] == 'FWD']
+
+    player_data = player_data.sort_values('Total Points', ascending=False)
+    player_data = player_data.to_dict(orient='list')
     
-    # Convert the filtered players to a list of dictionaries
-    players = filtered_players.to_dict('records')
-    
-    return render_template('change_player_transfer.html', player_index=player_index, players=players, team_name=team_name, team_data=team_data)
+    return render_template('change_player_transfer.html', player_index=player_index
+                           , players=players, team_name=team_name, team_data=team_data
+                           , fixture_data=fixture_data, player_data=player_data)
 
 #############################################################################################################################
 
