@@ -44,11 +44,20 @@
             color: #333; /* Made text a bit lighter */
         }
 
+
+        tr {
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:last-child {
+            border-bottom: none; /* Remove bottom border for the last row */
+        }
+
         th, td {
             padding: 20px;
             text-align: left;
-            border-bottom: 1px solid #ddd;
         }
+                
 
         th {
             background-color: #d5d5d5; /* Darkened headers */
@@ -151,13 +160,13 @@
                     {% set index = fixture_data['Gameweek'][i] %}
                     <tr 
                         {% if result == 'win' %}
-                            style="background-color: rgba(0, 210, 0, 0.776);"
+                            style="background-color: rgba(0, 210, 0, 0.776); border-bottom: 1px solid #ddd;"
                             class="clickable-row" result="{{ result }}" gw_num="{{ index }}"
                         {% elif result == 'loss' %}
-                            style="background-color: rgba(255, 0, 0, 0.732);"
+                            style="background-color: rgba(255, 0, 0, 0.732); border-bottom: 1px solid #ddd;"
                             class="clickable-row" result="{{ result }}" gw_num="{{ index }}"
                         {% elif result == 'draw' %}
-                            style="background-color: rgb(147, 141, 141);"
+                            style="background-color: rgb(147, 141, 141); border-bottom: 1px solid #ddd;"
                             class="clickable-row" result="{{ result }}" gw_num="{{ index }}"
                         {% endif %}>
                         <td><strong>{{ fixture_data['Gameweek'][i] }}</strong></td>

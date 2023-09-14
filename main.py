@@ -1078,6 +1078,8 @@ def team_of_the_week(team_name, match):
     df1.index = df1.index.astype(str)
 
     new_player_scores_breakdown = new_merged_df.merge(df1, on=['Player', 'Position'], how='left')
+    new_player_scores_breakdown = new_player_scores_breakdown.sort_values(by='Bonus', ascending=False)
+
 
     new_player_scores_breakdown = new_player_scores_breakdown.to_dict(orient='list')
 

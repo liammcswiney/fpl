@@ -261,7 +261,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: #fff;
+            background: linear-gradient(135deg, #d5fff8, #8cffee);
             padding: 20px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
             z-index: 9999;
@@ -277,7 +277,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.716);
+            background-color: rgba(0, 0, 0, 0.75);
             z-index: 9998;
         }
 
@@ -326,47 +326,76 @@
 
         .info-table-popup {
             position: fixed;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 1001; /* Increased the z-index to ensure it appears above other elements */
+            left: 50%; 
+            top: 50%;  
+            transform: translate(-50%, -50%); 
+            width: 50%; /* Increased width from 30% to 50% */
+            height: 75%; 
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 2%;
         }
 
         .info-table-popup-content {
             position: relative;
-            margin: 10% auto;
+            width: 100%; 
+            height: 100%; 
+            background: linear-gradient(135deg, #d5fff8, #c3fff6);
+            overflow-y: auto; 
             padding: 20px;
-            background-color: #fff;
-            width: 50%;
+            box-sizing: border-box; 
+            border-radius: 2%;
+        }
+        
+        /* Styling the tables inside the popup */
+        .info-table-popup-content table {
+            width: 80%;
+            border-collapse: collapse;   
+            margin: 20px auto; /* Center the table horizontally and provide vertical space */
+            border-radius: 5%;
         }
 
-        .info-table-close-btn {
-            position: absolute;
-            right: 15px;
-            top: 5px;
-            cursor: pointer;
+        .info-table-popup-content table th {  
+            text-align: center;   
+            padding: 8px;   
+            background-color: #9de8ff;
         }
 
-        /* .popup::-webkit-scrollbar {
+        .info-table-popup-content table td {
+            text-align: center;   
+            padding: 8px;   
+            background-color: #c8efff;
+        }
+
+        .info-table-popup-content h2 {
+            text-align: center; 
+            font-size: 30px; 
+            font-weight: bold; /* Make the h2 bold */
+            margin-top: 20px;   
+            margin-bottom: 20px; 
+        } 
+
+        .info-table-popup-content::-webkit-scrollbar {
             width: 10px; 
         }
 
-        .popup::-webkit-scrollbar-track {
+        .info-table-popup-content::-webkit-scrollbar-track {
             background-color: #f2f2f2; 
             border-radius: 10px; 
         }
 
-        .popup::-webkit-scrollbar-thumb {
+        .info-table-popup-content::-webkit-scrollbar-thumb {
             background-color: #428bca;
             border-radius: 10px;
             border: 2px solid #f2f2f2; 
         }
 
-        .popup::-webkit-scrollbar-thumb:hover {
+        .info-table-popup-content::-webkit-scrollbar-thumb:hover {
             background-color: #337ab7;
-        } */
+        }
 
 
     </style>
@@ -522,14 +551,23 @@
 
     function toggleInfoTablePopup() {
         const popup = document.getElementById('infoTablePopup');
+        var overlay = document.getElementById('overlay1');
         if (popup.style.display === 'none' || !popup.style.display) {
             popup.style.display = 'block';
+            overlay.style.display = 'block';
         } else {
             popup.style.display = 'none';
         }
     }
 
+    function hideInfoTablePopup() {
+        const popup = document.getElementById('infoTablePopup');
+        var overlay = document.getElementById('overlay1');
 
+        popup.style.display = 'none';
+        overlay.style.display = 'none';
+    }
+    
 </script>
 </head>
 <body>
@@ -545,26 +583,194 @@
     <div class="container">
         <div class="info-table-popup" id="infoTablePopup" style="display:none;">
             <div class="info-table-popup-content">
-                <span class="info-table-close-btn" onclick="toggleInfoTablePopup()">&times;</span>
                 <h2>Liz Trussard: {{ goals_for }} - {{ goals_against }} {{ opponent }}</h2>
+
+                {% set ns = namespace(found=False) %}
+                {% for goals in player_scores_breakdown['Goals'] %}
+                    {% if goals > 0 %}
+                        {% set ns.found = True %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if ns.found %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Goals</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for goals in player_scores_breakdown['Goals'] %}
+                                {% if goals > 0 %}
+                                    <tr>
+                                        <td>
+                                            {{ player_scores_breakdown['Player'][loop.index0] }} {% if goals > 1 %} ({{ goals }}) {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+
+                {% set assists_ns = namespace(found=False) %}
+                {% for assist in player_scores_breakdown['Assists'] %}
+                    {% if assist > 0 %}
+                        {% set assists_ns.found = True %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if assists_ns.found %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Assists</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for assists in player_scores_breakdown['Assists'] %}
+                                {% if assists > 0 %}
+                                    <tr>
+                                        <td>
+                                            {{ player_scores_breakdown['Player'][loop.index0] }} {% if assists > 1 %} ({{ assists }}) {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+
+                {% set saves_ns = namespace(found=False) %}
+                {% for save in player_scores_breakdown['Saves'] %}
+                    {% if save > 0 %}
+                        {% set saves_ns.found = True %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if saves_ns.found %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Saves</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for saves in player_scores_breakdown['Saves'] %}
+                                {% if saves > 0 %}
+                                    <tr>
+                                        <td>
+                                            {{ player_scores_breakdown['Player'][loop.index0] }} {% if saves > 1 %} ({{ saves }}) {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+
+                {% set yellow_cards_ns = namespace(found=False) %}
+                {% for card in player_scores_breakdown['Yellow Cards'] %}
+                    {% if card > 0 %}
+                        {% set yellow_cards_ns.found = True %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if yellow_cards_ns.found %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Yellow Cards</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for card in player_scores_breakdown['Yellow Cards'] %}
+                                {% if card > 0 %}
+                                    <tr>
+                                        <td>
+                                            {{ player_scores_breakdown['Player'][loop.index0] }} {% if card > 1 %} ({{ card }}) {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+
+                {% set red_cards_ns = namespace(found=False) %}
+                {% for card in player_scores_breakdown['Red Cards'] %}
+                    {% if card > 0 %}
+                        {% set red_cards_ns.found = True %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if red_cards_ns.found %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Red Cards</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for card in player_scores_breakdown['Red Cards'] %}
+                                {% if card > 0 %}
+                                    <tr>
+                                        <td>
+                                            {{ player_scores_breakdown['Player'][loop.index0] }} {% if card > 1 %} ({{ card }}) {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+
+                {% set own_goals_ns = namespace(found=False) %}
+                {% for goal in player_scores_breakdown['Own Goals'] %}
+                    {% if goal > 0 %}
+                        {% set own_goals_ns.found = True %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if own_goals_ns.found %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Own Goals</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for goal in player_scores_breakdown['Own Goals'] %}
+                                {% if goal > 0 %}
+                                    <tr>
+                                        <td>
+                                            {{ player_scores_breakdown['Player'][loop.index0] }} {% if goal > 1 %} ({{ goal }}) {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
                 <table>
                     <thead>
                         <tr>
-                            <th>Header 1</th>
-                            <th>Header 2</th>
+                            <th>Bonus Points</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Row1Col1</td>
-                            <td>Row1Col2</td>
-                        </tr>
-                        <tr>
-                            <td>Row2Col1</td>
-                            <td>Row2Col2</td>
-                        </tr>
+                        {% for goal in player_scores_breakdown['Bonus'] %}
+                            {% if goal > 0 %}
+                                <tr>
+                                    <td>
+                                        {{ player_scores_breakdown['Player'][loop.index0] }} {% if goal > 1 %} ({{ goal }}) {% endif %}
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
                     </tbody>
                 </table>
+
             </div>
         </div>
         <div class="team-container">
@@ -726,6 +932,7 @@
             </div>
         </div>
         <div id="overlay" class="overlay" onclick="hidePopup()"></div>
+        <div id="overlay1" class="overlay" onclick="hideInfoTablePopup()"></div>
         <div id="popup" class="popup" style="display: none;"></div>
     </div>
 </body>
