@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-def add_gameweek_score(gameweek, score, team, goal_scorers, assists, saves, yellow_cards, red_cards, own_goals, bonus_3, bonus_2, bonus_1):
+def add_gameweek_score(gameweek, score, team, goal_scorers, assists, on_bench, saves, yellow_cards, red_cards, own_goals, bonus_3, bonus_2, bonus_1):
 
     results_data = pd.read_csv('data/results.csv')
 
@@ -22,6 +22,7 @@ def add_gameweek_score(gameweek, score, team, goal_scorers, assists, saves, yell
         'Team': team,
         'Goal Scorers': goal_scorers,
         'Assists': assists,
+        'On Bench': on_bench,
         'Saves': saves,
         'Yellow Cards': yellow_cards,
         'Red Cards': red_cards,
@@ -30,12 +31,15 @@ def add_gameweek_score(gameweek, score, team, goal_scorers, assists, saves, yell
         '2 Bonus': bonus_2,
         '1 Bonus': bonus_1,
     }
+
     new_results_data = pd.DataFrame([new_results])
     results_data = pd.concat([results_data, new_results_data], ignore_index=True)
 
     gw_scores = {}
     goals_scored = int(score.split('-')[0])
     goals_conceded = int(score.split('-')[1])
+
+
 
     new_player_total_dict = {}
     new_player_form_dict = {}
@@ -57,18 +61,24 @@ def add_gameweek_score(gameweek, score, team, goal_scorers, assists, saves, yell
     red_cards_dict = {}
     own_goals_dict = {}
 
-    concede_lost = (goals_conceded // 2) * -1
-
     for player in player_scores_data['Player']:
         player_score = 0
         gw_goals = 0
         gw_assists = 0
         gw_played = 0
+        player_conceded = goals_conceded
         minutes[player] = 0
         saves_dict[player] = 0
         yellow_cards_dict[player] = 0
         red_cards_dict[player] = 0
         own_goals_dict[player] = 0
+
+        for i in on_bench.values():
+            if player in i:
+                player_conceded -= 1
+
+        concede_lost = (player_conceded // 2) * -1
+        
         
         if player_scores_data.loc[player_scores_data['Player'] == player, 'Position'].item() in ['GK']:
             if player in team:
@@ -77,13 +87,13 @@ def add_gameweek_score(gameweek, score, team, goal_scorers, assists, saves, yell
 
         if player_scores_data.loc[player_scores_data['Player'] == player, 'Position'].item() in ['GK', 'DEF']:
             if player in team:
-                if goals_conceded == 0:
+                if player_conceded == 0:
                     player_score += 4
                 player_score += concede_lost
 
         if player_scores_data.loc[player_scores_data['Player'] == player, 'Position'].item() == 'MID':
             if player in team:
-                if goals_conceded == 0:
+                if player_conceded == 0:
                     player_score += 1
 
         if player in team:
@@ -164,14 +174,14 @@ def add_gameweek_score(gameweek, score, team, goal_scorers, assists, saves, yell
 
         if player_scores_data.loc[player_scores_data['Player'] == player, 'Position'].item() in ['GK', 'DEF']:
             if player in team:
-                if goals_conceded == 0:
+                if player_conceded == 0:
                     clean_sheet[player] = 4
                 else:
                     clean_sheet[player] = 0
-                conceded[player] += goals_conceded
+                conceded[player] += player_conceded
         elif player_scores_data.loc[player_scores_data['Player'] == player, 'Position'].item() == 'MID':
             if player in team:    
-                if goals_conceded == 0:
+                if player_conceded == 0:
                     clean_sheet[player] = 1
                 else:
                     clean_sheet[player] = 0

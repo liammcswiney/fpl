@@ -1,13 +1,13 @@
 Player,Position,Minutes,Goals,Assists,Bonus,Clean Sheet,Conceded,Saves,Yellow Cards,Red Cards,Own Goals
-Dan,GK,40,0,0,0,4,0,7,0,0,1
+Dan,GK,40,0,0,0,0,2,7,0,0,1
 Zeki,GK,0,0,0,0,0,0,0,0,0,0
-Liam Mc,DEF,40,0,0,0,4,0,0,1,0,0
-Joe,DEF,40,1,4,3,4,0,0,0,0,0
+Liam Mc,DEF,40,0,0,0,0,1,0,1,0,0
+Joe,DEF,40,1,4,3,0,1,0,0,0,0
 Alfie,DEF,0,0,0,0,0,0,0,0,0,0
-Tom,DEF,40,0,0,0,4,0,0,0,1,0
-Mepsted,MID,40,1,0,1,1,0,0,0,0,0
-Liam T,MID,40,2,0,2,1,0,0,0,0,0
-Rarnott,MID,40,0,0,0,1,0,0,0,0,0
+Tom,DEF,40,0,0,0,0,1,0,0,1,0
+Mepsted,MID,40,1,0,1,0,0,0,0,0,0
+Liam T,MID,40,2,0,2,0,0,0,0,0,0
+Rarnott,MID,40,0,0,0,0,0,0,0,0,0
 Rhys,MID,0,0,0,0,0,0,0,0,0,0
 Charile,MID,0,0,0,0,0,0,0,0,0,0
 Jay,FWD,40,0,0,0,0,0,0,0,0,0

@@ -1,7 +1,7 @@
 Player,Position,Minutes,Goals,Assists,Bonus,Clean Sheet,Conceded,Saves,Yellow Cards,Red Cards,Own Goals
 Dan,GK,40,0,0,0,0,10,1,0,0,0
 Zeki,GK,0,0,0,0,0,0,0,0,0,0
-Liam Mc,DEF,40,1,0,0,0,10,0,0,0,0
+Liam Mc,DEF,40,1,0,0,0,2,0,0,0,0
 Joe,DEF,0,0,0,0,0,0,0,0,0,0
 Alfie,DEF,40,2,0,2,0,10,0,0,0,1
 Tom,DEF,0,0,0,0,0,0,0,0,0,1

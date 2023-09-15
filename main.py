@@ -7,6 +7,7 @@ import csv
 import json
 import pass_deadline
 import add_results
+import add_injury
 
 def create_app():
     app = Flask(__name__, template_folder="templates", static_folder="static")
@@ -1123,7 +1124,6 @@ def change_player_build():
 
     player_score = pd.read_csv('data/player_score.csv')
     player_score = player_score.merge(player_data, on=['Player', 'Position'])
-    player_score = player_score.sort_values('Price', ascending=False)
 
     if player_index == 1:
         filtered_players = player_score[player_score['Position'] == 'GK']
@@ -1134,15 +1134,28 @@ def change_player_build():
     elif player_index == 6:
         filtered_players = player_score[player_score['Position'] == 'FWD']
 
-    # Convert the filtered players to a list of dictionaries
+    filtered_players = filtered_players.sort_values('Total Points', ascending=False)
     players = filtered_players.to_dict('list')
 
-    player_data = player_data.sort_values('Price', ascending=False)
+    if player_index == 1:
+        player_data = player_data[player_data['Position'] == 'GK']
+    elif player_index in [2, 3]:
+        player_data = player_data[player_data['Position'] == 'DEF']
+    elif player_index in [4, 5]:
+        player_data = player_data[player_data['Position'] == 'MID']
+    elif player_index == 6:
+        player_data = player_data[player_data['Position'] == 'FWD']
+
+    player_data = player_data.sort_values('Total Points', ascending=False)
     player_data = player_data.to_dict(orient='list')
+
+    injury_data = pd.read_csv('data/injuries.csv')
+    injury_data = injury_data.to_dict(orient='records')
     
     return render_template('change_player_build.html', player_index=player_index
                            , players=players, team_name=team_name, team_data=team_data
-                           , fixture_data=fixture_data, player_data=player_data)
+                           , fixture_data=fixture_data, player_data=player_data
+                           , injury_data=injury_data)
 
 #############################################################################################################################
 
@@ -1196,10 +1209,14 @@ def change_player_transfer():
 
     player_data = player_data.sort_values('Total Points', ascending=False)
     player_data = player_data.to_dict(orient='list')
+
+    injury_data = pd.read_csv('data/injuries.csv')
+    injury_data = injury_data.to_dict(orient='records')
     
     return render_template('change_player_transfer.html', player_index=player_index
                            , players=players, team_name=team_name, team_data=team_data
-                           , fixture_data=fixture_data, player_data=player_data)
+                           , fixture_data=fixture_data, player_data=player_data
+                           , injury_data=injury_data)
 
 #############################################################################################################################
 
@@ -1449,6 +1466,32 @@ def add_next_results():
 
 #############################################################################################################################
 
+@app.route('/add_next_injury', methods=['POST'])
+def add_next_injury():
+
+    team_name = request.args.get('teamName')
+    next_gw = request.args.get('nextGW')
+    next_gw = int(next_gw) - 1
+    current_gw = f'Gameweek {next_gw}'
+
+    player = request.form.get('player')
+    injury_type = request.form.get('injury_type')
+    injury_colour = request.form.get('injury_colour')
+    return_date = request.form.get('return_date')
+
+    print(player, injury_type, injury_colour, return_date)
+
+    add_injury.add_injury(player = player
+                          , injury_colour = injury_colour
+                          , injury_type = injury_type
+                          , return_date = return_date)
+
+
+    return redirect(url_for('admin', team_name=team_name, current_gw=current_gw))
+
+
+#############################################################################################################################
+
 from urllib.parse import quote
 
 @app.template_filter('urlencode')
@@ -1456,8 +1499,6 @@ def urlencode_filter(s):
     return quote(s)
 
 #############################################################################################################################
-
-
 
 @app.route('/team_not_found/<team_name>')
 def team_not_found(team_name):

@@ -154,7 +154,7 @@
         <h1>Admin Panel</h1>
         <button onclick="showDeadlineConfirmationPopup()">Pass Deadline</button>
         <button onclick="showResultsConfirmationPopup()">Add Results</button>
-        <br>
+        <button onclick="showInjuryPopup()">Add injury</button>
         <a href="/team_management/{{ team_name }}">Back to Home</a>
     </div>
 
@@ -164,6 +164,7 @@
         <button onclick="passDeadline()">Yes</button>
         <button onclick="hideDeadlineConfirmationPopup()">Cancel</button>
     </div>
+
 
     <div id="resultsConfirmationPopup" class="confirmation-popup">
         <h2>Add Results</h2>
@@ -230,9 +231,6 @@
                 <option value="Henry">Henry</option>
                 <option value="Meadows">Meadows</option>
                 <option value="Cam">Cam</option>
-
-                ['Dan', 'Zeki', 'Liam Mc', 'Joe', 'Alfie', 'Tom','Mepsted', 'Liam T', 'Rarnott', 'Rhys', 'Charile', 'Jay', 'Henry', 'Meadows', 'Cam'],
-
               </select>
               <div class="button-container">
                 <button type="button" class="add-player-button" onclick="addPlayerInput()">+</button>
@@ -305,6 +303,50 @@
           <button type="button" id= "nextButton" onclick="nextQuestion()">Next</button>
         </form>
     </div>
+
+    <div id="injuryPopup" class="confirmation-popup">
+        <h2>Add Injuries</h2>
+        <select id="playerInput5" name="players">
+            <option value="" disabled selected>Select player</option>
+            <option value="Dan">Dan</option>
+            <option value="Zeki">Zeki</option>
+            <option value="Liam Mc">Liam Mc</option>
+            <option value="Joe">Joe</option>
+            <option value="Alfie">Alfie</option>
+            <option value="Tom">Tom</option>
+            <option value="Mepsted">Mepsted</option>
+            <option value="Liam T">Liam T</option>
+            <option value="Rarnott">Rarnott</option>
+            <option value="Rhys">Rhys</option>
+            <option value="Charlie">Charlie</option>
+            <option value="Jay">Jay</option>
+            <option value="Henry">Henry</option>
+            <option value="Meadows">Meadows</option>
+            <option value="Cam">Cam</option>
+        </select>
+        <br><br>
+
+        <label for="injury_colour">Injury Colour:</label>
+        <select id="injury_colour">
+            <option value="" disabled selected>Select Colour</option>
+            <option value="none">none</option>
+            <option value="Red">Red</option>
+            <option value="Yellow">Yellow</option>
+        </select>
+        <br><br>
+
+        <label for="injury_type">Injury Type:</label>
+        <input type="text" id="injury_type">
+        <br><br>
+
+        <label for="return_date">Return Date:</label>
+        <input type="text" id="return_date">
+        <br><br>
+
+        <button onclick="addInjuries()">Submit</button>
+    </div>
+    
+
     <script>
         var currentQuestionIndex = 0;
         var questions = [
@@ -917,6 +959,68 @@
         }
 
 
+        function showInjuryPopup() {
+            var confirmationPopup = document.getElementById("injuryPopup");
+            confirmationPopup.style.display = "block";
+        }
+
+        function hideInjuryPopup() {
+            var confirmationPopup = document.getElementById("injuryPopup");
+            confirmationPopup.style.display = "none";
+        }
+
+
+        function addInjuries() {
+            // Get values from the HTML form
+            var player = document.getElementById('playerInput5').value;
+            console.log("Selected player:", player);
+            const injury_type = document.getElementById('injury_type').value;
+            const injury_colour = document.getElementById('injury_colour').value;
+            const return_date = document.getElementById('return_date').value;
+
+            // Create a new form programmatically
+            var form = document.createElement("form");
+            form.method = "POST";
+            form.action = "/add_next_injury?teamName={{ team_name }}&nextGW={{ next_gw }}";
+
+            // Add player input to the form
+            var playerInput = document.createElement("input");
+            playerInput.type = "hidden";
+            playerInput.name = "player";
+            playerInput.value = player;
+            form.appendChild(playerInput);
+
+            // Add injury type input to the form
+            var injuryTypeInput = document.createElement("input");
+            injuryTypeInput.type = "hidden";
+            injuryTypeInput.name = "injury_type";
+            injuryTypeInput.value = injury_type;
+            form.appendChild(injuryTypeInput);
+
+            // Add injury colour/severity input to the form
+            var injuryColourInput = document.createElement("input");
+            injuryColourInput.type = "hidden";
+            injuryColourInput.name = "injury_colour";
+            injuryColourInput.value = injury_colour;
+            form.appendChild(injuryColourInput);
+
+            // Add return date input to the form
+            var returnDateInput = document.createElement("input");
+            returnDateInput.type = "hidden";
+            returnDateInput.name = "return_date";
+            returnDateInput.value = return_date;
+            form.appendChild(returnDateInput);
+
+            // Add a submit button to the form
+            var button = document.createElement("button");
+            button.type = "submit";
+            button.textContent = "Add Injury";
+            form.appendChild(button);
+
+            // Append the form to the body and submit it
+            document.body.appendChild(form);
+            form.submit();
+        }
     </script>
 </body>
 </html>

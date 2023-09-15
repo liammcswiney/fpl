@@ -269,12 +269,31 @@
             var price = data['Price'][playerIndex];
             var gameweeks = Object.keys(stats).filter(key => key.includes('Gameweek'));
 
+            var injuryDataJS = JSON.parse('{{ injury_data|tojson|safe }}');  // <-- Fixed this line
+
+            // Search for the player in the injuryDataJS
+            var playerInjury = injuryDataJS.find(item => item.Player === player);
+            console.log(playerInjury); // <-- Fixed this line
+
             // Sort gameweeks as integers
             gameweeks.sort((a, b) => parseInt(a.replace('Gameweek', '')) - parseInt(b.replace('Gameweek', '')));
 
             var html = '<h2>' + player + ' (' + position + ')' + '</h2>';
             html += '<h2>' + price + '</h2>';
-            // html += '<p><strong>Gameweek History</strong></p>';
+
+            if (playerInjury) {
+                if (playerInjury.injury_colour === 'Red') {
+                    document.getElementById('popup').style.border = "5px solid #ff00007f";
+                    html += `<div data-color-red="red" style="background-color: red; color: white; padding: 5px; border-radius: 5px; text-align: center;">${playerInjury.injury_type}<br>Expected back ${playerInjury.return_date}</div>`;
+                } else if (playerInjury.injury_colour === 'Yellow') {
+                    document.getElementById('popup').style.border = "5px solid #fffb007f";
+                    html += `<div data-color-yellow="rgb(255, 221, 0)" style="background-color: rgb(255, 255, 0); color: rgb(0, 0, 0); padding: 5px; border-radius: 5px; text-align: center;">${playerInjury.injury_type}<br>${playerInjury.return_date} chance of playing</div>`;
+                } else 
+                    document.getElementById('popup').style.border = "";
+
+            }
+
+            html += '<br>'
             html += '<table>';
             html += '<tr><th>Gameweek</th><th>Fixture</th><th>Score</th><th>Points</th></tr>';
 
@@ -300,6 +319,7 @@
 
             return html;
         }
+
 
         function hidePopup() {
             var popup = document.getElementById('popup');
@@ -346,26 +366,74 @@
                 </thead>
                 <tbody>
                     {% for index in range(players['Player']|length) %}
-                        <tr class="clickable-row" onclick="showPopup('{{ index }}')">
-                            <td {% if players['Player'][index] in team_data %}class="existing-player"{% endif %}>
-                                {% if players['Player'][index] not in team_data %}
-                                <form method="POST" action="/add_player_transfer?playerIndex={{ player_index }}&teamName={{ team_name }}">
-                                    <input type="hidden" name="playerName" value="{{ players['Player'][index] }}">
-                                    <button type="submit" onclick="stopEventPropagation(event)">Add</button>
-                                </form>
+                        {% for player in injury_data %}
+                            {% if player['Player'] == players['Player'][index] %}
+                                {% if player['injury_colour'] == 'Red' %}
+                                    <tr class="clickable-row" onclick="showPopup('{{ index }}')" >
+                                        <td style="background-color: #ff00007f;">
+                                            {% if players['Player'][index] not in team_data %}
+                                            <form method="POST" action="/add_player_transfer?playerIndex={{ player_index }}&teamName={{ team_name }}">
+                                                <input type="hidden" name="playerName" value="{{ players['Player'][index] }}">
+                                                <button type="submit" onclick="stopEventPropagation(event)">Add</button>
+                                            </form>
+                                            {% else %}
+                                            <span class="existing-button">Already Selected</span>
+                                            {% endif %}
+                                        </td>
+                                        <td style="background-color: #ff00007f;">{{ players['Player'][index] }}</td>
+                                        <td style="background-color: #ff00007f;">{{ players['Position'][index] }}</td>
+                                        <td style="background-color: #ff00007f;">{{ players['Price'][index] }}</td>
+                                        <td style="background-color: #ff00007f;">{{ players['Form'][index] }}</td>
+                                        <td style="background-color: #ff00007f;">{{ players['Total Points'][index] }}</td>
+                                        <td style="background-color: #ff00007f;">
+                                            <i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
+                                        </td>                                                  
+                                    </tr>
+                                {% elif player['injury_colour'] == 'Yellow' %}
+                                    <tr class="clickable-row" onclick="showPopup('{{ index }}')">
+                                        <td style="background-color: #fffb007f;">
+                                            {% if players['Player'][index] not in team_data %}
+                                            <form method="POST" action="/add_player_transfer?playerIndex={{ player_index }}&teamName={{ team_name }}">
+                                                <input type="hidden" name="playerName" value="{{ players['Player'][index] }}">
+                                                <button type="submit" onclick="stopEventPropagation(event)">Add</button>
+                                            </form>
+                                            {% else %}
+                                            <span class="existing-button">Already Selected</span>
+                                            {% endif %}
+                                        </td>
+                                        <td style="background-color: #fffb007f;">{{ players['Player'][index] }}</td>
+                                        <td style="background-color: #fffb007f;">{{ players['Position'][index] }}</td>
+                                        <td style="background-color: #fffb007f;">{{ players['Price'][index] }}</td>
+                                        <td style="background-color: #fffb007f;">{{ players['Form'][index] }}</td>
+                                        <td style="background-color: #fffb007f;">{{ players['Total Points'][index] }}</td>
+                                        <td style="background-color: #fffb007f;">
+                                            <i class="fa fa-exclamation-triangle" style="color: #ffc400;"></i>
+                                        </td>                                                  
+                                    </tr>
                                 {% else %}
-                                <span class="existing-button">Already Selected</span>
+                                    <tr class="clickable-row" onclick="showPopup('{{ index }}')">
+                                        <td {% if players['Player'][index] in team_data %}class="existing-player"{% endif %}>
+                                            {% if players['Player'][index] not in team_data %}
+                                            <form method="POST" action="/add_player_transfer?playerIndex={{ player_index }}&teamName={{ team_name }}">
+                                                <input type="hidden" name="playerName" value="{{ players['Player'][index] }}">
+                                                <button type="submit" onclick="stopEventPropagation(event)">Add</button>
+                                            </form>
+                                            {% else %}
+                                            <span class="existing-button">Already Selected</span>
+                                            {% endif %}
+                                        </td>
+                                        <td {% if players['Player'][index] in team_data %}class="existing-player"{% endif %}>{{ players['Player'][index] }}</td>
+                                        <td {% if 'Position' in team_data or players['Player'][index] in team_data %}class="existing-player"{% endif %}>{{ players['Position'][index] }}</td>
+                                        <td {% if 'Price' in team_data or players['Player'][index] in team_data %}class="existing-player"{% endif %}>{{ players['Price'][index] }}</td>
+                                        <td {% if 'Form' in team_data or players['Player'][index] in team_data %}class="existing-player"{% endif %}>{{ players['Form'][index] }}</td>
+                                        <td {% if 'Total Points' in team_data or players['Player'][index] in team_data %}class="existing-player"{% endif %}>{{ players['Total Points'][index] }}</td>
+                                        <td {% if players['Player'][index] in team_data %}class="existing-player"{% endif %}>
+                                            <i class="fas fa-info-circle" onclick="showPopup('{{ loop.index0 }}')"></i>
+                                        </td>                                                  
+                                    </tr>
                                 {% endif %}
-                            </td>
-                            <td {% if players['Player'][index] in team_data %}class="existing-player"{% endif %}>{{ players['Player'][index] }}</td>
-                            <td {% if 'Position' in team_data or players['Player'][index] in team_data %}class="existing-player"{% endif %}>{{ players['Position'][index] }}</td>
-                            <td {% if 'Price' in team_data or players['Player'][index] in team_data %}class="existing-player"{% endif %}>{{ players['Price'][index] }}</td>
-                            <td {% if 'Form' in team_data or players['Player'][index] in team_data %}class="existing-player"{% endif %}>{{ players['Form'][index] }}</td>
-                            <td {% if 'Total Points' in team_data or players['Player'][index] in team_data %}class="existing-player"{% endif %}>{{ players['Total Points'][index] }}</td>
-                            <td {% if players['Player'][index] in team_data %}class="existing-player"{% endif %}>
-                                <i class="fas fa-info-circle" onclick="showPopup('{{ loop.index0 }}')"></i>
-                            </td>                                                  
-                        </tr>
+                            {% endif %}
+                        {% endfor %}
                     {% endfor %}
                 </tbody>
             </table>
