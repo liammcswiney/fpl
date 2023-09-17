@@ -550,12 +550,12 @@ def save_transfers(team_name):
 
     for row in temp.values:
         if row[0] == team_name:
-            if row[7] not in [row[1], row[2], row[3], row[4], row[5]]:
+            if row[7] not in [row[1], row[2], row[3], row[4], row[5], row[6]]:
                 temp.loc[temp['Team Name'] == team_name, 'Captain'] = temp.loc[temp['Team Name'] == team_name, 'Player 1'].values
 
     for row in temp.values:
         if row[0] == team_name:
-            if row[8] not in [row[1], row[2], row[3], row[4], row[5]]:
+            if row[8] not in [row[1], row[2], row[3], row[4], row[5], row[6]]:
                 temp.loc[temp['Team Name'] == team_name, 'Bench'] = temp.loc[temp['Team Name'] == team_name, 'Player 2'].values
 
 
