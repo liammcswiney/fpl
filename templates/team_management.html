@@ -257,11 +257,11 @@
             <form action="/fixtures/{{ team_name }}">
                 <button type="submit">Fixtures and Results</button>
             </form>
-            <form action="/fixtures/{{ team_name }}">
-                <button type="submit">League Standings</button>
+            <form action="/rules_page/{{ team_name }}">
+                <button type="submit">Rules and Scoring</button>
             </form>
         </div>
-        {% if team_name == 'New Team' %}
+        {% if team_name == 'McDud' %}
         {% if last_key != 'Team Name' %}
             {% set current_gw = last_key %}
         {% else %}

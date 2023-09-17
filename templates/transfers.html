@@ -196,6 +196,12 @@
             display: flex;
             align-items: center;
             justify-content: center; 
+            cursor: pointer;
+        }
+
+        .save-button:hover {
+            background-color: #0dcc3d;
+            transform: scale(1.05); /* Slightly enlarge button on hover */
         }
 
         .return-button {
@@ -213,6 +219,12 @@
             display: flex;
             align-items: center;
             justify-content: center; /* Centers the content */
+            cursor: pointer;
+        }
+
+        .return-button:hover {
+            background-color: #cc0d0d;
+            transform: scale(1.05); /* Slightly enlarge button on hover */
         }
 
         .button-base {
@@ -223,7 +235,6 @@
             border: 2px solid #333; /* Slightly grayish border for a bit of depth */
             border-radius: 5px;
             font-size: 16px;
-            cursor: pointer;
             transition: background-color 0.3s ease, transform 0.1s ease; /* Added a quick transform transition */
             font-weight: bold;
             display: flex;
@@ -231,10 +242,6 @@
             justify-content: center; /* Centers the content */
         }
 
-        .button-base:hover {
-            background-color: #333;
-            transform: scale(1.05); /* Slightly enlarges button on hover for feedback */
-        }
 
         .free-transfers {
             top: 10px;
@@ -251,26 +258,6 @@
             right: 10px;
         }
 
-        .button-base {
-            position: absolute;
-            padding: 5px 10px;
-            background-color: #1a1a1a; /* Slightly lighter than pure black for better visuals */
-            color: #fff;
-            border: 2px solid #333; /* Slightly grayish border for a bit of depth */
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.1s ease; /* Added a quick transform transition */
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center; /* Centers the content */
-        }
-
-        .button-base:hover {
-            background-color: #333;
-            transform: scale(1.05); /* Slightly enlarges button on hover for feedback */
-        }
         
         .disabled {
             background-color: #ccc;

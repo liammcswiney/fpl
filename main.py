@@ -39,9 +39,13 @@ def create_team():
                     error_message = f"The team '{team_name}' already exists. Please enter a different team name."
                     return render_template('create_team.html', error_message=error_message)
 
-        player_columns = ['0'] * 7
+        player_columns = ['0'] * 8
 
         with open('data/team_data.csv', 'a', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow([team_name] + player_columns)
+
+        with open('data/team_data_temp.csv', 'a', newline='') as csvfile:
             writer = csv.writer(csvfile)
             writer.writerow([team_name] + player_columns)
 
@@ -1403,6 +1407,15 @@ def leaderboard(team_name):
 
 #############################################################################################################################
 
+
+@app.route('/rules_page/<team_name>')
+def rules_page(team_name):
+
+    return render_template('rules_page.html', team_name=team_name)
+
+#############################################################################################################################
+
+
 @app.route('/fixtures/<team_name>')
 def fixture(team_name):
 
@@ -1448,21 +1461,23 @@ def add_next_results():
     team = json.loads(request.form['team'])
     goal_scorers = json.loads(request.form['goalScorers'])
     assists = json.loads(request.form['assists'])
+    on_bench = json.loads(request.form['onBench'])
     bonuses = json.loads(request.form['bonuses'])
     saves = int(request.form['saves'])
     yellow_cards = json.loads(request.form['yellow_cards'])
     red_cards = json.loads(request.form['red_cards'])
     own_goals = json.loads(request.form['own_goals'])
 
+    print(on_bench)
+
     bonus_3, bonus_2, bonus_1 = bonuses[:3]
 
     add_results.add_gameweek_score(gameweek=next_gw, score=score, team=team
-                                   , goal_scorers=goal_scorers, assists=assists
+                                   , goal_scorers=goal_scorers, assists=assists, on_bench=on_bench
                                    , bonus_1=bonus_1, bonus_2=bonus_2, bonus_3=bonus_3, saves=saves
                                    , yellow_cards=yellow_cards, red_cards=red_cards, own_goals=own_goals)
 
     return redirect(url_for('admin', team_name=team_name, current_gw=current_gw))
-
 
 #############################################################################################################################
 

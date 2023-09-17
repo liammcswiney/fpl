@@ -143,7 +143,6 @@
             margin-right: 0px;
         }
 
-
     </style>
 </head>
 <body>
@@ -222,15 +221,19 @@
                 <option value="Joe">Joe</option>
                 <option value="Alfie">Alfie</option>
                 <option value="Tom">Tom</option>
+                <option value="Saajan">Saajan</option>
+                <option value="Jake">Jake</option>
                 <option value="Mepsted">Mepsted</option>
                 <option value="Liam T">Liam T</option>
                 <option value="Rarnott">Rarnott</option>
                 <option value="Rhys">Rhys</option>
                 <option value="Charlie">Charlie</option>
+                <option value="Nathan">Nathan</option>
                 <option value="Jay">Jay</option>
                 <option value="Henry">Henry</option>
                 <option value="Meadows">Meadows</option>
                 <option value="Cam">Cam</option>
+                <option value="Toby">Toby</option>
               </select>
               <div class="button-container">
                 <button type="button" class="add-player-button" onclick="addPlayerInput()">+</button>
@@ -263,6 +266,10 @@
             <div class="playersAssistContainer" style="margin-bottom: 5px;">
               <div id="playersAssistInputs"></div>
             </div>
+          </div>
+
+          <div class="onBenchContainer" style="margin-bottom: 5px;">
+            <div id="onBenchInputs"></div>
           </div>
           
           <div class="savesContainer" style="display: none;">
@@ -309,20 +316,24 @@
         <select id="playerInput5" name="players">
             <option value="" disabled selected>Select player</option>
             <option value="Dan">Dan</option>
-            <option value="Zeki">Zeki</option>
-            <option value="Liam Mc">Liam Mc</option>
-            <option value="Joe">Joe</option>
-            <option value="Alfie">Alfie</option>
-            <option value="Tom">Tom</option>
-            <option value="Mepsted">Mepsted</option>
-            <option value="Liam T">Liam T</option>
-            <option value="Rarnott">Rarnott</option>
-            <option value="Rhys">Rhys</option>
-            <option value="Charlie">Charlie</option>
-            <option value="Jay">Jay</option>
-            <option value="Henry">Henry</option>
-            <option value="Meadows">Meadows</option>
-            <option value="Cam">Cam</option>
+                <option value="Zeki">Zeki</option>
+                <option value="Liam Mc">Liam Mc</option>
+                <option value="Joe">Joe</option>
+                <option value="Alfie">Alfie</option>
+                <option value="Tom">Tom</option>
+                <option value="Saajan">Saajan</option>
+                <option value="Jake">Jake</option>
+                <option value="Mepsted">Mepsted</option>
+                <option value="Liam T">Liam T</option>
+                <option value="Rarnott">Rarnott</option>
+                <option value="Rhys">Rhys</option>
+                <option value="Charlie">Charlie</option>
+                <option value="Nathan">Nathan</option>
+                <option value="Jay">Jay</option>
+                <option value="Henry">Henry</option>
+                <option value="Meadows">Meadows</option>
+                <option value="Cam">Cam</option>
+                <option value="Toby">Toby</option>
         </select>
         <br><br>
 
@@ -353,6 +364,7 @@
             "What was the score?",
             "Team Lineup",
             "Players Scored",
+            "Who was on the bench for each goal",
             "How many saves were made?",
             "Did anyone get a yellow card?",
             "Did anyone get a red card?",
@@ -361,6 +373,7 @@
         ];
         var playerInputCount = 1;
         var homeGoals = 0;
+        var awayGoals = 0;
 
         function showDeadlineConfirmationPopup() {
             var confirmationPopup = document.getElementById("deadlineConfirmationPopup");
@@ -396,6 +409,7 @@
             var team = [];
             var goalScorers = [];
             var assists = [];
+            var onBench = {};
             var saves = parseInt(document.getElementById("savesInput").value);
             var yellow_cards = [];
             var red_cards = [];
@@ -426,6 +440,16 @@
                 }
             }
 
+            var onBench = {}
+            for (var goal in onBenchData) {
+                onBench[goal] = []; // Initialize an empty array for each goal
+                onBenchData[goal].forEach(function(dropdown) {
+                    if (dropdown.value && dropdown.value !== "none") {
+                        onBench[goal].push(dropdown.value);
+                    }
+                });
+            }
+
             var yellowCardsInputs = document.querySelectorAll("select[name='yellowCards[]']");
             for (var i = 0; i < yellowCardsInputs.length; i++) {
                 console.log("Checking dropdown ", i); // Add this
@@ -434,7 +458,6 @@
                     yellow_cards.push(yellowCardsInput.value);
                 }
             }
-            console.log('Collected yellow cards:', yellow_cards);
 
             var redCardsInputs = document.querySelectorAll("select[name='redCards[]']");
             for (var i = 0; i < redCardsInputs.length; i++) {
@@ -488,6 +511,12 @@
             assistsInput.value = JSON.stringify(assists);
             form.appendChild(assistsInput);
 
+            var onBenchHiddenInput = document.createElement("input");
+            onBenchHiddenInput.type = "hidden";
+            onBenchHiddenInput.name = "onBench";
+            onBenchHiddenInput.value = JSON.stringify(onBench);
+            form.appendChild(onBenchHiddenInput);
+
             var savesInput = document.createElement("input");
             savesInput.type = "hidden";
             savesInput.name = "saves";
@@ -540,6 +569,9 @@
 
           var savesInputsContainer = document.querySelector(".saves-input-container");
           savesInputsContainer.style.display = "none";
+
+          var onBenchContainer = document.getElementById("onBenchContainer");
+          onBenchContainer.style.display = "none"; 
       
           var nextButton = document.getElementById("nextButton");
       
@@ -614,6 +646,8 @@
             var playersScoredContainer = document.querySelector(".playersScoredContainer");
             var playersAssistContainer = document.querySelector(".playersAssistContainer");
 
+            var onBenchContainer = document.querySelector(".onBenchContainer");
+
             var savesInputsContainer = document.querySelector(".saves-input-container");
 
             var yellowCardsContainer = document.querySelector(".yellowCardsContainer")
@@ -637,6 +671,7 @@
                 }
 
                 homeGoals = parseInt(homeGoalsInput.value);
+                awayGoals = parseInt(awayGoalsInput.value);
 
                 scoreInputContainer.style.display = "none";
                 resultsQuestion.textContent = questions[currentQuestionIndex + 1];
@@ -659,11 +694,22 @@
                 playersScoredContainer.style.display = "none";
                 playersAssistContainer.style.display = "none";
                 playerInputsContainer.style.display = "none";
+                onBenchContainer.style.display = "block"
+                submitButton.style.display = "none";
+                currentQuestionIndex++;
+                generateOnBenchInputs();
+
+            } else if (currentQuestionIndex === 3) {       
+                resultsQuestion.textContent = questions[currentQuestionIndex + 1];
+                // playersScoredContainer.style.display = "none";
+                // playersAssistContainer.style.display = "none";
+                // playerInputsContainer.style.display = "none";
+                onBenchContainer.style.display = "none"
                 savesInputsContainer.style.display = "block";
                 submitButton.style.display = "none";
                 currentQuestionIndex++;
 
-            } else if (currentQuestionIndex === 3) {  
+            } else if (currentQuestionIndex === 4) {  
                 resultsQuestion.textContent = questions[currentQuestionIndex + 1];
                 savesInputsContainer.style.display = "none";
                 yellowCardsContainer.style.display = "block";
@@ -671,7 +717,7 @@
                 currentQuestionIndex++;
                 generateYellowCardsInputs();
 
-            } else if (currentQuestionIndex === 4) {  
+            } else if (currentQuestionIndex === 5) {  
                 resultsQuestion.textContent = questions[currentQuestionIndex + 1];
                 yellowCardsContainer.style.display = "none";
                 redCardsContainer.style.display = "block";
@@ -679,7 +725,7 @@
                 currentQuestionIndex++;
                 generateRedCardsInputs();
 
-            } else if (currentQuestionIndex === 5) {  
+            } else if (currentQuestionIndex === 6) {  
                 resultsQuestion.textContent = questions[currentQuestionIndex + 1];
                 redCardsContainer.style.display = "none";
                 ownGoalsContainer.style.display = "block";
@@ -687,7 +733,7 @@
                 currentQuestionIndex++;
                 generateOwnGoalsInputs();
 
-            } else if (currentQuestionIndex === 6) {
+            } else if (currentQuestionIndex === 7) {
 
                 var savesInput = document.getElementById("savesInput");
 
@@ -751,7 +797,7 @@
             var playersAssistInputs = document.getElementById("playersAssistInputs");
             playersAssistInputs.innerHTML = "";
 
-            for (var i = 1; i <= homeGoals; i++) {
+            for (var i = 1; i <= homeGoals; i++) {generatePlayersAssistInputs
                 var playerInputContainer = document.createElement("div");
                 playerInputContainer.className = "player-input-container";
 
@@ -785,6 +831,63 @@
                 playersAssistInputs.appendChild(playerInputContainer);
             }
         }
+
+        var onBenchData = {};
+        
+        function generateOnBenchInputs() {
+            var onBenchInputs = document.getElementById("onBenchInputs");
+            onBenchInputs.innerHTML = "";
+
+            var playerInputs = document.querySelectorAll("[id^=playerInput] option:checked");
+            console.log(playerInputs)
+            console.log(awayGoals)
+            var dropdownsPerRow = playerInputs.length - 7;
+
+            for (var i = 1; i <= awayGoals; i++) {
+                var benchDataForGoal = []; // Temporary list for this goal's dropdowns
+
+                for (var j = 1; j <= dropdownsPerRow; j++) {
+                    var playerInputContainer = document.createElement("div");
+                    playerInputContainer.className = "player-input-container";
+
+                    var benchInput = document.createElement("div");
+                    benchInput.className = "bench-input";
+
+                    var labelOnBench = document.createElement("label");
+                    labelOnBench.textContent = "Bench " + j + " for Goal " + i + ": ";
+
+                    var selectOnBenchInput = document.createElement("select");
+                    selectOnBenchInput.id = "benchInput" + i + "_" + j;
+                    selectOnBenchInput.name = "onBenchForGoal" + i + "[]";
+
+                    var optionNone = document.createElement("option");
+                    optionNone.value = "none";
+                    optionNone.textContent = "None";
+                    selectOnBenchInput.appendChild(optionNone);
+
+                    playerInputs.forEach(function(playerInput) {
+                        var optionOnBench = document.createElement("option");
+                        optionOnBench.value = playerInput.value;
+                        optionOnBench.textContent = playerInput.textContent;
+                        selectOnBenchInput.appendChild(optionOnBench);
+                    });
+
+                    benchInput.appendChild(labelOnBench);
+                    benchInput.appendChild(selectOnBenchInput);
+                    playerInputContainer.appendChild(benchInput);
+                    
+                    // Append the container to the DOM
+                    onBenchInputs.appendChild(playerInputContainer);
+
+                    benchDataForGoal.push(selectOnBenchInput); // Adding this dropdown to our list
+                }
+
+                onBenchData["Goal " + i] = benchDataForGoal; // Storing our list in the dictionary
+            }
+            console.log(onBenchData);
+        }
+
+
 
 
 
@@ -973,7 +1076,6 @@
         function addInjuries() {
             // Get values from the HTML form
             var player = document.getElementById('playerInput5').value;
-            console.log("Selected player:", player);
             const injury_type = document.getElementById('injury_type').value;
             const injury_colour = document.getElementById('injury_colour').value;
             const return_date = document.getElementById('return_date').value;
