@@ -284,7 +284,7 @@
             if (playerInjury) {
                 if (playerInjury.injury_colour === 'Red') {
                     document.getElementById('popup').style.border = "5px solid #ff00007f";
-                    html += `<div data-color-red="red" style="background-color: red; color: white; padding: 5px; border-radius: 5px; text-align: center;">${playerInjury.injury_type}<br>Expected back ${playerInjury.return_date}</div>`;
+                    html += `<div data-color-red="red" style="background-color: red; color: white; padding: 5px; border-radius: 5px; text-align: center;">${playerInjury.injury_type}<br>Expected back: ${playerInjury.return_date}</div>`;
                 } else if (playerInjury.injury_colour === 'Yellow') {
                     document.getElementById('popup').style.border = "5px solid #fffb007f";
                     html += `<div data-color-yellow="rgb(255, 221, 0)" style="background-color: rgb(255, 255, 0); color: rgb(0, 0, 0); padding: 5px; border-radius: 5px; text-align: center;">${playerInjury.injury_type}<br>${playerInjury.return_date} chance of playing</div>`;
