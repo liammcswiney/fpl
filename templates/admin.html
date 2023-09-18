@@ -284,8 +284,6 @@
             <div class="yellowCardsInputs"></div>
             <div class="yellowCardsInputs"></div>
         </div>
-        
-        
 
           <div class="redCardsContainer" style="display: none;">
             <div class="redCardsInputs"></div>
@@ -293,6 +291,22 @@
             <div class="redCardsInputs"></div>
             <div class="redCardsInputs"></div>
             <div class="redCardsInputs"></div>
+          </div>
+
+          <div class="penaltySavedContainer" style="display: none;">
+            <div class="penaltySavedInputs"></div>
+            <div class="penaltySavedInputs"></div>
+            <div class="penaltySavedInputs"></div>
+            <div class="penaltySavedInputs"></div>
+            <div class="penaltySavedInputs"></div>
+          </div>
+
+          <div class="penaltyMissedContainer" style="display: none;">
+            <div class="penaltyMissedInputs"></div>
+            <div class="penaltyMissedInputs"></div>
+            <div class="penaltyMissedInputs"></div>
+            <div class="penaltyMissedInputs"></div>
+            <div class="penaltyMissedInputs"></div>
           </div>
 
           <div class="ownGoalsContainer" style="display: none;">
@@ -413,6 +427,8 @@
             var assists = [];
             var onBench = {};
             var saves = parseInt(document.getElementById("savesInput").value);
+            var penalty_saved = [];
+            var penalty_missed = [];
             var yellow_cards = [];
             var red_cards = [];
             var own_goals = [];
@@ -450,6 +466,24 @@
                         onBench[goal].push(dropdown.value);
                     }
                 });
+            }
+
+            var penaltySavedInputs = document.querySelectorAll("select[name='penaltySaved[]']");
+            for (var i = 0; i < penaltySavedInputs.length; i++) {
+                console.log("Checking dropdown ", i); // Add this
+                var penaltySavedInput = penaltySavedInputs[i];
+                if (penaltySavedInput.value !== "") {
+                    penalty_saved.push(penaltySavedInput.value);
+                }
+            }
+
+            var penaltyMissedInputs = document.querySelectorAll("select[name='penaltyMissed[]']");
+            for (var i = 0; i < penaltyMissedInputs.length; i++) {
+                console.log("Checking dropdown ", i); // Add this
+                var penaltyMissedInput = penaltyMissedInputs[i];
+                if (penaltyMissedInput.value !== "") {
+                    penalty_missed.push(penaltyMissedInput.value);
+                }
             }
 
             var yellowCardsInputs = document.querySelectorAll("select[name='yellowCards[]']");
@@ -524,6 +558,18 @@
             savesInput.name = "saves";
             savesInput.value = JSON.stringify(saves);
             form.appendChild(savesInput);
+
+            var penaltySavedInput = document.createElement("input");
+            penaltySavedInput.type = "hidden";
+            penaltySavedInput.name = "penalty_saved";
+            penaltySavedInput.value = JSON.stringify(penalty_saved);
+            form.appendChild(penaltySavedInput);
+
+            var penaltyMissedInput = document.createElement("input");
+            penaltyMissedInput.type = "hidden";
+            penaltyMissedInput.name = "penalty_missed";
+            penaltyMissedInput.value = JSON.stringify(penalty_missed);
+            form.appendChild(penaltyMissedInput);
 
             var yellowCardsInput = document.createElement("input");
             yellowCardsInput.type = "hidden";
@@ -652,6 +698,10 @@
 
             var savesInputsContainer = document.querySelector(".saves-input-container");
 
+            var penaltySavedContainer = document.querySelector(".penaltySavedContainer")
+
+            var penaltyMissedContainer = document.querySelector(".penaltyMissedContainer")
+
             var yellowCardsContainer = document.querySelector(".yellowCardsContainer")
 
             var redCardsContainer = document.querySelector(".redCardsContainer")
@@ -730,12 +780,28 @@
             } else if (currentQuestionIndex === 6) {  
                 resultsQuestion.textContent = questions[currentQuestionIndex + 1];
                 redCardsContainer.style.display = "none";
+                penaltySavedContainer.style.display = "block";
+                nextButton.style.display = "block";
+                currentQuestionIndex++;
+                generatePenaltySavedInputs();
+
+            } else if (currentQuestionIndex === 7) {  
+                resultsQuestion.textContent = questions[currentQuestionIndex + 1];
+                penaltySavedContainer.style.display = "none";
+                penaltyMissedContainer.style.display = "block";
+                nextButton.style.display = "block";
+                currentQuestionIndex++;
+                generatePenaltyMissedInputs();
+
+            } else if (currentQuestionIndex === 8) {  
+                resultsQuestion.textContent = questions[currentQuestionIndex + 1];
+                penaltyMissedContainer.style.display = "none";
                 ownGoalsContainer.style.display = "block";
                 nextButton.style.display = "block";
                 currentQuestionIndex++;
                 generateOwnGoalsInputs();
 
-            } else if (currentQuestionIndex === 7) {
+            } else if (currentQuestionIndex === 9) {
 
                 var savesInput = document.getElementById("savesInput");
 
@@ -924,6 +990,84 @@
                 playerInputContainer.appendChild(bonusInput);
                 bonusInputsContainer.appendChild(playerInputContainer);
             }
+        }
+
+        function generatePenaltySavedInputs() {
+            var penaltySavedInputsList = document.querySelectorAll(".penaltySavedInputs");
+
+            penaltySavedInputsList.forEach(penaltySavedInputs => {
+                penaltySavedInputs.innerHTML = "";
+
+                var playerInputContainer = document.createElement("div");
+                playerInputContainer.className = "player-input-container";
+
+                var playerPenaltySavedInput = document.createElement("div");
+                playerPenaltySavedInput.className = "player-penalty-saved-input";
+
+                var labelPenaltySaved = document.createElement("label");
+                labelPenaltySaved.textContent = "YPenalty Saved: ";
+
+                var selectPenaltySavedInput = document.createElement("select");
+                selectPenaltySavedInput.name = "penaltySaved[]"; 
+
+                var playerInputs = document.querySelectorAll("[id^=playerInput] option:checked");
+
+                var optionNone = document.createElement("option");
+                optionNone.value = "none";
+                optionNone.textContent = "None";
+                selectPenaltySavedInput.appendChild(optionNone);
+
+                for (var j = 0; j < playerInputs.length; j++) {
+                    var optionPenaltySaved = document.createElement("option");
+                    optionPenaltySaved.value = playerInputs[j].value;
+                    optionPenaltySaved.textContent = playerInputs[j].textContent;
+                    selectPenaltySavedInput.appendChild(optionPenaltySaved);
+                }
+
+                playerPenaltySavedInput.appendChild(labelPenaltySaved);
+                playerPenaltySavedInput.appendChild(selectPenaltySavedInput);
+                playerInputContainer.appendChild(playerPenaltySavedInput);
+                penaltySavedInputs.appendChild(playerInputContainer);
+            });
+        }
+
+        function generatePenaltyMissedInputs() {
+            var penaltyMissedInputsList = document.querySelectorAll(".penaltyMissedInputs");
+
+            penaltyMissedInputsList.forEach(penaltyMissedInputs => {
+                penaltyMissedInputs.innerHTML = "";
+
+                var playerInputContainer = document.createElement("div");
+                playerInputContainer.className = "player-input-container";
+
+                var playerPenaltyMissedInput = document.createElement("div");
+                playerPenaltyMissedInput.className = "player-penalty-Missed-input";
+
+                var labelPenaltyMissed = document.createElement("label");
+                labelPenaltyMissed.textContent = "YPenalty Missed: ";
+
+                var selectPenaltyMissedInput = document.createElement("select");
+                selectPenaltyMissedInput.name = "penaltyMissed[]"; 
+
+                var playerInputs = document.querySelectorAll("[id^=playerInput] option:checked");
+
+                var optionNone = document.createElement("option");
+                optionNone.value = "none";
+                optionNone.textContent = "None";
+                selectPenaltyMissedInput.appendChild(optionNone);
+
+                for (var j = 0; j < playerInputs.length; j++) {
+                    var optionPenaltyMissed = document.createElement("option");
+                    optionPenaltyMissed.value = playerInputs[j].value;
+                    optionPenaltyMissed.textContent = playerInputs[j].textContent;
+                    selectPenaltyMissedInput.appendChild(optionPenaltyMissed);
+                }
+
+                playerPenaltyMissedInput.appendChild(labelPenaltyMissed);
+                playerPenaltyMissedInput.appendChild(selectPenaltyMissedInput);
+                playerInputContainer.appendChild(playerPenaltyMissedInput);
+                penaltyMissedInputs.appendChild(playerInputContainer);
+            });
         }
 
         function generateYellowCardsInputs() {

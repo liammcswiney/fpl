@@ -1464,6 +1464,8 @@ def add_next_results():
     on_bench = json.loads(request.form['onBench'])
     bonuses = json.loads(request.form['bonuses'])
     saves = int(request.form['saves'])
+    penalty_saved = json.loads(request.form['penalty_saved'])
+    penalty_missed = json.loads(request.form['penalty_missed'])
     yellow_cards = json.loads(request.form['yellow_cards'])
     red_cards = json.loads(request.form['red_cards'])
     own_goals = json.loads(request.form['own_goals'])
@@ -1475,6 +1477,7 @@ def add_next_results():
     add_results.add_gameweek_score(gameweek=next_gw, score=score, team=team
                                    , goal_scorers=goal_scorers, assists=assists, on_bench=on_bench
                                    , bonus_1=bonus_1, bonus_2=bonus_2, bonus_3=bonus_3, saves=saves
+                                   , penalty_saved=penalty_saved, penalty_missed=penalty_missed
                                    , yellow_cards=yellow_cards, red_cards=red_cards, own_goals=own_goals)
 
     return redirect(url_for('admin', team_name=team_name, current_gw=current_gw))

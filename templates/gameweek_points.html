@@ -403,6 +403,8 @@
         var goals = stats['Goals'][playerIndex];
         var assists = stats['Assists'][playerIndex];
         var saves = stats['Saves'][playerIndex];
+        var penalty_saved = stats['Penalty Saved'][playerIndex];
+        var penalty_missed = stats['Penalty Missed'][playerIndex];
         var clean_sheet = stats['Clean Sheet'][playerIndex];
         var conceded = stats['Conceded'][playerIndex];
         var yellow_cards = stats['Yellow Cards'][playerIndex];
@@ -470,6 +472,14 @@
             html += '</tr>';
         }
 
+        if (penalty_saved > 0) {
+            html += '<tr>';
+            html += '<td>Penalty Saved</td>';
+            html += '<td>' + penalty_saved + '</td>';
+            html += '<td>' + penalty_saved * 5 + 'pts</td>';
+            html += '</tr>';
+        }
+
         if (conceded > 1) {
             html += '<tr>';
             html += '<td>Conceded</td>';
@@ -491,6 +501,14 @@
             html += '<td>Red Cards</td>';
             html += '<td>' + red_cards + '</td>';
             html += '<td>' + red_cards * -3 + 'pts</td>';
+            html += '</tr>';
+        }
+
+        if (penalty_missed > 0) {
+            html += '<tr>';
+            html += '<td>Penalty Missed</td>';
+            html += '<td>' + penalty_missed + '</td>';
+            html += '<td>' + penalty_missed * -2 + 'pts</td>';
             html += '</tr>';
         }
 
