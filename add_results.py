@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-def add_gameweek_score(gameweek, score, team, goal_scorers, assists, on_bench, saves, yellow_cards, red_cards, own_goals, bonus_3, bonus_2, bonus_1):
+def add_gameweek_score(gameweek, score, team, goal_scorers, assists, on_bench, saves, penalty_saved, penalty_missed, yellow_cards, red_cards, own_goals, bonus_3, bonus_2, bonus_1):
 
     results_data = pd.read_csv('data/results.csv')
 
@@ -24,6 +24,8 @@ def add_gameweek_score(gameweek, score, team, goal_scorers, assists, on_bench, s
         'Assists': assists,
         'On Bench': on_bench,
         'Saves': saves,
+        'Penalty Saved': penalty_saved,
+        'Penalty Missed': penalty_missed,
         'Yellow Cards': yellow_cards,
         'Red Cards': red_cards,
         'Own Goals': own_goals,
@@ -57,6 +59,8 @@ def add_gameweek_score(gameweek, score, team, goal_scorers, assists, on_bench, s
     conceded = {}
     clean_sheet = {}
     saves_dict = {}
+    penalty_saved_dict = {}
+    penalty_missed_dict = {}
     yellow_cards_dict = {}
     red_cards_dict = {}
     own_goals_dict = {}
@@ -69,9 +73,12 @@ def add_gameweek_score(gameweek, score, team, goal_scorers, assists, on_bench, s
         player_conceded = goals_conceded
         minutes[player] = 0
         saves_dict[player] = 0
+        penalty_saved_dict[player] = 0
+        penalty_missed_dict[player] = 0
         yellow_cards_dict[player] = 0
         red_cards_dict[player] = 0
         own_goals_dict[player] = 0
+
 
         for i in on_bench.values():
             if player in i:
@@ -84,6 +91,11 @@ def add_gameweek_score(gameweek, score, team, goal_scorers, assists, on_bench, s
             if player in team:
                 player_score += saves // 2
                 saves_dict[player] += saves
+            for k in penalty_saved:
+                if player == k:
+                    player_score += 5
+                    penalty_saved_dict[player] += 1
+                
 
         if player_scores_data.loc[player_scores_data['Player'] == player, 'Position'].item() in ['GK', 'DEF']:
             if player in team:
@@ -117,6 +129,11 @@ def add_gameweek_score(gameweek, score, team, goal_scorers, assists, on_bench, s
             if player == k:
                 player_score += 3
                 gw_assists += 1
+        
+        for k in penalty_missed:
+            if player == k:
+                player_score -= 2
+                penalty_missed_dict[player] += 1
 
         for k in yellow_cards:
             if player == k:
@@ -296,8 +313,10 @@ def add_gameweek_score(gameweek, score, team, goal_scorers, assists, on_bench, s
 
     data = {'Minutes': minutes, 'Goals': goals, 'Assists': assists_dict
             , 'Bonus': bonus, 'Clean Sheet': clean_sheet, 'Conceded': conceded
-            , 'Saves': saves_dict, 'Yellow Cards': yellow_cards_dict
-            , 'Red Cards': red_cards_dict, 'Own Goals': own_goals_dict}
+            , 'Saves': saves_dict, 'Penalty Saved': penalty_saved_dict, 'Penalty Missed': penalty_missed_dict
+            , 'Yellow Cards': yellow_cards_dict, 'Red Cards': red_cards_dict, 'Own Goals': own_goals_dict
+            }
+    
     df1 = pd.DataFrame.from_dict(data, orient='index').T
 
     players_df = player_scores_data[['Player', 'Position']]
@@ -306,10 +325,10 @@ def add_gameweek_score(gameweek, score, team, goal_scorers, assists, on_bench, s
 
     new_player_scores_breakdown = new_player_scores_breakdown.fillna(0)
     new_player_scores_breakdown[['Minutes', 'Goals', 'Assists', 'Bonus'
-                                 , 'Clean Sheet', 'Conceded', 'Saves', 'Yellow Cards'
-                                 , 'Red Cards', 'Own Goals']] = new_player_scores_breakdown[['Minutes', 'Goals'
+                                 , 'Clean Sheet', 'Conceded', 'Saves', 'Penalty Saved', 'Penalty Missed'
+                                 , 'Yellow Cards', 'Red Cards', 'Own Goals']] = new_player_scores_breakdown[['Minutes', 'Goals'
                                                                                              , 'Assists', 'Bonus', 'Clean Sheet', 'Conceded'
-                                                                                             , 'Saves', 'Yellow Cards', 'Red Cards', 'Own Goals']].astype(int)
+                                                                                             , 'Saves', 'Penalty Saved', 'Penalty Missed', 'Yellow Cards', 'Red Cards', 'Own Goals']].astype(int)
 
     new_player_scores_breakdown.to_csv(f'data/{gameweek}_player_stats.csv', index=False)
 

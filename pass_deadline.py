@@ -72,11 +72,18 @@ def pass_deadline(gameweek):
         'Team': [],
         'Goal Scorers': [],
         'Assists': [],
+        'On Bench': {},
+        'Saves': '-',
+        'Penalty Saved': [],
+        'Penalty Missed': [],
+        'Yellow Cards': [],
+        'Red Cards': [],
+        'Own Goals': [],
         '3 Bonus': '-',
         '2 Bonus': '-',
         '1 Bonus': '-'
     }
-    
+
     new_results_data = pd.DataFrame([new_results])
     results_data = pd.concat([results_data, new_results_data], ignore_index=True)
     results_data.to_csv('data/results.csv', index=False)
@@ -92,6 +99,8 @@ def pass_deadline(gameweek):
     players_df["Clean Sheet"] = 0
     players_df["Conceded"] = 0
     players_df["Saves"] = 0
+    players_df["Penalty Saved"] = 0
+    players_df["Penalty Missed"] = 0
     players_df["Yellow Cards"] = 0
     players_df["Red Cards"] = 0
     players_df["Own Goals"] = 0
