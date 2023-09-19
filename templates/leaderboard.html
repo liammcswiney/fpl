@@ -29,21 +29,27 @@
             background-color: #fff;
             color: #333;
             border: 2px solid #000;
+            margin: 0; /* Added to ensure no margins */
         }
 
-        th, td {
-            padding: 8px;
+
+        th {
+            padding: 8px 20px; /* 8px top/bottom and 20px left/right */
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            background-color: #f2f2f2;
+        }
+
+        td {
+            padding: 20px; /* increased top/bottom padding to increase height */
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
 
-        th {
-            background-color: #f2f2f2;
-        }
 
         .stats-table, .stats-table1 {
             margin: 20px auto;
-            max-width: 600px;
+            max-width: 100%;
             border-radius: 8px;
             overflow: hidden; 
             border: 2px solid #000;
@@ -70,7 +76,7 @@
         }
 
         .table-container {
-            width: 50%;
+            width: 60%;
             height: 400px;
             margin: 0 auto;
             overflow-y: auto;
@@ -87,7 +93,7 @@
         .return-button {
             position: absolute;
             top: 10px; 
-            right: 30px; 
+            right: 20px; 
             padding: 5px 15px;
             background-color: #dd0e0e;
             color: #fff;
@@ -160,9 +166,14 @@
         <table id="team-stats" class="stats-table">
             <button class="return-button" onclick="goBack()">X
             <tr>
+                <th></th>
+                <th><strong>Team Name</strong></th>
                 {% for key in leaderboard_data.keys() %}
-                    <th>{{ key }}</th>
+                    {% if key != 'Total Score' and key != 'Team Name' %}
+                        <th style="text-align: center;">{{ key }}</th>
+                    {% endif %}
                 {% endfor %}
+                <th style="text-align: center;">Total Score</th>
                 <th></th>
             </tr>
             {% set last_key = leaderboard_data.keys()|last %}
@@ -171,15 +182,16 @@
                     {% set view_team_name = leaderboard_data['Team Name'][index] %}
                     {% if leaderboard_data['Total Score'][index] != 0 %}
                     <tr class="clickable-row" data-team-name="{{ view_team_name }}">
-                        <td>{{ view_team_name }}</td>
-                        <td>{{ leaderboard_data['Total Score'][index] }}</td>
-                        <td>{{ leaderboard_data[last_key][index] }}</td>
-                        <td><i class="fas fa-info-circle"></i></td>
+                        <td><strong>{{ index + 1 }}</strong></td>
+                        <td><strong>{{ view_team_name }}</strong></td>
+                        <td style="text-align: center;">{{ leaderboard_data[last_key][index] }}</td>
+                        <td style="text-align: center;"><strong>{{ leaderboard_data['Total Score'][index] }}</strong></td>
+                        <td><i class="fas fa-info-circle" style="color: #7f7f7f;"></i></td>
                     </tr>
                     {% endif %}
                 {% endif %}
             {% endfor %}
-        </table>
+        </table>        
         <table id="team-stats1" class="stats-table1">
             {% set count_zero_scores = [] %}
 
