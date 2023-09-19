@@ -54,9 +54,27 @@
             font-size: 25px;
         }
 
+        .next-row {
+            width: 100%;
+            padding: 0px;
+            margin-top: 5px;
+            margin-bottom: 0px;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .next-row h1 {
+            color: #fff;
+            text-align: center;
+            font-size: 25px;
+        }
+
         .button-row {
             display: flex;
-            padding: 10px;
+            padding-bottom: 10px;
             flex-direction: row;
             justify-content: center;
             align-items: center;
@@ -597,20 +615,22 @@
 <body>
     <div class="top-container">
         <div class="header">
-            <h1>{{ new_gw.columns[1] }}: {{ fixtures_data.loc[fixtures_data['Gameweek'] == gw, 'Fixture'].values[0] }}</h1>
+            <h1>Gameweek Points</h1>
         </div>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <div class="next-row">
+            <h1>{{ new_gw.columns[1] }}: {{ fixtures_data.loc[fixtures_data['Gameweek'] == gw, 'Fixture'].values[0] }}</h1>
+        </div>
         <div class="button-row">
             <button class="button-base changeGwButtonLeft" id="changeGwButtonLeft" onclick="changeGameweekDecrease()">
                 <i class="fas fa-arrow-left"></i>
             </button>
-            <div class="button-base free-transfers"><span id="gwValue">{{ gw_team_data1['Gameweek ' ~ gw|string][index] }}</span></div>
+            <div class="button-base free-transfers"><span id="gwValue">{{ gw_team_data1['Gameweek ' ~ gw|string][index] }} </span></div>
             <button class="button-base changeGwButtonRight" id="changeGwButtonRight" onclick="changeGameweekIncrease()">
                 <i class="fas fa-arrow-right"></i>
             </button>
         </div>
     </div>
-
     <div class="container">
         <div class="team-container">
             <button class="return-button" onclick="goBack()">X</button>
