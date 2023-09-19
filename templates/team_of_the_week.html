@@ -12,20 +12,73 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            background: linear-gradient(135deg, #428bca, #00ffd5);
+            background: linear-gradient(135deg, #4a90e2, #50e3c2); /* Slight adjustment for smoother gradient */
             background-repeat: no-repeat;
             background-attachment: fixed;
         }
+
+        .top-container {
+            width: 60%;
+            height: auto;
+            margin: 0 auto 20px;
+            padding: 0px;
+            background: linear-gradient(135deg, #4a90e2, #50e3c34c); /* Match with body gradient */
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+            z-index: 2;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
         .header {
-            padding: 15px;
-            color: #fff;
-            text-align: center;
+            width: 70%;
+            padding: 0px;
+            background:#302d2d16; 
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0);
+            z-index: 2;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .header h1 {
             color: #fff;
             text-align: center;
-            margin: 0px 0;
+            margin: 15px 0;
+            font-size: 25px;
+        }
+
+        .button-row {
+            display: flex;
+            padding: 10px;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 0px;
+        }
+
+        .player-of-the-week {
+            position: relative;
+            padding: 2px 10px;
+            margin: 0 10px;
+            /* background:#4acfff0f; 
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16); */
+            color: #fff;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease; /* Added a quick transform transition */
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Centers the content */
         }
 
         .menu {
@@ -44,23 +97,35 @@
             flex-direction: column;
             justify-content: space-evenly;
             align-items: center;
-            height: 550px; /* Adjust the height as needed */
-            background-color: #36b017;
-            position: relative; /* Add this line */
-            padding-top: 20px; /* Add this line */
-            width: 40%; /* Adjust the width as needed */
-            margin: 0 auto; /* Center the team container */
-            border: 2px solid #fff; /* Add border around the team container */
+            height: 550px;
+            background: linear-gradient(to bottom, 
+                #36b017 0%, #36b017 10%, 
+                #36b715 10%, #36b715 20%, 
+                #36b017 20%, #36b017 30%, 
+                #36b715 30%, #36b715 40%, 
+                #36b017 40%, #36b017 50%, 
+                #36b715 50%, #36b715 60%, 
+                #36b017 60%, #36b017 70%, 
+                #36b715 70%, #36b715 80%, 
+                #36b017 80%, #36b017 90%, 
+                #36b715 90%, #36b715 100%);
+            position: relative; 
+            padding-top: 20px;
+            width: 40%;
+            margin: 0 auto;
+            border: 2px solid #fff;
             z-index: 0;
         }
 
         .penalty-box1 {
             position: absolute;
-            top: 0%; /* Adjust the top position of the penalty box as needed */
-            left: 28%; /* Adjust the left position of the penalty box as needed */
-            width: 44%; /* Adjust the width of the penalty box as needed */
-            height: 15%; /* Adjust the height of the penalty box as needed */
-            border: 2px solid #fff; /* Add white border */
+            top: 0%; 
+            left: 28%; 
+            width: 44%; 
+            height: 15%; 
+            border-right: 2px solid #fff;
+            border-bottom: 2px solid #fff;
+            border-left: 2px solid #fff;
             z-index: -1;
         }
 
@@ -136,9 +201,9 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: #367925;
+            background-color: #2b7917;
             padding: 0px;
-            height: 150px;
+            height: 28%;
             width: 100%; /* Adjust the width as needed */
             border: 2px solid #fff; 
             margin-top: auto; /* Push the bench container to the bottom */
@@ -597,9 +662,15 @@
 </script>
 </head>
 <body>
-    <div class="header">
-        <h1>Gameweek {{ match }}: Team of the Week</h1>
-        <h2>Player of the Week: {{ man_of_match }}</h2>
+    <div class="top-container">
+        <div class="header">
+            <h1>Gameweek {{ match }}: Team of the Week</h1>
+        </div>
+        <div class="button-row">
+            <div class="player-of-the-week">
+                <h2>Player of the Week: {{ man_of_match }}</h2>
+            </div>
+        </div>
     </div>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <div class="menu">
