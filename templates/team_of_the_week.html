@@ -626,11 +626,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for goals in player_scores_breakdown['Goals'] %}
+                            {% for goals in goals_ordered['Goals'] %}
                                 {% if goals > 0 %}
                                     <tr>
                                         <td>
-                                            {{ player_scores_breakdown['Player'][loop.index0] }} {% if goals > 1 %} ({{ goals }}) {% endif %}
+                                            {{ goals_ordered['Player'][loop.index0] }} {% if goals > 1 %} ({{ goals }}) {% endif %}
                                         </td>
                                     </tr>
                                 {% endif %}
@@ -654,11 +654,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for assists in player_scores_breakdown['Assists'] %}
+                            {% for assists in assists_ordered['Assists'] %}
                                 {% if assists > 0 %}
                                     <tr>
                                         <td>
-                                            {{ player_scores_breakdown['Player'][loop.index0] }} {% if assists > 1 %} ({{ assists }}) {% endif %}
+                                            {{ assists_ordered['Player'][loop.index0] }} {% if assists > 1 %} ({{ assists }}) {% endif %}
                                         </td>
                                     </tr>
                                 {% endif %}
@@ -687,6 +687,62 @@
                                     <tr>
                                         <td>
                                             {{ player_scores_breakdown['Player'][loop.index0] }} {% if saves > 1 %} ({{ saves }}) {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+
+                {% set penalty_saved_ns = namespace(found=False) %}
+                {% for penalty_saved in player_scores_breakdown['Penalty Saved'] %}
+                    {% if penalty_saved > 0 %}
+                        {% set penalty_saved_ns.found = True %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if penalty_saved_ns.found %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Penalty Saved</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for penalty_saved in player_scores_breakdown['Penalty Saved'] %}
+                                {% if penalty_saved > 0 %}
+                                    <tr>
+                                        <td>
+                                            {{ player_scores_breakdown['Player'][loop.index0] }} {% if penalty_saved > 1 %} ({{ penalty_saved }}) {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+
+                {% set penalty_missed_ns = namespace(found=False) %}
+                {% for penalty_missed in player_scores_breakdown['Penalty Missed'] %}
+                    {% if penalty_missed > 0 %}
+                        {% set penalty_missed_ns.found = True %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if penalty_missed_ns.found %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Penalty missed</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for penalty_missed in player_scores_breakdown['Penalty Missed'] %}
+                                {% if penalty_missed > 0 %}
+                                    <tr>
+                                        <td>
+                                            {{ player_scores_breakdown['Player'][loop.index0] }} {% if penalty_missed > 1 %} ({{ penalty_missed }}) {% endif %}
                                         </td>
                                     </tr>
                                 {% endif %}

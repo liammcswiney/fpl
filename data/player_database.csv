@@ -1,21 +1,21 @@
-Player,Position,Form,Price,Total Points
-Dan,GK,0,£5.0m,0
-Zeki,GK,0,£4.0m,0
-Liam Mc,DEF,0,£6.0m,0
-Joe,DEF,0,£6.0m,0
-Alfie,DEF,0,£6.0m,0
-Tom,DEF,0,£5.0m,0
-Saajan,DEF,0,£4.0m,0
-Jake,DEF,0,£4.0m,0
-Mepsted,MID,0,£12.0m,0
-Liam T,MID,0,£12.0m,0
-Rarnott,MID,0,£8.0m,0
-Rhys,MID,0,£9.0m,0
-Nathan,MID,0,£5.0m,0
-Charile,MID,0,£5.0m,0
-Jay,FWD,0,£9.0m,0
-Henry,FWD,0,£11.0m,0
-Meadows,FWD,0,£7.0m,0
-Cam,FWD,0,£5.0m,0
-Toby,FWD,0,£5.0m,0
-Luke S,FWD,0,£5.0m,0
+Player,Position,Price,Form,Total Points
+Dan,GK,£5.0m,8.0,8
+Zeki,GK,£4.0m,0.0,0
+Liam Mc,DEF,£6.0m,0.0,0
+Joe,DEF,£6.0m,6.0,6
+Alfie,DEF,£6.0m,7.0,7
+Tom,DEF,£5.0m,0.0,0
+Saajan,DEF,£4.0m,12.0,12
+Jake,DEF,£4.0m,0.0,0
+Mepsted,MID,£12.0m,0.0,0
+Liam T,MID,£12.0m,18.0,18
+Rarnott,MID,£8.0m,17.0,17
+Rhys,MID,£9.0m,20.0,20
+Nathan,MID,£5.0m,0.0,0
+Charile,MID,£5.0m,0.0,0
+Jay,FWD,£9.0m,0.0,0
+Henry,FWD,£11.0m,0.0,0
+Meadows,FWD,£7.0m,5.0,5
+Cam,FWD,£5.0m,0.0,0
+Toby,FWD,£5.0m,0.0,0
+Luke S,FWD,£5.0m,0.0,0

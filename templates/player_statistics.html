@@ -75,15 +75,18 @@
         }
 
 
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-
         th {
+            padding: 8px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
             background-color: #d4d4d4; /* Darkened headers slightly */
             font-weight: 600;
+        }
+
+        .stats-table td {
+            padding: 8px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
         }
 
         .team-management-link {
@@ -133,7 +136,7 @@
 
         .popup th, .popup td {
             padding: 10px;
-            text-align: left;
+            text-align: centre;
             border-bottom: 2px solid #ddd;
             font-weight: 500;
         }
@@ -239,6 +242,20 @@
             background-color: #337ab7;
         }
 
+        .sort-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            transition: color 0.3s ease;
+            font-size: 16px;
+        }
+
+        .sort-btn:hover {
+            color: #428bca; /* This will change the arrow color to blue on hover. Adjust as needed. */
+        }
+
+        
 
     </style>
 
@@ -318,6 +335,40 @@
             return html;
         }
 
+        function sortTable(columnIndex) {
+            let table = document.getElementById('player-stats');
+            let tbody = table.tBodies[0];
+            let rows = Array.from(tbody.getElementsByTagName('tr'));
+
+            let sortedRows = rows.sort((a, b) => {
+                let cellA = a.cells[columnIndex].textContent.trim();
+                let cellB = b.cells[columnIndex].textContent.trim();
+
+                // Convert values if they have special characters
+                if (cellA.includes("£") || cellA.includes("m")) {
+                    cellA = parseFloat(cellA.replace('£', '').replace('m', '')) * 1e6; // Convert to number
+                    cellB = parseFloat(cellB.replace('£', '').replace('m', '')) * 1e6;
+                } else if (cellA.includes("%")) {
+                    cellA = parseFloat(cellA.replace('%', '')); // Convert to number
+                    cellB = parseFloat(cellB.replace('%', ''));
+                } else {
+                    cellA = parseFloat(cellA);
+                    cellB = parseFloat(cellB);
+                }
+
+                return cellB - cellA;  // Change the order here for descending
+            });
+
+            // Append sorted rows to the tbody
+            sortedRows.forEach(row => {
+                tbody.appendChild(row);
+            });
+        }
+
+
+
+
+
 
 
 
@@ -349,20 +400,23 @@
         <div class="table-wrapper">
             <table id="player-stats" class="stats-table">
                 <tr>
-                    {% for key in player_data.keys() %}
-                        <th>{{ key }}</th>
-                    {% endfor %}
+                    <th>Player</th>
+                    <th>Position</th>
+                    <th>Price<button class="sort-btn" onclick="sortTable(2)"><i class="fas fa-arrow-down"></i></button></th>
+                    <th>Form<button class="sort-btn" onclick="sortTable(3)"><i class="fas fa-arrow-down"></i></button></th>
+                    <th>Total Points<button class="sort-btn" onclick="sortTable(4)"><i class="fas fa-arrow-down"></i></button></th>
+                    <th>Ownership<button class="sort-btn" onclick="sortTable(5)"><i class="fas fa-arrow-down"></i></button></th>
                     <th></th>
                 </tr>
                 {% for i in range(player_data['Player']|length) %}
                     <tr class="clickable-row" onclick="showPopup('{{ loop.index0 }}')">
                         {% for value in player_data.values() %}
-                            <td>{{ value[i] }}</td>
+                            <td data-key="{{ key }}">{{ value[i] }}</td>
                         {% endfor %}
                         <td><i class="fas fa-info-circle" onclick="showPopup('{{ loop.index0 }}')"></i></td>
                     </tr>
                 {% endfor %}
-            </table>
+            </table>                       
             <div id="overlay" class="overlay" onclick="hidePopup()"></div>
             <div id="popup" class="popup"></div>
 

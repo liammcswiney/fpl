@@ -150,11 +150,11 @@ def add_gameweek_score(gameweek, score, team, goal_scorers, assists, on_bench, s
                 player_score -= 2
                 own_goals_dict[player] += 1
                 
-        if player == bonus_3:
+        if player in bonus_3:
             player_score += 3
-        if player == bonus_2:
+        if player in bonus_2:
             player_score += 2
-        if player == bonus_1:
+        if player in bonus_1:
             player_score += 1
             
         gw_scores[player] = player_score
@@ -182,11 +182,11 @@ def add_gameweek_score(gameweek, score, team, goal_scorers, assists, on_bench, s
         for j in results_data['Assists'][index]:
             if player == j:
                 assists_dict[player] += 1
-        if player == results_data['3 Bonus'][index]:
+        if player in results_data['3 Bonus'][index]:
             bonus[player] = 3
-        elif player == results_data['2 Bonus'][index]:
+        elif player in results_data['2 Bonus'][index]:
             bonus[player] = 2
-        elif player == results_data['1 Bonus'][index]:
+        elif player in results_data['1 Bonus'][index]:
             bonus[player] = 1
 
         if player_scores_data.loc[player_scores_data['Player'] == player, 'Position'].item() in ['GK', 'DEF']:

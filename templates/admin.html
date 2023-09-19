@@ -955,42 +955,53 @@
             console.log(onBenchData);
         }
 
-
-
-
-
         function generateBonusInputs() {
             var bonusInputsContainer = document.getElementById("bonusInputs");
             bonusInputsContainer.innerHTML = "";
 
             for (var i = 3; i >= 1; i--) {
-                var playerInputContainer = document.createElement("div");
-                playerInputContainer.className = "player-input-container";
+                for (var k = 0; k < 5; k++) {
+                    var playerInputContainer = document.createElement("div");
+                    playerInputContainer.className = "player-input-container";
 
-                var bonusInput = document.createElement("div");
-                bonusInput.className = "bonus-input";
+                    var bonusInput = document.createElement("div");
+                    bonusInput.className = "bonus-input";
 
-                var labelBonus = document.createElement("label");
-                labelBonus.textContent = i + " Bonus: ";
+                    var labelBonus = document.createElement("label");
+                    labelBonus.textContent = i + " Bonus (" + (k + 1) + "): ";
 
-                var selectBonusInput = document.createElement("select");
-                selectBonusInput.id = "bonusInput" + i;
-                selectBonusInput.name = "bonus[]";
+                    var selectBonusInput = document.createElement("select");
+                    selectBonusInput.id = "bonusInput" + i + "_" + k;
+                    selectBonusInput.name = "bonus[]";
 
-                var playerInputs = document.querySelectorAll("[id^=playerInput] option:checked");
-                for (var j = 0; j < playerInputs.length; j++) {
-                    var optionBonus = document.createElement("option");
-                    optionBonus.value = playerInputs[j].value;
-                    optionBonus.textContent = playerInputs[j].textContent;
-                    selectBonusInput.appendChild(optionBonus);
+                    var noneOption = document.createElement("option");
+                    noneOption.value = "None";
+                    noneOption.textContent = "None";
+                    noneOption.selected = true;
+                    selectBonusInput.appendChild(noneOption);
+
+                    var playerInputs = document.querySelectorAll("[id^=playerInput] option:checked");
+                    for (var j = 0; j < playerInputs.length; j++) {
+                        var optionBonus = document.createElement("option");
+                        optionBonus.value = playerInputs[j].value;
+                        optionBonus.textContent = playerInputs[j].textContent;
+                        selectBonusInput.appendChild(optionBonus);
+                    }
+
+                    bonusInput.appendChild(labelBonus);
+                    bonusInput.appendChild(selectBonusInput);
+                    playerInputContainer.appendChild(bonusInput);
+                    bonusInputsContainer.appendChild(playerInputContainer);
                 }
 
-                bonusInput.appendChild(labelBonus);
-                bonusInput.appendChild(selectBonusInput);
-                playerInputContainer.appendChild(bonusInput);
-                bonusInputsContainer.appendChild(playerInputContainer);
+                // Add spacing after each bonus category except the last one
+                if (i > 1) {
+                    var breakElement = document.createElement("br");
+                    bonusInputsContainer.appendChild(breakElement);
+                }
             }
         }
+
 
         function generatePenaltySavedInputs() {
             var penaltySavedInputsList = document.querySelectorAll(".penaltySavedInputs");
@@ -1005,7 +1016,7 @@
                 playerPenaltySavedInput.className = "player-penalty-saved-input";
 
                 var labelPenaltySaved = document.createElement("label");
-                labelPenaltySaved.textContent = "YPenalty Saved: ";
+                labelPenaltySaved.textContent = "Penalty Saved: ";
 
                 var selectPenaltySavedInput = document.createElement("select");
                 selectPenaltySavedInput.name = "penaltySaved[]"; 
@@ -1044,7 +1055,7 @@
                 playerPenaltyMissedInput.className = "player-penalty-Missed-input";
 
                 var labelPenaltyMissed = document.createElement("label");
-                labelPenaltyMissed.textContent = "YPenalty Missed: ";
+                labelPenaltyMissed.textContent = "Penalty Missed: ";
 
                 var selectPenaltyMissedInput = document.createElement("select");
                 selectPenaltyMissedInput.name = "penaltyMissed[]"; 

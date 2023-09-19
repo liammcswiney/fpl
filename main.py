@@ -1083,10 +1083,16 @@ def team_of_the_week(team_name, match):
     df1.index = df1.index.astype(str)
 
     new_player_scores_breakdown = new_merged_df.merge(df1, on=['Player', 'Position'], how='left')
+
     new_player_scores_breakdown_bonus_ordered = new_player_scores_breakdown.sort_values(by='Bonus', ascending=False)
+    new_player_scores_breakdown_goals_ordered = new_player_scores_breakdown.sort_values(by='Goals', ascending=False)
+    new_player_scores_breakdown_assists_ordered = new_player_scores_breakdown.sort_values(by='Assists', ascending=False)
+
 
     new_player_scores_breakdown = new_player_scores_breakdown.to_dict(orient='list')
     new_player_scores_breakdown_bonus_ordered = new_player_scores_breakdown_bonus_ordered.to_dict(orient='list')
+    new_player_scores_breakdown_goals_ordered = new_player_scores_breakdown_goals_ordered.to_dict(orient='list')
+    new_player_scores_breakdown_assists_ordered = new_player_scores_breakdown_assists_ordered.to_dict(orient='list')
 
     return render_template('team_of_the_week.html', team_name=team_name
                             , sorted_player_scores=sorted_player_scores
@@ -1098,6 +1104,8 @@ def team_of_the_week(team_name, match):
                             , goals_against=goals_against
                             , opponent=opponent
                             , bonus_ordered=new_player_scores_breakdown_bonus_ordered
+                            , goals_ordered=new_player_scores_breakdown_goals_ordered
+                            , assists_ordered=new_player_scores_breakdown_assists_ordered
     )
 
 #############################################################################################################################
@@ -1346,8 +1354,30 @@ def read_csv(file_path):
 
 @app.route('/player_statistics/<team_name>')
 def player_statistics(team_name):
-    
+
     player_data = pd.read_csv('data/player_database.csv')
+
+    ownership_count = {player: 0 for player in player_data['Player'].values}
+
+    with open("data/team_data.csv", "r") as file:
+        reader = csv.reader(file)
+        next(reader)  # skip header row
+        for row in reader:
+
+            for player in row[1:7]:
+                if player in ownership_count:
+                    ownership_count[player] += 1
+
+
+    total_teams = sum(1 for _ in csv.reader(open("data/team_data.csv"))) - 1 
+
+    ownership_percentages = []
+    for player in player_data['Player'].values:
+        count = ownership_count.get(player, 0)
+        percentage = str(round((count / total_teams) * 100, 1)) +'%'
+        ownership_percentages.append(percentage)
+
+    player_data['Ownership'] = ownership_percentages
 
     goals_data = pd.read_csv('data/goals.csv')
     goals_data = goals_data.sort_values('Goals', ascending=False)
@@ -1470,9 +1500,10 @@ def add_next_results():
     red_cards = json.loads(request.form['red_cards'])
     own_goals = json.loads(request.form['own_goals'])
 
-    print(on_bench)
+    bonus_3 = bonuses[:5]
+    bonus_2 = bonuses[5:10]
+    bonus_1 = bonuses[10:15]
 
-    bonus_3, bonus_2, bonus_1 = bonuses[:3]
 
     add_results.add_gameweek_score(gameweek=next_gw, score=score, team=team
                                    , goal_scorers=goal_scorers, assists=assists, on_bench=on_bench

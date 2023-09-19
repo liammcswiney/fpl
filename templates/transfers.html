@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <style>
         html {
             height: 100%;
@@ -277,6 +279,57 @@
         .total-price.less-than-zero {
             color: red; /* Text color when budget is less than 0 */
         }
+
+        @media (max-width: 768px) {
+            .menu, .team-container {
+                width: 95%;
+            }
+
+            .player-row {
+                flex-direction: column;
+            }
+
+            .player-position {
+                width: 80%; 
+                margin-bottom: 20px;
+            }
+
+            .penalty-box1, .penalty-box2 {
+                left: 10%;
+                width: 80%;
+            }
+
+            .halfway-line2 {
+                left: 50%;
+                transform: translateX(-50%); /* This centers the element */
+                width: 60%;
+            }
+
+            .save-button, .return-button, .free-transfers, .cost, .total-price {
+                left: 50%; 
+                transform: translateX(-50%); /* Center these elements */
+                bottom: 10px; 
+                top: auto; /* Set top to auto so the elements move to the bottom */
+            }
+
+            .return-button {
+                top: 50px;
+            }
+
+            .free-transfers {
+                top: 90px;
+            }
+
+            .cost {
+                top: 130px;
+            }
+
+            .total-price {
+                top: 170px;
+            }
+        }
+
+
 
     </style>
     
