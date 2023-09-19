@@ -50,15 +50,18 @@
             color: #333;
         }
     
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-    
         th {
-            background-color: #d4d4d4;
+            padding: 8px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            background-color: #d4d4d4; /* Darkened headers slightly */
             font-weight: 600;
+        }
+
+        .stats-table td {
+            padding: 8px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
         }
 
     
@@ -361,6 +364,7 @@
                         <th>Price</th>
                         <th>Form</th>
                         <th>Total Points</th>
+                        <th>Ownership</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -370,7 +374,7 @@
                             {% if player['Player'] == players['Player'][index] %}
                                 {% if player['injury_colour'] == 'Red' %}
                                     <tr class="clickable-row" onclick="showPopup('{{ index }}')" >
-                                        <td style="background-color: #ff00007f;">
+                                        <td style="background-color: #ff00005f;">
                                             {% if players['Player'][index] not in team_data %}
                                             <form method="POST" action="/add_player_transfer?playerIndex={{ player_index }}&teamName={{ team_name }}">
                                                 <input type="hidden" name="playerName" value="{{ players['Player'][index] }}">
@@ -380,12 +384,13 @@
                                             <span class="existing-button">Already Selected</span>
                                             {% endif %}
                                         </td>
-                                        <td style="background-color: #ff00007f;">{{ players['Player'][index] }}</td>
-                                        <td style="background-color: #ff00007f;">{{ players['Position'][index] }}</td>
-                                        <td style="background-color: #ff00007f;">{{ players['Price'][index] }}</td>
-                                        <td style="background-color: #ff00007f;">{{ players['Form'][index] }}</td>
-                                        <td style="background-color: #ff00007f;">{{ players['Total Points'][index] }}</td>
-                                        <td style="background-color: #ff00007f;">
+                                        <td style="background-color: #ff00005f;">{{ players['Player'][index] }}</td>
+                                        <td style="background-color: #ff00005f;">{{ players['Position'][index] }}</td>
+                                        <td style="background-color: #ff00005f;">{{ players['Price'][index] }}</td>
+                                        <td style="background-color: #ff00005f;">{{ players['Form'][index] }}</td>
+                                        <td style="background-color: #ff00005f;">{{ players['Total Points'][index] }}</td>
+                                        <td style="background-color: #ff00005f;">{{ players['Ownership'][index] }}</td>
+                                        <td style="background-color: #ff00005f;">
                                             <i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
                                         </td>                                                  
                                     </tr>
@@ -406,6 +411,7 @@
                                         <td style="background-color: #fffb007f;">{{ players['Price'][index] }}</td>
                                         <td style="background-color: #fffb007f;">{{ players['Form'][index] }}</td>
                                         <td style="background-color: #fffb007f;">{{ players['Total Points'][index] }}</td>
+                                        <td style="background-color: #fffb007f;">{{ players['Ownership'][index] }}</td>
                                         <td style="background-color: #fffb007f;">
                                             <i class="fa fa-exclamation-triangle" style="color: #ffc400;"></i>
                                         </td>                                                  
@@ -427,6 +433,7 @@
                                         <td {% if 'Price' in team_data or players['Player'][index] in team_data %}class="existing-player"{% endif %}>{{ players['Price'][index] }}</td>
                                         <td {% if 'Form' in team_data or players['Player'][index] in team_data %}class="existing-player"{% endif %}>{{ players['Form'][index] }}</td>
                                         <td {% if 'Total Points' in team_data or players['Player'][index] in team_data %}class="existing-player"{% endif %}>{{ players['Total Points'][index] }}</td>
+                                        <td {% if 'Total Points' in team_data or players['Player'][index] in team_data %}class="existing-player"{% endif %}>{{ players['Ownership'][index] }}</td>
                                         <td {% if players['Player'][index] in team_data %}class="existing-player"{% endif %}>
                                             <i class="fas fa-info-circle" onclick="showPopup('{{ loop.index0 }}')"></i>
                                         </td>                                                  

@@ -1180,6 +1180,28 @@ def change_player_transfer():
     # Read the player data from player_database.csv
     player_data = pd.read_csv('data/player_database.csv')
 
+    ownership_count = {player: 0 for player in player_data['Player'].values}
+
+    with open("data/team_data.csv", "r") as file:
+        reader = csv.reader(file)
+        next(reader)  # skip header row
+        for row in reader:
+
+            for player in row[1:7]:
+                if player in ownership_count:
+                    ownership_count[player] += 1
+
+
+    total_teams = sum(1 for _ in csv.reader(open("data/team_data.csv"))) - 1 
+
+    ownership_percentages = []
+    for player in player_data['Player'].values:
+        count = ownership_count.get(player, 0)
+        percentage = str(round((count / total_teams) * 100, 1)) +'%'
+        ownership_percentages.append(percentage)
+
+    player_data['Ownership'] = ownership_percentages
+
     fixture_data = pd.read_csv('data/fixtures.csv')
     fixture_data['Gameweek'] = fixture_data['Gameweek'].astype(int)
     fixture_data = fixture_data.drop('Result', axis=1)
