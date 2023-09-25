@@ -1,21 +1,21 @@
-Player,Position,Gameweek 1
-Dan,GK,8
-Zeki,GK,0
-Liam Mc,DEF,0
-Joe,DEF,6
-Alfie,DEF,7
-Tom,DEF,0
-Saajan,DEF,12
-Jake,DEF,0
-Mepsted,MID,0
-Liam T,MID,18
-Rarnott,MID,17
-Rhys,MID,20
-Nathan,MID,0
-Charile,MID,0
-Jay,FWD,0
-Henry,FWD,0
-Meadows,FWD,5
-Cam,FWD,0
-Toby,FWD,0
-Luke S,FWD,0
+Player,Position,Gameweek 1,Gameweek 2
+Dan,GK,8,0
+Zeki,GK,0,0
+Liam Mc,DEF,0,0
+Joe,DEF,6,0
+Alfie,DEF,7,0
+Tom,DEF,0,0
+Saajan,DEF,12,0
+Jake,DEF,0,0
+Mepsted,MID,0,0
+Liam T,MID,18,0
+Rarnott,MID,17,0
+Rhys,MID,20,0
+Nathan,MID,0,0
+Charile,MID,0,0
+Jay,FWD,0,0
+Henry,FWD,0,0
+Meadows,FWD,5,0
+Cam,FWD,0,0
+Toby,FWD,0,0
+Luke S,FWD,0,0

@@ -13,27 +13,49 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            background: linear-gradient(135deg, #428bca, #00ffd5);
+            background: linear-gradient(135deg, #428bca, #32fff8);
             background-repeat: no-repeat;
             background-attachment: fixed;
         }
-    
-        .header {
-            padding: 20px;
-            text-align: center;
+
+        .top-container {
+            width: 70%;
+            height: auto;
+            margin: 0 auto 20px;
+            padding: 0px;
+            background: linear-gradient(135deg, #428bca, #00a6ff);
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+            z-index: 2;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
-    
-        .header h1 {
+
+        h1 {
             color: #fff;
-            margin: 20px 0;
+            text-align: center;
+            margin: 15px 0;
+            padding: 10px;
+        }
+
+        .top-container h2 {
+            color: #fff;
+            text-align: center;
+            margin: 0px 0;
+            padding: 10px;
         }
     
         .container {
             max-width: 500px;
             margin: 0 auto;
-            padding: 20px;
+            padding-top: 10px;
+            padding-bottom: 20px;
             background-color: #ffffff8d;
-            border-radius: 20px;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
@@ -43,7 +65,7 @@
             flex-direction: row;
             align-items: center;
             justify-content: center;
-            gap: 20px;
+            gap: 2px;
         }
     
         .gw-button-container {
@@ -62,30 +84,19 @@
         }
     
         .button-container button {
-            padding: 10px 20px;
-            font-size: 16px;
+            padding: 8px 10px;
+            font-size: 15px;
             border-radius: 5px;
             /* background-color: #428bca; */
             background: linear-gradient(135deg, #428bca, #00a6ff);
             color: #fff;
             border: none;
             cursor: pointer;
-            width: 200px; /* Added this line to set a fixed width */
+            width: 200px;
         }
 
-        .button-container1 button {
-            padding: 10px 20px;
-            font-size: 16px;
-            border-radius: 5px;
-            /* background-color: #428bca; */
-            background: linear-gradient(135deg, #428bca, #00a6ff);
-            color: #fff;
-            border: none;
-            cursor: pointer;
-            width: 300px; /* Added this line to set a fixed width */
-        }
         
-        .gw-container {
+        /* .gw-container {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -94,11 +105,25 @@
             padding: 30px;
             margin-bottom: 20px;
             border-radius: 10px;
+        } */
+
+        .gw-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding-top: 0px;
+            padding-bottom: 20px;
+            background-color: #ffffff8d;
+            border-bottom: 2px solid #a7feff;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
      
          .gw-container h2 {
             color: #fff;
             margin-top: 0px;
+            font-size: 20px;
         }
      
     
@@ -120,11 +145,15 @@
             justify-content: center;
         }
     
-        .gw-normal-text {
+        /* .gw-normal-text {
             font-size: 16px;
             font-weight: bold;
             margin-right: 40px;
             margin-left: 40px;
+        } */
+
+        .gw-normal-points {
+            font-size: 16px;
         }
     
         .gw-normal-score {
@@ -138,9 +167,9 @@
 
         .gw-button-container .gw-points-container {
             padding: 10px 20px;
-            font-size: 16px;
+            font-size: 20px;
             border-radius: 5px;
-            background-color: #00ffffad;
+            background-color: #8bf7ffa5;
             color: #000000;
             border: none;
             cursor: pointer;
@@ -156,18 +185,13 @@
     </style>    
 </head>
 <body>
-    <div class="header">
+
+    <div>
         <h1>{{ team_name }}</h1>
     </div>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <div class="container">
-    {% if is_team_built %}
-
-    {% else %}
-    <h1>Build your Team!</h1>
-    {% endif %}
-    {% if is_team_built %}
-        <div class="gw-container">
+    <div class="gw-container">
+        <div class="top-container">
             {% set last_dict = gw_info[-1] %}
             {% set last_key = last_dict.keys()|last %}
             <h2>
@@ -177,74 +201,76 @@
                     Gameweek 1
                 {% endif %}
             </h2>
-            <div class="gw-button-container">
-                <div class="gw-sub-container">
-                    <form>
-                        <span class="gw-normal-text">Average</span>
-                        <br>
-                        <span class="gw-normal-score">{{ avg_score }}</span>
-                    </form>
-                </div>
-                <div class="gw-points-container">
-                    {% set last_dict = gw_info[-1] %}
-                    {% set last_key = last_dict.keys()|last %}
-                    {% set match = last_key[-1] %}
-                    {% if max_gw == 0 %}
-                        <form action="/gameweek_points/{{ team_name }}">
-                            {% if gw_info %}
-                                {% set last_dict = gw_info[-1] %}
-                                {% set last_key = last_dict.keys()|last %}
-                                {% if last_dict[last_key] != team_name %}
-                                    <button type="submit" class="gw-big-button">{{ last_dict[last_key] }}</button>
-                                {% else %}
-                                    <button type="button" class="gw-big-button">-</button>
-                                {% endif %}
-                                <br>
-                                <span class="gw-normal-points">Points </span><span>&#8594;</span>
-                            {% endif %}
-                        </form>
-                    {% else %}
+        </div>
+        <div class="gw-button-container">
+            <div class="gw-sub-container">
+                <form>
+                    <span class="gw-normal-text">Average</span>
+                    <br>
+                    <span class="gw-normal-score">{{ avg_score }}</span>
+                </form>
+            </div>
+            <div class="gw-points-container">
+                {% set last_dict = gw_info[-1] %}
+                {% set last_key = last_dict.keys()|last %}
+                {% set match = last_key[-1] %}
+                {% if max_gw == 0 %}
+                    <form action="/gameweek_points/{{ team_name }}">
                         {% if gw_info %}
                             {% set last_dict = gw_info[-1] %}
                             {% set last_key = last_dict.keys()|last %}
-                            <button type="submit" class="gw-big-button">
-                                {% if last_dict[last_key] != team_name %}
-                                    {{ last_dict[last_key] }}
-                                {% else %}
-                                    -
-                                {% endif %}
-                            </button>
+                            {% if last_dict[last_key] != team_name %}
+                                <button type="submit" class="gw-big-button">{{ last_dict[last_key] }}</button>
+                            {% else %}
+                                <button type="button" class="gw-big-button">-</button>
+                            {% endif %}
                             <br>
                             <span class="gw-normal-points">Points </span><span>&#8594;</span>
                         {% endif %}
-                    {% endif %}
-                </div>
-                <div class="gw-sub-container">
-                    <form>
-                        <span class="gw-normal-text">Highest</span>
-                        <br>
-                        <span class="gw-normal-score">{{ highest_score }}</span>
                     </form>
-                </div>
+                {% else %}
+                    {% if gw_info %}
+                        {% set last_dict = gw_info[-1] %}
+                        {% set last_key = last_dict.keys()|last %}
+                        <button type="submit" class="gw-big-button">
+                            {% if last_dict[last_key] != team_name %}
+                                {{ last_dict[last_key] }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </button>
+                        <br>
+                        <span class="gw-normal-points">Points </span><span>&#8594;</span>
+                    {% endif %}
+                {% endif %}
+            </div>
+            <div class="gw-sub-container">
+                <form>
+                    <span class="gw-normal-text">Highest</span>
+                    <br>
+                    <span class="gw-normal-score">{{ highest_score }}</span>
+                </form>
             </div>
         </div>
-        <div class="button-container">
-            <form action="/pick_team/{{ team_name }}">
-                <button type="submit">Pick Team</button>
-            </form>
-            <form action="/load_transfers/{{ team_name }}">
-                <button type="submit">Transfers</button>
-            </form>
-        </div>
-        {% else %}
-        <!-- Team is not built, show button to build team -->
-        <div class="button-container1">
-            <form action="/build_team/{{ team_name }}">
-                <button type="submit">Create Team</button>
-            </form>
-        </div>
-        {% endif %}
+    </div>
+    <div class="container">
 
+        {% if is_team_built %}
+            <div class="button-container">
+                <form action="/pick_team/{{ team_name }}">
+                    <button type="submit">Pick Team</button>
+                </form>
+                <form action="/load_transfers/{{ team_name }}">
+                    <button type="submit">Transfers</button>
+                </form>
+            </div>
+        {% else %}
+            <div class="button-container">
+                <form action="/build_team/{{ team_name }}">
+                    <button type="submit">Build your Team!</button>
+                </form>
+            </div>
+        {% endif %}
         <div class="button-container">
             <form action="/player_statistics/{{ team_name }}">
                 <button type="submit">Player Statistics</button>
@@ -272,7 +298,7 @@
                 <button type="submit">Admin Page</button>
             </form>
         </div>
-    {% endif %}
+        {% endif %}
     </div>
 </body>
 </html>

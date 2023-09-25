@@ -12,10 +12,61 @@
 
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #428bca, #00ffd5);
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: linear-gradient(135deg, #428bca, #32fff8);
             background-repeat: no-repeat;
             background-attachment: fixed;
         }
+
+        .top-container {
+            width: 80%;
+            height: auto;
+            margin: 0 auto 20px;
+            padding: 0px;
+            background: linear-gradient(135deg, #428bca, #50e3c34c); /* Match with body gradient */
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+            z-index: 2;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header {
+            width: 70%;
+            padding: 0px;
+            background:#302d2d16; 
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: #fff;
+            text-align: center;
+            margin: 15px 0;
+            font-size: 32px;
+        }
+
+        .button-row {
+            display: flex;
+            padding: 10px;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 0px;
+        }
+
 
         h1, h2 {
             color: #fff;
@@ -26,22 +77,24 @@
         .toggle-buttons {
             display: flex;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-bottom: 0px;
+            padding: 2px;
         }
 
         .toggle-buttons button {
             padding: 8px 16px;
-            background-color: #fff;
-            color: #333;
-            border: 1px solid #ddd; /* Added border */
+            background: linear-gradient(135deg, #faffffd7, #bdfffdcf);
+            border: 1px solid #dddddd00; /* Added border */
+            box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
             border-radius: 4px;
             margin: 0 5px;
             cursor: pointer;
             transition: background-color 0.3s;
+            font-size: 16px;
         }
 
         .toggle-buttons button:hover {
-            background-color: #eee;
+            background-color: #5ffff294;
         }
 
         .hidden {
@@ -84,7 +137,7 @@
         }
 
         .stats-table td {
-            padding: 8px;
+            padding: 12px;
             text-align: center;
             border-bottom: 1px solid #ddd;
         }
@@ -388,12 +441,19 @@
     </script>
 </head>
 <body>
-    <h1>Player Statistics</h1>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <div class="toggle-buttons">
-        <button onclick="toggleTable('player-stats')">Total Points</button>
-        <button onclick="toggleTable('goals')">Goals</button>
-        <button onclick="toggleTable('assists')">Assists</button>
+
+    <div class="top-container">
+        <div class="header">
+            <h1>Player Statistics</h1>
+        </div>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <div class="button-row">
+            <div class="toggle-buttons">
+                <button onclick="toggleTable('player-stats')">Total Points</button>
+                <button onclick="toggleTable('goals')">Goals</button>
+                <button onclick="toggleTable('assists')">Assists</button>
+            </div>
+        </div>
     </div>
     <div class="table-container">
         <button class="return-button" onclick="goBack()">X</button>

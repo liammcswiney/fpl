@@ -12,32 +12,66 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            background: linear-gradient(135deg, #428bca, #00ffd5);
+            background: linear-gradient(135deg, #428bca, #32fff8);
             background-repeat: no-repeat;
             background-attachment: fixed;
         }
 
+        .top-container {
+            width: 80%;
+            height: auto;
+            margin: 0 auto 20px;
+            padding: 0px;
+            background: linear-gradient(135deg, #428bca, #50e3c34c); /* Match with body gradient */
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+            z-index: 2;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
         .header {
-            padding: 5px;
-            color: #fff;
-            text-align: center;
-            margin-bottom: 20px; /* Add margin at the bottom for spacing */
+            width: 70%;
+            padding: 0px;
+            background:#302d2d16; 
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .header h1 {
             color: #fff;
             text-align: center;
-            margin: 20px 0;
+            margin: 15px 0;
+            font-size: 32px;
+        }
+
+        .button-row {
+            display: flex;
+            padding: 0px;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 0px;
         }
 
         .menu {
             position: relative;
-            width: 40%; /* Make the menu full width */
-            margin: 0 auto; /* Center the menu horizontally */
-            background-color: #428bca00; /* Set a background color for the menu */
+            width: 40%; 
+            margin: 0 auto; 
+            background-color: #428bca00; 
             top: -10px;
-            padding: 10px; /* Add padding as desired */
-            box-sizing: border-box; /* Include padding in the width calculation */
+            padding: 10px; 
+            box-sizing: border-box; 
             z-index: 1;
         }
 
@@ -46,13 +80,23 @@
             flex-direction: column;
             justify-content: space-evenly;
             align-items: center;
-            height: 550px; /* Adjust the height as needed */
-            background-color: #36b017;
-            position: relative; /* Add this line */
-            padding-top: 20px; /* Add this line */
-            width: 40%; /* Adjust the width as needed */
-            margin: 0 auto; /* Center the team container */
-            border: 2px solid #fff; /* Add border around the team container */
+            height: 550px;
+            background: linear-gradient(to bottom, 
+                #36b017 0%, #36b017 10%, 
+                #36b715 10%, #36b715 20%, 
+                #36b017 20%, #36b017 30%, 
+                #36b715 30%, #36b715 40%, 
+                #36b017 40%, #36b017 50%, 
+                #36b715 50%, #36b715 60%, 
+                #36b017 60%, #36b017 70%, 
+                #36b715 70%, #36b715 80%, 
+                #36b017 80%, #36b017 90%, 
+                #36b715 90%, #36b715 100%);
+            position: relative; 
+            padding-top: 20px;
+            width: 40%;
+            margin: 0 auto;
+            border: 2px solid #fff;
             z-index: 0;
         }
 
@@ -62,7 +106,9 @@
             left: 28%; /* Adjust the left position of the penalty box as needed */
             width: 44%; /* Adjust the width of the penalty box as needed */
             height: 15%; /* Adjust the height of the penalty box as needed */
-            border: 2px solid #fff; /* Add white border */
+            border-right: 2px solid #fff;
+            border-top: 2px solid #fff;
+            border-left: 2px solid #fff;
             z-index: -1;
         }
 
@@ -72,7 +118,9 @@
             left: 28%; /* Adjust the left position of the penalty box as needed */
             width: 44%; /* Adjust the width of the penalty box as needed */
             height: 15%; /* Adjust the height of the penalty box as needed */
-            border: 2px solid #fff; /* Add white border */
+            border-right: 2px solid #fff;
+            border-bottom: 2px solid #fff;
+            border-left: 2px solid #fff;
             z-index: -1;
         }
 
@@ -140,24 +188,19 @@
             font-weight: bold;
         }
 
-        .return-button {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-        }
-
         .add-button {
-            width: 40px;
-            height: 40px;
+            width: 35px; /* Adjust the icon size */
+            height: 35px; /* Adjust the icon size */
             border-radius: 50%;
             background-color: rgb(171, 175, 175);
-            font-size: 14px;
-            margin-top: 5px; 
+            margin-top: 5px; /* Add margin for spacing */
             position: relative;
-            border: 2px solid black; 
+            border: 0px solid black; 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
             display: flex;
             justify-content: center;
             align-items: center;
+            cursor: pointer;
         }
 
         .add-button:hover {
@@ -171,28 +214,29 @@
             color: #fff;
         }
 
-         .change-button {
-            width: 40px; 
-            height: 40px; 
+        .change-button {
+            width: 35px; /* Adjust the icon size */
+            height: 35px; /* Adjust the icon size */
             border-radius: 50%;
             background-color: rgb(15, 200, 206);
-            font-size: 14px;
-            margin-top: 5px; 
+            margin-top: 5px; /* Add margin for spacing */
             position: relative;
-            border: 2px solid black;
+            border: 0px solid black; 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
             display: flex;
             justify-content: center;
             align-items: center;
-        } 
+            cursor: pointer;
+        }
 
         .change-button:hover {
-            background-color: #00fcf7;
+            background-color: #00d5d1;
             transform: scale(1.05); /* Slightly enlarges button on hover for feedback */
         }
 
         .change-button i {
             /* Adjust the size and color of the icon as needed */
-            font-size: 24px;
+            font-size: 20px;
             color: #fff;
         }
 
@@ -226,14 +270,14 @@
         .return-button {
             position: absolute;
             top: 10px;
-            left: 80px;
+            right: 10px;
             padding: 5px 10px;
             background-color: #dd0e0e;
             color: #fff;
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.1s ease; /* Added a quick transform transition */
+            transition: background-color 0.3s ease, transform 0.1s ease; 
             font-weight: bold;
             display: flex;
             align-items: center;
@@ -247,13 +291,17 @@
         }
 
         .button-base {
-            position: absolute;
+            position: relative;
             padding: 5px 10px;
-            background-color: #1a1a1a; /* Slightly lighter than pure black for better visuals */
+            margin-bottom: 20px;
+            margin-top: 0px;
+            background:#4af6ff0f; 
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
             color: #fff;
             border: 2px solid #333; /* Slightly grayish border for a bit of depth */
             border-radius: 5px;
             font-size: 16px;
+            cursor: pointer;
             transition: background-color 0.3s ease, transform 0.1s ease; /* Added a quick transform transition */
             font-weight: bold;
             display: flex;
@@ -262,8 +310,11 @@
         }
 
         .total-price {
-            top: 10px;
-            right: 10px;
+            position: relative;
+            padding: 10px 40px; 
+            border: none;
+            background:#302d2d00; 
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.271);
         }
 
         .disabled {
@@ -338,19 +389,30 @@
     </script>
 </head>
 <body>
-    <div class="header">
-        <h1>Starting your Team: {{ team_name }}</h1>
-    </div>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <div class="menu">
-        <div class="button-base total-price" id="totalPrice">
-            <span id="budgetValue"></span>
+
+    <div class="top-container">
+        <div class="header">
+            <h1>Starting your Team: {{ team_name }}</h1>
         </div>
+        <div class="button-row">
+            <div class="button-base total-price" id="totalPrice">
+                <span id="budgetValue"></span>
+            </div>
+        </div>
+    </div>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <div class="menu">
         <form id="saveForm" action="/init_build/{{ team_name }}">
             <button id="saveButton" class="save-button">Save</button>
         </form>
-        <button class="return-button" onclick="goBack()">X
+        <button class="return-button" onclick="goBack()">
+            <i class="fa fa-trash-o"></i>
+        </button> 
     </div>
+
     <div class="team-container">
         <div class="penalty-box1"></div>
         <div class="penalty-box2"></div>

@@ -12,17 +12,17 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            background: linear-gradient(135deg, #4a90e2, #50e3c2); /* Slight adjustment for smoother gradient */
+            background: linear-gradient(135deg, #428bca, #32fff8);
             background-repeat: no-repeat;
             background-attachment: fixed;
         }
 
         .top-container {
-            width: 60%;
+            width: 80%;
             height: auto;
             margin: 0 auto 20px;
             padding: 0px;
-            background: linear-gradient(135deg, #4a90e2, #50e3c34c); /* Match with body gradient */
+            background: linear-gradient(135deg, #428bca, #50e3c34c); /* Match with body gradient */
             box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
             z-index: 2;
             border-bottom-left-radius: 10px;
@@ -37,7 +37,7 @@
             width: 70%;
             padding: 0px;
             background:#302d2d16; 
-            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0);
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
             z-index: 2;
             border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
@@ -51,30 +51,12 @@
             color: #fff;
             text-align: center;
             margin: 15px 0;
-            font-size: 25px;
-        }
-
-        .next-row {
-            width: 100%;
-            padding: 0px;
-            margin-top: 5px;
-            margin-bottom: 0px;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .next-row h1 {
-            color: #fff;
-            text-align: center;
-            font-size: 25px;
+            font-size: 32px;
         }
 
         .button-row {
             display: flex;
-            padding-bottom: 10px;
+            padding: 10px;
             flex-direction: row;
             justify-content: center;
             align-items: center;
@@ -160,14 +142,15 @@
         }
 
         .player-position .icon {
-            width: 40px; 
-            height: 40px; 
+            width: 35px;
+            height: 35px; 
             border-radius: 50%;
-            background-color: #00ffd9;
+            background: linear-gradient(135deg, #00ffd9, #00eeffc8);
             font-size: 14px; 
             margin-top: 5px; 
             position: relative;
-            border: 2px solid black; 
+            border: 0px solid black; 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -229,12 +212,13 @@
         }
 
         .bench-container .player-list .icon {
-            width: 40px; 
-            height: 40px; 
+            width: 35px; 
+            height: 35px; 
             border-radius: 50%;
-            background-color: #00ffd9;
+            background: linear-gradient(135deg, #00ffd9, #00eeffc8);
             margin-bottom: 3px;
-            border: 2px solid #000000; 
+            border: 0px solid black; 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
             margin-top: 15px; 
             cursor: pointer;
         }
@@ -336,7 +320,7 @@
             position: relative;
             padding: 10px 20px; 
             border: none;
-            background:#302d2d00; 
+            background:#78fdff38; 
             box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.271);
             font-size: 40px;
         }
@@ -615,22 +599,20 @@
 <body>
     <div class="top-container">
         <div class="header">
-            <h1>Gameweek Points</h1>
-        </div>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-        <div class="next-row">
             <h1>{{ new_gw.columns[1] }}: {{ fixtures_data.loc[fixtures_data['Gameweek'] == gw, 'Fixture'].values[0] }}</h1>
         </div>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <div class="button-row">
             <button class="button-base changeGwButtonLeft" id="changeGwButtonLeft" onclick="changeGameweekDecrease()">
                 <i class="fas fa-arrow-left"></i>
             </button>
-            <div class="button-base free-transfers"><span id="gwValue">{{ gw_team_data1['Gameweek ' ~ gw|string][index] }} </span></div>
+            <div class="button-base free-transfers"><span id="gwValue">{{ gw_team_data1['Gameweek ' ~ gw|string][index] }}</span></div>
             <button class="button-base changeGwButtonRight" id="changeGwButtonRight" onclick="changeGameweekIncrease()">
                 <i class="fas fa-arrow-right"></i>
             </button>
         </div>
     </div>
+
     <div class="container">
         <div class="team-container">
             <button class="return-button" onclick="goBack()">X</button>

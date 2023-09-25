@@ -12,17 +12,17 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            background: linear-gradient(135deg, #4a90e2, #50e3c2); /* Slight adjustment for smoother gradient */
+            background: linear-gradient(135deg, #428bca, #32fff8);
             background-repeat: no-repeat;
             background-attachment: fixed;
         }
 
         .top-container {
-            width: 60%;
+            width: 80%;
             height: auto;
             margin: 0 auto 20px;
             padding: 0px;
-            background: linear-gradient(135deg, #4a90e2, #50e3c34c); /* Match with body gradient */
+            background: linear-gradient(135deg, #428bca, #50e3c34c); /* Match with body gradient */
             box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
             z-index: 2;
             border-bottom-left-radius: 10px;
@@ -37,7 +37,7 @@
             width: 70%;
             padding: 0px;
             background:#302d2d16; 
-            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0);
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
             z-index: 2;
             border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
@@ -51,7 +51,7 @@
             color: #fff;
             text-align: center;
             margin: 15px 0;
-            font-size: 25px;
+            font-size: 32px;
         }
 
         .button-row {
@@ -66,12 +66,12 @@
 
         .menu {
             position: relative;
-            width: 40%; /* Make the menu full width */
-            margin: 0 auto; /* Center the menu horizontally */
-            background-color: #428bca00; /* Set a background color for the menu */
+            width: 40%; 
+            margin: 0 auto; 
+            background-color: #428bca00; 
             top: -10px;
-            padding: 10px; /* Add padding as desired */
-            box-sizing: border-box; /* Include padding in the width calculation */
+            padding: 10px; 
+            box-sizing: border-box; 
             z-index: 1;
         }
 
@@ -102,10 +102,10 @@
 
         .penalty-box1 {
             position: absolute;
-            top: 85%; /* Adjust the top position of the penalty box as needed */
-            left: 28%; /* Adjust the left position of the penalty box as needed */
-            width: 44%; /* Adjust the width of the penalty box as needed */
-            height: 15%; /* Adjust the height of the penalty box as needed */
+            top: 85%; 
+            left: 28%; 
+            width: 44%;
+            height: 15%;
             border-right: 2px solid #fff;
             border-top: 2px solid #fff;
             border-left: 2px solid #fff;
@@ -114,10 +114,10 @@
 
         .penalty-box2 {
             position: absolute;
-            top: 0%; /* Adjust the top position of the penalty box as needed */
-            left: 28%; /* Adjust the left position of the penalty box as needed */
-            width: 44%; /* Adjust the width of the penalty box as needed */
-            height: 15%; /* Adjust the height of the penalty box as needed */
+            top: 0%;
+            left: 28%;
+            width: 44%; 
+            height: 15%;
             border-right: 2px solid #fff;
             border-bottom: 2px solid #fff;
             border-left: 2px solid #fff;
@@ -174,35 +174,15 @@
         }
 
 
-        .add-button {
-            width: 40px; /* Adjust the icon size */
-            height: 40px; /* Adjust the icon size */
-            border-radius: 50%;
-            background-color: rgb(69, 75, 75);
-            font-size: 14px; /* Adjust the font size */
-            margin-top: 5px; /* Add margin for spacing */
-            position: relative;
-            border: 2px solid black; /* Add a black border */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .add-button i {
-            /* Adjust the size and color of the icon as needed */
-            font-size: 24px;
-            color: #fff;
-        }
-
         .change-button {
-            width: 40px; /* Adjust the icon size */
-            height: 40px; /* Adjust the icon size */
+            width: 35px; /* Adjust the icon size */
+            height: 35px; /* Adjust the icon size */
             border-radius: 50%;
             background-color: rgb(15, 200, 206);
-            font-size: 14px; /* Adjust the font size */
             margin-top: 5px; /* Add margin for spacing */
             position: relative;
-            border: 2px solid black; /* Add a black border */
+            border: 0px solid black; 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
             display: flex;
             justify-content: center;
             align-items: center;
@@ -216,7 +196,7 @@
 
         .change-button i {
             /* Adjust the size and color of the icon as needed */
-            font-size: 24px;
+            font-size: 20px;
             color: #fff;
         }
 
@@ -291,6 +271,8 @@
             border: 2px solid #333; /* Slightly grayish border for a bit of depth */
             border-radius: 5px;
             font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease; /* Added a quick transform transition */
             font-weight: bold;
             display: flex;
             align-items: center;
@@ -453,7 +435,6 @@
             <i class="fa fa-trash-o"></i>
         </button>        
     </div>
-
     <div class="team-container">
         <div class="penalty-box1"></div>
         <div class="penalty-box2"></div>

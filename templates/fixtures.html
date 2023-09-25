@@ -12,14 +12,87 @@
 
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #428bca, #00ffd5);
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: linear-gradient(135deg, #428bca, #32fff8);
             background-repeat: no-repeat;
             background-attachment: fixed;
+        }
+
+        .top-container {
+            width: 80%;
+            height: auto;
+            margin: 0 auto 20px;
+            padding: 0px;
+            background: linear-gradient(135deg, #428bca, #50e3c34c); /* Match with body gradient */
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+            z-index: 2;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header {
+            width: 70%;
+            padding: 0px;
+            background:#302d2d16; 
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: #fff;
+            text-align: center;
+            margin: 15px 0;
+            font-size: 32px;
+        }
+
+        .button-row {
+            display: flex;
+            padding: 10px;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 0px;
         }
 
         h1, h2 {
             color: #fff;
             text-align: center;
+        }
+
+        .toggle-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 0px;
+            padding: 2px;
+        }
+
+        .toggle-buttons button {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #faffffd7, #bdfffdcf);
+            border: 1px solid #dddddd00; /* Added border */
+            box-shadow: 0px 3px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 16px;
+        }
+
+        .toggle-buttons button:hover {
+            background-color: #5ffff294;
         }
 
         .table-container {
@@ -57,6 +130,20 @@
             padding: 20px;
             text-align: left;
         }
+
+        .stats-table.hidden th {
+            padding: 16px;
+        }
+
+        .stats-table.hidden td {
+            padding: 14px;
+            text-align: left;
+        }
+
+        .stats-table.hidden .center-aligned {
+            text-align: center;
+        }
+
                 
 
         th {
@@ -116,6 +203,10 @@
             background-color: #337ab7;
         }
 
+        #team-stats, #league-table {
+            border-radius: 15px;
+            overflow: hidden; /* This ensures that the content of the table doesn't overflow the rounded corners */
+        }
 
     </style>
 
@@ -139,10 +230,54 @@
             window.location.href = "/team_management/{{ team_name }}";
         }
 
+        function toggleTable(tableId) {
+            var tables = document.querySelectorAll('.stats-table');
+            var titles = document.querySelectorAll('.stats-table-title');
+            var tableWrapper = document.querySelector('.table-wrapper');
+            
+            tables.forEach(function(table) {
+                if (table.id === tableId) {
+                    table.style.display = "table";
+                } else {
+                    table.style.display = "none";
+                }
+            });
+
+            titles.forEach(function(title) {
+                if (title.id === tableId + '-title') {
+                    title.classList.remove('hidden');
+                } else {
+                    title.classList.add('hidden');
+                }
+            });
+            
+            if (tableId === 'team-stats') {
+                tableWrapper.style.height = '400px';
+                tableWrapper.style.overflowY = 'auto';
+            } else if (tableId === 'league-table') {
+                tableWrapper.style.height = 'auto';
+                tableWrapper.style.overflowY = 'visible';
+            }
+        }
+
+
     </script>
 </head>
 <body>
-    <h1>Fixtures and Results</h1>
+
+    <div class="top-container">
+        <div class="header">
+            <h1>Fixtures and Results</h1>
+        </div>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <div class="button-row">
+            <div class="toggle-buttons">
+                <button onclick="toggleTable('team-stats')">Fixtures and Results</button>
+                <button onclick="toggleTable('league-table')">League Table</button>
+            </div>
+        </div>
+    </div>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <div class="table-container">
         <button class="return-button" onclick="goBack()">X</button>
@@ -180,6 +315,33 @@
                     </tr>
                 {% endfor %}
             </table>
+
+            <table id="league-table" class="stats-table hidden" style="display:none;">
+                <tr>
+                    <th></th>
+                    {% for key in league_table.keys() %}
+                        {% if key == 'Team' %}
+                            <th>{{ key }}</th> 
+                        {% else %}
+                            <th class="center-aligned">{{ key }}</th> 
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                
+                {% for i in range(row_count) %}
+                    <tr {% if i < 1 %}style="background-color: rgba(48, 227, 48, 0.776); color: black"{% elif i >= row_count - 2 %}style="background-color: rgba(255, 0, 0, 0.732); color: black"{% endif %}>
+                        <td><b>{{ i+1 }}</b></td> <!-- Position column, left aligned -->
+                        {% for key in league_table.keys() %}
+                            {% if key == 'Team' %}
+                                <td><b>{{ league_table[key][i] }}</b></td> <!-- Team column, left aligned -->
+                            {% else %}
+                                <td class="center-aligned">{{ league_table[key][i] }}</td> <!-- Other columns, center aligned -->
+                            {% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+               
         </div>
     </div>    
     <br>

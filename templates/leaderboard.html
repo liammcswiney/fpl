@@ -13,9 +13,36 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            background: linear-gradient(135deg, #428bca, #00ffd5);
+            background: linear-gradient(135deg, #428bca, #32fff8);
             background-repeat: no-repeat;
             background-attachment: fixed;
+        }
+
+        .top-container {
+            width: 80%;
+            height: auto;
+            margin: 0 auto 20px;
+            padding: 0px;
+            background: linear-gradient(135deg, #428bca, #50e3c34c); /* Match with body gradient */
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+            z-index: 2;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        .button-row {
+            display: flex;
+            padding: 10px;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 0px;
         }
 
         h1, h2 {
@@ -29,7 +56,7 @@
             background-color: #fff;
             color: #333;
             border: 2px solid #000;
-            margin: 0; /* Added to ensure no margins */
+            margin: 0;
         }
 
 
@@ -76,7 +103,7 @@
         }
 
         .table-container {
-            width: 60%;
+            width: 70%;
             height: 400px;
             margin: 0 auto;
             overflow-y: auto;
@@ -160,7 +187,11 @@
     </script>
 </head>
 <body>
-    <h1>Leaderboard</h1>
+
+    <div class="top-container">
+            <h1>Leaderboard</h1>
+    </div>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <div class="table-container">
         <table id="team-stats" class="stats-table">
@@ -181,7 +212,8 @@
                 {% if leaderboard_data[last_key][index] != '-' %}
                     {% set view_team_name = leaderboard_data['Team Name'][index] %}
                     {% if leaderboard_data['Total Score'][index] != 0 %}
-                    <tr class="clickable-row" data-team-name="{{ view_team_name }}">
+                    <tr class="clickable-row" data-team-name="{{ view_team_name }}"
+                        {% if view_team_name == team_name %}style="background: linear-gradient(135deg, #abfdfa7b, #71ffc481);"{% endif %}>
                         <td><strong>{{ index + 1 }}</strong></td>
                         <td><strong>{{ view_team_name }}</strong></td>
                         <td style="text-align: center;">{{ leaderboard_data[last_key][index] }}</td>

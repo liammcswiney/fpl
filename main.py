@@ -8,6 +8,7 @@ import json
 import pass_deadline
 import add_results
 import add_injury
+import update_league_table
 
 def create_app():
     app = Flask(__name__, template_folder="templates", static_folder="static")
@@ -1473,7 +1474,11 @@ def fixture(team_name):
 
     fixture_data = pd.read_csv('data/fixtures.csv')
 
-    return render_template('fixtures.html', team_name=team_name, fixture_data=fixture_data)
+    league_table = pd.read_csv('data/league_table.csv')
+    league_table_dict = league_table.to_dict(orient='list')
+    row_count = len(next(iter(league_table_dict.values())))  # Get the length of one of the lists in the dictionary
+
+    return render_template('fixtures.html', team_name=team_name, fixture_data=fixture_data, league_table=league_table_dict, row_count=row_count)
 
 #############################################################################################################################
 
@@ -1562,6 +1567,32 @@ def add_next_injury():
 
 
 #############################################################################################################################
+
+@app.route('/update_league_table', methods=['POST'])
+def handle_update_league_table():
+
+    team_name = request.args.get('teamName')
+    next_gw = request.args.get('nextGW')
+    next_gw = int(next_gw) - 1
+    current_gw = f'Gameweek {next_gw}'
+
+    match_dicts = []
+    
+    for i in range(4):
+        home_team = request.form.get(f'match{i}[homeTeam]')
+        home_goals = request.form.get(f'match{i}[homeGoals]')
+        away_team = request.form.get(f'match{i}[awayTeam]')
+        away_goals = request.form.get(f'match{i}[awayGoals]')
+        
+        match_dict = {home_team: int(home_goals), away_team: int(away_goals)}
+        match_dicts.append(match_dict)
+    
+    update_league_table.update_league_table(*match_dicts)
+    
+    return redirect(url_for('admin', team_name=team_name, current_gw=current_gw))
+
+#############################################################################################################################
+
 
 from urllib.parse import quote
 

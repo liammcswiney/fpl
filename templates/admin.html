@@ -13,7 +13,7 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            background: linear-gradient(135deg, #428bca, #00ffd5);
+            background: linear-gradient(135deg, #428bca, #32fff8);
             background-repeat: no-repeat;
             background-attachment: fixed;
         }
@@ -154,6 +154,7 @@
         <button onclick="showDeadlineConfirmationPopup()">Pass Deadline</button>
         <button onclick="showResultsConfirmationPopup()">Add Results</button>
         <button onclick="showInjuryPopup()">Add injury</button>
+        <button onclick="showUpdateLeagueTablePopup()">Update League Table</button>
         <a href="/team_management/{{ team_name }}">Back to Home</a>
     </div>
 
@@ -372,7 +373,13 @@
 
         <button onclick="addInjuries()">Submit</button>
     </div>
-    
+
+    <div id="updateLeagueTablePopup" class="confirmation-popup">
+        <h2>Update Scores</h2>
+        <div id="matchesContainer"></div>
+        <button id="submitResultsButton" onclick="submitLeagueResults()">Submit Results</button>
+
+    </div>
 
     <script>
         var currentQuestionIndex = 0;
@@ -1280,6 +1287,123 @@
             document.body.appendChild(form);
             form.submit();
         }
+
+        window.onload = function() {
+            var matchesContainer = document.getElementById('matchesContainer');
+            
+            for (var i = 0; i < 4; i++) {
+                var matchDiv = document.createElement('div');
+                matchDiv.className = "match";
+                
+                var innerHTML = `
+                <h3>Match ${i+1}:</h3>
+                <select id="homeTeamInput${i}" name="teams">
+                    <option value="" disabled selected>Select Home Team</option>
+                    <option value="SPORTING A BIERGUT">SPORTING A BIERGUT</option>
+                    <option value="SJWMF">SJWMF</option>
+                    <option value="MEDWAY MAGICS">MEDWAY MAGICS</option>
+                    <option value="PALMERSTON VI">PALMERSTON VI</option>
+                    <option value="HIGHAM PREMIER 6">HIGHAM PREMIER 6</option>
+                    <option value="CATS ON TOUR">CATS ON TOUR</option>
+                    <option value="OLD SCHOOL">OLD SCHOOL</option>
+                    <option value="LIZ TRUSSARD">LIZ TRUSSARD</option>
+                </select>
+                <select id="homeGoalsInput${i}" name="homeGoals">
+                    <option value="" disabled selected>Home Goals</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                </select>
+                <select id="awayTeamInput${i}" name="teams">
+                    <option value="" disabled selected>Select Away Team</option>
+                    <option value="SPORTING A BIERGUT">SPORTING A BIERGUT</option>
+                    <option value="SJWMF">SJWMF</option>
+                    <option value="MEDWAY MAGICS">MEDWAY MAGICS</option>
+                    <option value="PALMERSTON VI">PALMERSTON VI</option>
+                    <option value="HIGHAM PREMIER 6">HIGHAM PREMIER 6</option>
+                    <option value="CATS ON TOUR">CATS ON TOUR</option>
+                    <option value="OLD SCHOOL">OLD SCHOOL</option>
+                    <option value="LIZ TRUSSARD">LIZ TRUSSARD</option>
+                </select>
+                <select id="awayGoalsInput${i}" name="awayGoals">
+                    <option value="" disabled selected>Away Goals</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                    <option value="13">13</option>
+                    <option value="14">14</option>
+                    <option value="15">15</option>
+                </select>
+                <br></br>`;
+                
+                matchDiv.innerHTML = innerHTML;
+                matchesContainer.appendChild(matchDiv);
+            }
+        }
+
+        function showUpdateLeagueTablePopup() {
+            var confirmationPopup = document.getElementById("updateLeagueTablePopup");
+            confirmationPopup.style.display = "block";
+        }
+
+        function submitLeagueResults() {
+            var form = document.createElement("form");
+            form.method = "POST";
+            form.action = "/update_league_table?teamName={{ team_name }}&nextGW={{ next_gw }}";
+            
+            for(var i = 0; i < 4; i++) {
+                var homeTeam = document.getElementById("homeTeamInput" + i).value;
+                var homeGoals = document.getElementById("homeGoalsInput" + i).value;
+                var awayTeam = document.getElementById("awayTeamInput" + i).value;
+                var awayGoals = document.getElementById("awayGoalsInput" + i).value;
+                
+                if(homeTeam && homeGoals !== null && awayTeam && awayGoals !== null) {
+                    form.appendChild(createHiddenInput(`match${i}[homeTeam]`, homeTeam));
+                    form.appendChild(createHiddenInput(`match${i}[homeGoals]`, homeGoals));
+                    form.appendChild(createHiddenInput(`match${i}[awayTeam]`, awayTeam));
+                    form.appendChild(createHiddenInput(`match${i}[awayGoals]`, awayGoals));
+                } else {
+                    alert('Please fill all the fields');
+                    return;
+                }
+            }
+
+            document.body.appendChild(form);
+            form.submit();
+        }
+
+        function createHiddenInput(name, value) {
+            var input = document.createElement("input");
+            input.type = "hidden";
+            input.name = name;
+            input.value = value;
+            return input;
+        }
+
+
     </script>
 </body>
 </html>
