@@ -56,7 +56,7 @@
 
         .button-row {
             display: flex;
-            padding: 10px;
+            padding-top: 10px;
             flex-direction: row;
             justify-content: center;
             align-items: center;
@@ -70,17 +70,17 @@
             margin: 10px 0;
             font-size: 30px;
             font-weight: bold;
-            padding: 10px;
+            padding-top: 10px;
         }
 
         .menu {
             position: relative;
-            width: 40%; /* Make the menu full width */
-            margin: 0 auto; /* Center the menu horizontally */
-            background-color: #428bca00; /* Set a background color for the menu */
+            width: 40%;
+            margin: 0 auto;
+            background-color: #428bca00; 
             top: -10px;
-            padding: 10px; /* Add padding as desired */
-            box-sizing: border-box; /* Include padding in the width calculation */
+            padding: 10px; 
+            box-sizing: border-box;
             z-index: 1;
         }
 
@@ -188,6 +188,24 @@
 
         .bench-container h2 {
             color: white;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .bench-container.bench-boost {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #51d880;
+            padding: 0px;
+            height: 30%;
+            width: 100%; /* Adjust the width as needed */
+            border: 2px solid #fff; 
+            margin-top: auto; /* Push the bench container to the bottom */
+        }
+
+        .bench-container.bench-boost h2 {
+            color: rgb(218, 255, 218);
             font-size: 20px;
             margin-bottom: 10px;
         }
@@ -473,31 +491,50 @@
         }
 
         .captain-letter {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(30%, -125%);
-        font-size: 12px;
-        font-weight: bold;
-        color: white; 
-        margin: 0;
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        background-color: black;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(30%, -125%);
+            font-size: 12px;
+            font-weight: bold;
+            color: white; 
+            margin: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .triple-captain-letter {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(30%, -125%);
+            font-size: 12px;
+            font-weight: bold;
+            color: rgb(0, 0, 0); /* Update the color to white */
+            margin: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: rgb(255, 255, 255);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3;
         }
 
         .form-wrapper {
             display: flex;
-            gap: 10px; /* Adjust the gap as needed */
+            gap: 10px; 
         }
 
         .name {
-        margin-top: 5px;
-        font-weight: bold;
+            margin-top: 5px;
+            font-weight: bold;
         }
 
         .show {
@@ -535,6 +572,135 @@
             z-index: 999; 
         }
 
+        .chips-row {
+            display: flex;
+            padding: 10px;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 0px;
+        }
+
+        .unused-chips {
+            position: relative;
+            padding: 5px 10px;
+            margin: 0 10px;
+            background: linear-gradient(135deg, #faffffd7, #bdfffdcf);
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+            color: #282828a8;
+            border: 2px solid #333; 
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .active-chips {
+            position: relative;
+            padding: 5px 10px;
+            margin: 0 10px;
+            background: linear-gradient(135deg, #5cfffa7b, #23f91fad);
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+            color: #535353;
+            border: 2px solid #333; 
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .used-chips {
+            position: relative;
+            padding: 5px 10px;
+            margin: 0 10px;
+            background: #94949481;
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+            color: #ffffff8a;
+            border: 2px solid #333; 
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .triple-captain {
+            position: relative;
+            padding: 10px 20px; 
+            border: none;
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.271);
+        }
+
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 10;
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgb(0,0,0); 
+            background-color: rgba(0,0,0,0.8); 
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #d5fff8, #a7fff2);
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            z-index: 9999;
+            max-height: 60vh;
+            border: 2px solid #000000; 
+            border-radius: 4%;
+            text-align: center;
+            display: inline-block; 
+            margin: 5px;
+            padding: 10px;
+        }
+
+        .popup-button {
+            padding: 8px 16px;
+            color: #252525;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* subtle shadow to give it a raised look */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease; /* smooth transition for hover effects */
+        }
+
+        .popup-button:hover {
+            background-color: #9fb5c8;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* slightly intensified shadow on hover */
+        }
+
+        .popup-button:active {
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15); /* pressed-in effect */
+            transform: scale(0.98); /* subtle shrink effect to give a pressed feel */
+        }
+
+        .popup-button.confirm {
+            background: linear-gradient(135deg, #5cfffa7b, #23f91fad);
+        }
+
+        .popup-button.cancel {
+            background: linear-gradient(135deg, #ff78787b, #ff2222ad);
+        }
 
     </style>
 <script>
@@ -595,9 +761,63 @@
         });
     });
 
+    document.addEventListener('DOMContentLoaded', function() {
+        var currentChip = null; 
+        var modal = document.getElementById("confirmModal");
+
+        window.openWildcardModal = function() {
+            openModal("Wildcard", "Are you sure you want to use the Wildcard chip?");
+        }
+
+        window.openTripleCaptainModal = function() {
+            openModal("Triple Captain", "Are you sure you want to use the Triple Captain chip?");
+        }
+
+        window.openBenchBoostModal = function() {
+            openModal("Bench Boost", "Are you sure you want to use the Bench Boost chip?");
+        }
+
+        function openModal(chip, message) {
+            currentChip = chip;
+            modal.style.display = "block";
+            document.getElementById("modalMessage").textContent = message;
+        }
+
+        document.getElementById("cancelButton").addEventListener("click", function() {
+            console.log("Cancel button clicked");
+            modal.style.display = "none";
+        });
+
+        document.getElementById("confirmButton").addEventListener("click", function() {
+            modal.style.display = "none";
+            if (currentChip) {
+                var url = "/use_chip/{{ team_name }}/" + currentChip;
+                fetch(url, { method: 'POST' })
+                    .then(response => {
+                        if (!response.ok) throw Error(response.statusText);
+                        return response;
+                    })
+                    .then(response => {
+                        location.reload();
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        });
+    });
+
+
 </script>
 </head>
 <body>
+
+    <div id="confirmModal" class="modal">
+        <div class="modal-content">
+            <p id="modalMessage">Default message</p>
+            <p>One it is activated, it cannot be changed.</p>
+            <button id="confirmButton" class="popup-button confirm">Yes</button>
+            <button id="cancelButton" class="popup-button cancel">No</button>
+        </div>
+    </div>
 
     <div class="top-container">
         <div class="header">
@@ -608,8 +828,33 @@
                 <span style="font-weight: bold; display: block;">
                     {{ fixtures_data.loc[fixtures_data['Gameweek'] == next_gw_int, 'Fixture'].values[0] }}
                 </span>
-            </h2>
-        </div>
+            </h2>        
+        </div>   
+        <div class="chips-row">
+            {% if chips_data['Wildcard'].values[team_index] == 1 %}
+                <span class="active-chips triple-captain">Wildcard</span>
+            {% elif chips_data['Wildcard'].values[team_index] == 2 or chips_data['Triple Captain'].values[team_index] == 1 or chips_data['Bench Boost'].values[team_index] == 1 %}
+                <span class="used-chips triple-captain">Wildcard</span>
+            {% else %}
+                <button class="unused-chips triple-captain" onclick="openWildcardModal()">Wildcard</button>
+            {% endif %}
+
+            {% if chips_data['Triple Captain'].values[team_index] == 1 %}
+                <span class="active-chips triple-captain">Triple Captain</span>
+            {% elif chips_data['Triple Captain'].values[team_index] == 2 or chips_data['Wildcard'].values[team_index] == 1 or chips_data['Bench Boost'].values[team_index] == 1 %}
+                <span class="used-chips triple-captain">Triple Captain</span>
+            {% else %}
+                <button class="unused-chips triple-captain" onclick="openTripleCaptainModal()">Triple Captain</button>
+            {% endif %}
+
+            {% if chips_data['Bench Boost'].values[team_index] == 1 %}
+                <span class="active-chips triple-captain">Bench Boost</span>
+            {% elif chips_data['Bench Boost'].values[team_index] == 2 or chips_data['Wildcard'].values[team_index] == 1 or chips_data['Triple Captain'].values[team_index] == 1 %}
+                <span class="used-chips triple-captain">Bench Boost</span>
+            {% else %}
+                <button class="unused-chips triple-captain" onclick="openBenchBoostModal()">Bench Boost</button>
+            {% endif %}       
+        </div>                  
     </div>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -628,7 +873,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="1"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -639,7 +888,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="1"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -650,7 +903,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="1">
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -669,7 +926,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="2"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -680,7 +941,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="2"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -690,8 +955,12 @@
                             <div class="player-position">
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="2">
-                                    {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if team_data['Captain'] == player['Player'] %}
+                                            {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -710,7 +979,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="3"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -721,7 +994,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="3"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -732,7 +1009,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="3">
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -751,7 +1032,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="2"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -762,7 +1047,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="2"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -773,7 +1062,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="2">
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -789,7 +1082,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="3"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -800,7 +1097,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="3"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -811,7 +1112,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="3">
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -831,7 +1136,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="4"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -842,7 +1151,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="4"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -853,7 +1166,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="4">
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -872,7 +1189,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="5"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -883,7 +1204,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="5"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -894,7 +1219,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="5">
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -913,7 +1242,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="4"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -924,7 +1257,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="4"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -935,7 +1272,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="4">
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -951,7 +1292,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="5"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -962,7 +1307,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="5"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -973,7 +1322,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="5">
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -993,7 +1346,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="6"><i class="fa fa-exclamation-triangle" style="color: #ff0000;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -1004,7 +1361,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="6"><i class="fa fa-exclamation-triangle" style="color: #fbff00;"></i>
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -1015,7 +1376,11 @@
                                 <div class="player-info">
                                     <button class="options-button" data-popup-number="6">
                                     {% if team_data['Captain'] == player['Player'] %}
-                                        <span class="captain-letter">C</span>
+                                        {% if chip_used == 'Triple Captain' %}
+                                            <span class="triple-captain-letter">C</span>
+                                        {% else %}
+                                            <span class="captain-letter">C</span>
+                                        {% endif %}
                                     {% endif %}
                                     </button>
                                     <div class="name">{{ player['Player'] }}</div>
@@ -1026,7 +1391,7 @@
                 {% endfor %}
             </div>
             {% endif %}
-            <div class="bench-container">
+            <div class="{{ 'bench-container bench-boost' if chip_used == 'Bench Boost' else 'bench-container' }}">
                 <h2>Bench</h2>
                 {% for player in injury_data %}
                     {% if player['Player'] == team_data['Bench'] %}

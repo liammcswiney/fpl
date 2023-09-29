@@ -919,6 +919,11 @@
             var dropdownsPerRow = playerInputs.length - 7;
 
             for (var i = 1; i <= awayGoals; i++) {
+
+                if (i > 1) { // Avoid adding line before the first goal
+                    var horizontalLine = document.createElement("br");
+                    onBenchInputs.appendChild(horizontalLine);
+                }
                 var benchDataForGoal = []; // Temporary list for this goal's dropdowns
 
                 for (var j = 1; j <= dropdownsPerRow; j++) {
@@ -957,10 +962,11 @@
                     benchDataForGoal.push(selectOnBenchInput); // Adding this dropdown to our list
                 }
 
-                onBenchData["Goal " + i] = benchDataForGoal; // Storing our list in the dictionary
+                onBenchData["Goal " + i] = benchDataForGoal; 
             }
             console.log(onBenchData);
         }
+
 
         function generateBonusInputs() {
             var bonusInputsContainer = document.getElementById("bonusInputs");

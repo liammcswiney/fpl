@@ -193,6 +193,24 @@
             margin-bottom: 10px;
         }
 
+        .bench-container.bench-boost {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #51d880;
+            padding: 0px;
+            height: 30%;
+            width: 100%; /* Adjust the width as needed */
+            border: 2px solid #fff; 
+            margin-top: auto; /* Push the bench container to the bottom */
+        }
+
+        .bench-container.bench-boost h2 {
+            color: rgb(218, 255, 218);
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
         .bench-container .player-list {
             display: flex;
             flex-direction: column;
@@ -252,6 +270,25 @@
             height: 16px;
             border-radius: 50%;
             background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 3;
+        }
+
+        .triple-captain-letter {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(30%, -125%);
+            font-size: 12px;
+            font-weight: bold;
+            color: rgb(0, 0, 0); /* Update the color to white */
+            margin: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: rgb(255, 255, 255);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -410,6 +447,31 @@
 
         #popup tr:nth-last-child(2):not(:last-child) {
             border-bottom: 2px solid black;
+        }
+
+        .chips-row {
+            display: flex;
+            padding-bottom: 10px;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 0px;
+        }
+
+        .active-chips {
+            position: relative;
+            padding: 8px 12px;
+            background: linear-gradient(135deg, #5cfffa7b, #23f91fad);
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+            color: #483c3c;
+            border-radius: 5px;
+            font-size: 20px;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
     </style>
@@ -620,6 +682,17 @@
                 <i class="fas fa-arrow-right"></i>
             </button>
         </div>
+        <div class="{% if chip_used in ['Wildcard', 'Triple Captain', 'Bench Boost'] %}chips-row{% endif %}">
+            {% if chip_used == 'Wildcard' %}
+                <span class="active-chips triple-captain">Wildcard Active</span>
+            {% endif %}
+            {% if chip_used == 'Triple Captain' %}
+                <span class="active-chips triple-captain">Triple Captain Active</span>
+            {% endif %}
+            {% if chip_used == 'Bench Boost' %}
+                <span class="active-chips triple-captain">Bench Boost Active</span>
+            {% endif %}  
+        </div>  
     </div>
     <div class="container">
         <div class="team-container">
@@ -630,12 +703,20 @@
                 <div class="player-position">
                     <div class="icon" onclick="showPopup(0)">
                         {% if gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][6] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][0] %}
-                            <span class="captain-letter">C</span>
+                            {% if chip_used == 'Triple Captain' %}
+                                <span class="triple-captain-letter">C</span>
+                            {% else %}
+                                <span class="captain-letter">C</span>
+                            {% endif %}
                         {% endif %}
                     </div>
                     <div class="name">{{ gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][0] }}</div>
                     {% if gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][6] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][0] %}
-                        <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][0], new_gw.columns[1]].values[0] * 2 }}</div>
+                        {% if chip_used == 'Triple Captain' %}
+                            <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][0], new_gw.columns[1]].values[0] * 3 }}</div>
+                        {% else %}
+                            <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][0], new_gw.columns[1]].values[0] * 2 }}</div>
+                        {% endif %}
                     {% else %}
                         <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][0], new_gw.columns[1]].values[0] }}</div>
                     {% endif %}
@@ -646,12 +727,20 @@
                 <div class="player-position">
                     <div class="icon" onclick="showPopup(1)">
                         {% if gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][6] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][1] %}
-                            <span class="captain-letter">C</span>
+                            {% if chip_used == 'Triple Captain' %}
+                                <span class="triple-captain-letter">C</span>
+                            {% else %}
+                                <span class="captain-letter">C</span>
+                            {% endif %}
                         {% endif %}
                     </div>
                     <div class="name">{{ gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][1] }}</div>
                     {% if gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][6] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][1] %}
-                        <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][1], new_gw.columns[1]].values[0] * 2 }}</div>
+                        {% if chip_used == 'Triple Captain' %}
+                            <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][1], new_gw.columns[1]].values[0] * 3 }}</div>
+                        {% else %}
+                            <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][1], new_gw.columns[1]].values[0] * 2 }}</div>
+                        {% endif %}
                     {% else %}
                         <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][1], new_gw.columns[1]].values[0] }}</div>
                     {% endif %}
@@ -662,12 +751,20 @@
                 <div class="player-position">
                     <div class="icon" onclick="showPopup(1)">
                         {% if gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][6] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][2] %}
-                            <span class="captain-letter">C</span>
+                            {% if chip_used == 'Triple Captain' %}
+                                <span class="triple-captain-letter">C</span>
+                            {% else %}
+                                <span class="captain-letter">C</span>
+                            {% endif %}
                         {% endif %}
                     </div>
                     <div class="name">{{ gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][2] }}</div>
                     {% if gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][6] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][2] %}
-                        <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][2], new_gw.columns[1]].values[0] * 2 }}</div>
+                        {% if chip_used == 'Triple Captain' %}
+                            <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][2], new_gw.columns[1]].values[0] * 3 }}</div>
+                        {% else %}
+                            <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][2], new_gw.columns[1]].values[0] * 2 }}</div>
+                        {% endif %}
                     {% else %}
                         <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][2], new_gw.columns[1]].values[0] }}</div>
                     {% endif %}
@@ -678,12 +775,20 @@
                 <div class="player-position">
                     <div class="icon" onclick="showPopup(1)">
                         {% if gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][6] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][1] %}
-                            <span class="captain-letter">C</span>
+                            {% if chip_used == 'Triple Captain' %}
+                                <span class="triple-captain-letter">C</span>
+                            {% else %}
+                                <span class="captain-letter">C</span>
+                            {% endif %}
                         {% endif %}
                     </div>
                     <div class="name">{{ gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][1] }}</div>
                     {% if gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][6] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][1] %}
-                        <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][1], new_gw.columns[1]].values[0] * 2 }}</div>
+                        {% if chip_used == 'Triple Captain' %}
+                            <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][1], new_gw.columns[1]].values[0] * 3 }}</div>
+                        {% else %}
+                            <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][1], new_gw.columns[1]].values[0] * 2 }}</div>
+                        {% endif %}
                     {% else %}
                         <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][1], new_gw.columns[1]].values[0] }}</div>
                     {% endif %}
@@ -691,12 +796,20 @@
                 <div class="player-position">
                     <div class="icon" onclick="showPopup(2)">
                         {% if gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][6] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][2] %}
-                            <span class="captain-letter">C</span>
+                            {% if chip_used == 'Triple Captain' %}
+                                <span class="triple-captain-letter">C</span>
+                            {% else %}
+                                <span class="captain-letter">C</span>
+                            {% endif %}
                         {% endif %}
                     </div>
                     <div class="name">{{ gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][2] }}</div>
                     {% if gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][6] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][2] %}
-                        <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][2], new_gw.columns[1]].values[0] * 2 }}</div>
+                        {% if chip_used == 'Triple Captain' %}
+                            <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][2], new_gw.columns[1]].values[0] * 3 }}</div>
+                        {% else %}
+                            <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][2], new_gw.columns[1]].values[0] * 2 }}</div>
+                        {% endif %}
                     {% else %}
                         <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][2], new_gw.columns[1]].values[0] }}</div>
                     {% endif %}
@@ -708,12 +821,20 @@
                 <div class="player-position">
                     <div class="icon" onclick="showPopup(3)">
                         {% if gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][6] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][3] %}
-                            <span class="captain-letter">C</span>
+                            {% if chip_used == 'Triple Captain' %}
+                                <span class="triple-captain-letter">C</span>
+                            {% else %}
+                                <span class="captain-letter">C</span>
+                            {% endif %}
                         {% endif %}
                     </div>
                     <div class="name">{{ gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][3] }}</div>
                     {% if gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][6] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][3] %}
-                        <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][3], new_gw.columns[1]].values[0] * 2 }}</div>
+                        {% if chip_used == 'Triple Captain' %}
+                            <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][3], new_gw.columns[1]].values[0] * 3 }}</div>
+                        {% else %}
+                            <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][3], new_gw.columns[1]].values[0] * 2 }}</div>
+                        {% endif %}
                     {% else %}
                         <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][3], new_gw.columns[1]].values[0] }}</div>
                     {% endif %}
@@ -724,12 +845,20 @@
                 <div class="player-position">
                     <div class="icon" onclick="showPopup(3)">
                         {% if gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][6] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][4] %}
-                            <span class="captain-letter">C</span>
+                            {% if chip_used == 'Triple Captain' %}
+                                <span class="triple-captain-letter">C</span>
+                            {% else %}
+                                <span class="captain-letter">C</span>
+                            {% endif %}
                         {% endif %}
                     </div>
                     <div class="name">{{ gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][4] }}</div>
                     {% if gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][6] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][4] %}
-                        <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][4], new_gw.columns[1]].values[0] * 2 }}</div>
+                        {% if chip_used == 'Triple Captain' %}
+                            <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][4], new_gw.columns[1]].values[0] * 3 }}</div>
+                        {% else %}
+                            <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][4], new_gw.columns[1]].values[0] * 2 }}</div>
+                        {% endif %}
                     {% else %}
                         <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][4], new_gw.columns[1]].values[0] }}</div>
                     {% endif %}
@@ -740,12 +869,20 @@
                 <div class="player-position">
                     <div class="icon" onclick="showPopup(3)">
                         {% if gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][6] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][3] %}
-                            <span class="captain-letter">C</span>
+                            {% if chip_used == 'Triple Captain' %}
+                                <span class="triple-captain-letter">C</span>
+                            {% else %}
+                                <span class="captain-letter">C</span>
+                            {% endif %}
                         {% endif %}
                     </div>
                     <div class="name">{{ gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][3] }}</div>
                     {% if gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][6] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][3] %}
-                        <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][3], new_gw.columns[1]].values[0] * 2 }}</div>
+                        {% if chip_used == 'Triple Captain' %}
+                            <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][3], new_gw.columns[1]].values[0] * 3 }}</div>
+                        {% else %}
+                            <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][3], new_gw.columns[1]].values[0] * 2 }}</div>
+                        {% endif %}
                     {% else %}
                         <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][3], new_gw.columns[1]].values[0] }}</div>
                     {% endif %}
@@ -753,12 +890,20 @@
                 <div class="player-position">
                     <div class="icon" onclick="showPopup(4)">
                         {% if gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][6] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][4] %}
-                            <span class="captain-letter">C</span>
+                            {% if chip_used == 'Triple Captain' %}
+                                <span class="triple-captain-letter">C</span>
+                            {% else %}
+                                <span class="captain-letter">C</span>
+                            {% endif %}
                         {% endif %}
                     </div>
                     <div class="name">{{ gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][4] }}</div>
                     {% if gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][6] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][4] %}
-                        <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][4], new_gw.columns[1]].values[0] * 2 }}</div>
+                        {% if chip_used == 'Triple Captain' %}
+                            <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][4], new_gw.columns[1]].values[0] * 3 }}</div>
+                        {% else %}
+                            <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][4], new_gw.columns[1]].values[0] * 2 }}</div>
+                        {% endif %}
                     {% else %}
                         <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][4], new_gw.columns[1]].values[0] }}</div>
                     {% endif %}
@@ -769,12 +914,20 @@
                 <div class="player-position">
                     <div class="icon" onclick="showPopup(2)">
                         {% if gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][6] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][3] %}
-                            <span class="captain-letter">C</span>
+                            {% if chip_used == 'Triple Captain' %}
+                                <span class="triple-captain-letter">C</span>
+                            {% else %}
+                                <span class="captain-letter">C</span>
+                            {% endif %}
                         {% endif %}
                     </div>
                     <div class="name">{{ gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][3] }}</div>
                     {% if gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][6] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][3] %}
-                        <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][3], new_gw.columns[1]].values[0] * 2 }}</div>
+                        {% if chip_used == 'Triple Captain' %}
+                            <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][3], new_gw.columns[1]].values[0] * 3 }}</div>
+                        {% else %}
+                            <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][3], new_gw.columns[1]].values[0] * 2 }}</div>
+                        {% endif %}
                     {% else %}
                         <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][3], new_gw.columns[1]].values[0] }}</div>
                     {% endif %}
@@ -782,12 +935,20 @@
                 <div class="player-position">
                     <div class="icon" onclick="showPopup(3)">
                         {% if gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][6] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][4] %}
-                            <span class="captain-letter">C</span>
+                            {% if chip_used == 'Triple Captain' %}
+                                <span class="triple-captain-letter">C</span>
+                            {% else %}
+                                <span class="captain-letter">C</span>
+                            {% endif %}
                         {% endif %}
                     </div>
                     <div class="name">{{ gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][4] }}</div>
                     {% if gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][6] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][4] %}
-                        <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][4], new_gw.columns[1]].values[0] * 2 }}</div>
+                        {% if chip_used == 'Triple Captain' %}
+                            <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][4], new_gw.columns[1]].values[0] * 3 }}</div>
+                        {% else %}
+                            <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][4], new_gw.columns[1]].values[0] * 2 }}</div>
+                        {% endif %}
                     {% else %}
                         <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][4], new_gw.columns[1]].values[0] }}</div>
                     {% endif %}
@@ -799,12 +960,20 @@
                 <ul class="player-position">
                     <div class="icon" onclick="showPopup(4)">
                         {% if gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][6] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][5] %}
-                            <span class="captain-letter">C</span>
+                            {% if chip_used == 'Triple Captain' %}
+                                <span class="triple-captain-letter">C</span>
+                            {% else %}
+                                <span class="captain-letter">C</span>
+                            {% endif %}
                         {% endif %}
                     </div>
                     <div class="name">{{ gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][5] }}</div>
                     {% if gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][6] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][5] %}
-                        <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][5], new_gw.columns[1]].values[0] * 2 }}</div>
+                        {% if chip_used == 'Triple Captain' %}
+                            <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][5], new_gw.columns[1]].values[0] * 3 }}</div>
+                        {% else %}
+                            <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][5], new_gw.columns[1]].values[0] * 2 }}</div>
+                        {% endif %}
                     {% else %}
                         <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][5], new_gw.columns[1]].values[0] }}</div>
                     {% endif %}
@@ -812,7 +981,7 @@
             </div>
             {% endif %}
             <div id="total-points" style="position: absolute; top: 0; left: 0; margin: 10px; font-weight: bold;"></div>
-            <div class="bench-container">
+            <div class="{{ 'bench-container bench-boost' if chip_used == 'Bench Boost' else 'bench-container' }}">
                 <h2>Bench</h2>
                 <ul class="player-list">
                     <li>

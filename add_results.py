@@ -257,12 +257,15 @@ def add_gameweek_score(gameweek, score, team, goal_scorers, assists, on_bench, s
     team_lineups = pd.read_csv('data/gw_team_data.csv')
     leaderboard = pd.read_csv('data/team_leaderboard.csv')
 
+    chip_data = pd.read_csv('data/gw_team_chips.csv')
     team_gw_lineup = {}
     for row in team_lineups.values:
-        played = []
-        for i in row[1:]:
-            if i != row[8]:                            #in future import team from team_laederboard, and compare it against played input, and implement auto subs
-                played.append(i)
+        chip_used = chip_data.loc[chip_data['Team Name'] == row[0], f'Gameweek {gameweek} Chip Used'].values[0]
+        played = [i for i in row[1:8] if i != row[8]]
+        if chip_used == 'Triple Captain':
+            played.append(row[7])
+        elif chip_used == 'Bench Boost':
+            played.append(row[8])
         team_gw_lineup[row[0]] = played
 
     team_gw_lineup_lead = {}
@@ -282,8 +285,6 @@ def add_gameweek_score(gameweek, score, team, goal_scorers, assists, on_bench, s
         gw_scores[i] = gw_score
         total_score += gw_score
         new_total[i] = total_score
-
-
 
     score_df = pd.DataFrame(gw_scores.items(), columns=['Team Name', f'Gameweek {gameweek}'])
     lineup_df_lead = pd.DataFrame(team_gw_lineup_lead.items(), columns=['Team Name', f'Gameweek {gameweek} Team'])

@@ -288,6 +288,15 @@
             box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.271);
         }
 
+        .free-transfers.active {
+            position: relative;
+            padding: 10px 20px; 
+            color: #535353;
+            border: none;
+            background: linear-gradient(135deg, #5cfffa7b, #23f91fad);
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.271);
+        }
+
         .cost {
             position: relative;
             padding: 10px 20px;  
@@ -407,14 +416,15 @@
             <h1>Make Transfers</h1>
         </div>
         <div class="button-row">
-            <div class="button-base free-transfers">Free Transfers:
+            <div class="button-base free-transfers {{ 'active' if chip_used == 'Wildcard' else '' }}">
+                Free Transfers:
                 {% set transfer_data_keys = transfer_data.keys() %}
-                {% if transfer_data_keys|last == 'GW 1 Cost' %}
+                {% if transfer_data_keys|last == 'GW 1 Cost' or chip_used == 'Wildcard' %}
                     <i class="fas fa-infinity"></i>
                 {% else %}
                     {{ transfer_data['Free Transfers'] }}
                 {% endif %}
-            </div>
+            </div>            
             <div class="button-base cost" id="cost">
                 <span id="transferCost">Cost: {{ transfer_data.values()|last }}</span>
             </div>
@@ -423,10 +433,8 @@
             </div>
         </div>
     </div>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
     <div class="menu">
         <form id="saveForm" action="/save_transfers/{{ team_name }}">
             <button id="saveButton" class="save-button">Save</button>

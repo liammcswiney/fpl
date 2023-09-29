@@ -88,6 +88,29 @@ def create_team():
         with open('data/gw_transfers_temp.csv', 'a', newline='') as csvfile:
             writer = csv.writer(csvfile)
             writer.writerow(row_values)
+            
+
+        with open('data/team_chips.csv', 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            first_row = next(reader)
+
+        row_values = [team_name] + [0] * 3     #0 means not used, so sets chips to unused by default
+
+        with open('data/team_chips.csv', 'a', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow(row_values)
+
+
+        with open('data/gw_team_chips.csv', 'r') as csvfile:
+            reader = csv.reader(csvfile)
+            first_row = next(reader)
+            num_columns = len(first_row)
+
+        row_values = [team_name] + ['none'] * (num_columns - 1)
+
+        with open('data/gw_team_chips.csv', 'a', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow(row_values)
 
         return redirect(url_for('team_management', team_name=team_name))
 
@@ -292,6 +315,16 @@ def load_transfers(team_name):
     injury_data = pd.read_csv('data/injuries.csv')
     injury_data = injury_data.to_dict(orient='records')
 
+    chips_data = pd.read_csv('data/team_chips.csv')
+    filtered_data = chips_data[chips_data['Team Name'] == team_name]
+
+    chip_used = 'none'
+    for index, row in filtered_data.iterrows():
+        for col in filtered_data.columns:
+            if row[col] == 1:
+                chip_used = col
+                break
+
     with open('data/team_data.csv', 'r') as csvfile:
         reader = pd.read_csv(csvfile)
 
@@ -334,6 +367,7 @@ def load_transfers(team_name):
                 break
 
 
+
     reader = pd.read_csv('data/player_database.csv')
     for i in reader['Player']:
         player_databases[i] = reader[reader['Player'] == i]['Price'].values[0]
@@ -345,7 +379,8 @@ def load_transfers(team_name):
         return render_template('team_not_found.html', team_name=team_name)
     
     return render_template('transfers.html', team_name=team_name, team_data=team_data, player_index=player_index
-                           , player_databases=player_databases, transfer_data = transfer_data, injury_data=injury_data)
+                           , player_databases=player_databases, transfer_data = transfer_data, injury_data=injury_data
+                           , chip_used=chip_used)
 
 #############################################################################################################################
 
@@ -377,6 +412,16 @@ def transfers(team_name):
         player_databases[i] = reader[reader['Player'] == i]['Price'].values[0]
 
     player_index = int(request.args.get('playerIndex', default=1))
+
+    chips_data = pd.read_csv('data/team_chips.csv')
+    filtered_data = chips_data[chips_data['Team Name'] == team_name]
+
+    chip_used = 'none'
+    for index, row in filtered_data.iterrows():
+        for col in filtered_data.columns:
+            if row[col] == 1:
+                chip_used = col
+                break
 
     if not team_data:
         # Team not found in CSV file
@@ -415,13 +460,14 @@ def transfers(team_name):
             error_message = "Please select all players before submitting."
             return render_template('transfers.html', team_name=team_name, error_message=error_message
                                    , team_data=team_data, player_index=player_index, player_databases=player_databases
-                                   , transfer_data=transfer_data, injury_data=injury_data)
+                                   , transfer_data=transfer_data, injury_data=injury_data, chips_data=chips_data)
 
     else:
         # Render the build team page with a form to select players
         return render_template('transfers.html', team_name=team_name, team_data=team_data
                                , player_index=player_index, player_databases=player_databases
-                               , transfer_data=transfer_data, injury_data=injury_data)
+                               , transfer_data=transfer_data, injury_data=injury_data, chips_data=chips_data
+                               , chip_used=chip_used)
 
 
 #############################################################################################################################
@@ -462,6 +508,17 @@ def pick_team(team_name):
 
     player_index = int(request.args.get('playerIndex', default=1))
 
+    chips_data = pd.read_csv('data/team_chips.csv')
+    team_index = chips_data[chips_data['Team Name'] == team_name].index[0]
+    filtered_data = chips_data[chips_data['Team Name'] == team_name]
+    
+    chip_used = 'none'
+    for index, row in filtered_data.iterrows():
+        for col in filtered_data.columns:
+            if row[col] == 1:
+                chip_used = col
+                break
+    
     if not team_data:
         # Team not found in CSV file
         return render_template('team_not_found.html', team_name=team_name)
@@ -491,14 +548,16 @@ def pick_team(team_name):
             error_message = "Please select all players before submitting."
             return render_template('pick_team.html', team_name=team_name, error_message=error_message, team_data=team_data
                                    , player_index=player_index, player_databases=player_databases, next_gw_int=next_gw_int
-                                   , player_data=player_data, next_gw=next_gw, fixtures_data=fixtures_data, injury_data=injury_data)
+                                   , player_data=player_data, next_gw=next_gw, fixtures_data=fixtures_data, injury_data=injury_data
+                                   , chips_data=chips_data, team_index=team_index)
 
     else:
         # Render the build team page with a form to select players
         return render_template('pick_team.html', team_name=team_name, team_data=team_data, player_index=player_index
                                , player_databases=player_databases, fixtures_data=fixtures_data
                                , player_data=player_data, next_gw=next_gw
-                               , next_gw_int=next_gw_int, injury_data=injury_data)
+                               , next_gw_int=next_gw_int, injury_data=injury_data, chips_data=chips_data
+                               , chip_used=chip_used, team_index=team_index)
 
 
 #############################################################################################################################
@@ -540,6 +599,46 @@ def update_captain(team_name, player_name):
     return redirect(url_for('pick_team', team_name=team_name))
 
 #############################################################################################################################
+
+@app.route('/use_chip/<team_name>/<chip_name>', methods=['POST'])
+def use_chip(team_name, chip_name):
+    with open('data/team_chips.csv', 'r') as csvfile:
+        reader = pd.read_csv(csvfile)
+    
+    valid_chips = ['Bench Boost', 'Wildcard', 'Triple Captain']
+    
+    if chip_name not in valid_chips:
+        return 'Invalid chip!', 400
+
+    for row in reader.values:
+        if row[0] == team_name:
+            reader.loc[reader['Team Name'] == team_name, chip_name] = 1
+
+    reader.to_csv('data/team_chips.csv', index=False)
+
+    if chip_name == 'Wildcard':
+        
+        with open('data/gw_transfers.csv', 'r') as file:
+            reader = csv.reader(file)
+            header = next(reader)
+            rows = list(reader)
+
+        for row in rows:
+            if row[0] == team_name:
+                row[1] = '0'
+                row[-1] = '0'
+
+        with open('data/gw_transfers.csv', mode='w', newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(header)
+            writer.writerows(rows)
+
+
+
+    return redirect(url_for('pick_team', team_name=team_name))
+
+#############################################################################################################################
+
 
 @app.route('/save_transfers/<team_name>', methods=['GET', 'POST'])
 def save_transfers(team_name):
@@ -601,7 +700,7 @@ def gameweek_points(team_name):
         x = eval((gw_info[i].values[0]))
         gw_info[i] = [x]
     gw_team_data1 = gw_info.iloc[:, 2:]
-    index1 = gw_team_data1.index[0]
+    index1 = gw_team_data1.index[0]     ##if performance becomes an issue, consider importing player1, player2 separately rathering than rendering an entire df
 
     with open('data/player_score.csv', 'r') as csvfile:
         reader = pd.read_csv(csvfile)
@@ -614,6 +713,9 @@ def gameweek_points(team_name):
     new_gw[reader.columns[-1]] = last_column
 
     gw = int(new_gw.columns[1].split(' ')[1])
+
+    chip_data = pd.read_csv('data/gw_team_chips.csv')
+    chip_used = chip_data.loc[chip_data['Team Name'] == team_name, f'Gameweek {gw} Chip Used'].values[0]
 
     fixtures_data = pd.read_csv('data/fixtures.csv')
 
@@ -651,6 +753,7 @@ def gameweek_points(team_name):
                                 , index=index1
                                 , fixtures_data=fixtures_data
                                 , player_scores_breakdown=new_player_scores_breakdown
+                                , chip_used=chip_used
         )
     else:
         return None
@@ -673,6 +776,9 @@ def scroll_down(team_name, gw):
         if gw_info1[f'Gameweek {gw -1}'][index_tm] != '-':
             gw = gw - 1
     
+    chip_data = pd.read_csv('data/gw_team_chips.csv')
+    chip_used = chip_data.loc[chip_data['Team Name'] == team_name, f'Gameweek {gw} Chip Used'].values[0]
+
     for i in gw_info.columns[3::2]:
         x = eval((gw_info[i].values[0]))
         gw_info[i] = [x]
@@ -725,6 +831,7 @@ def scroll_down(team_name, gw):
                             , index=index1
                             , fixtures_data=fixtures_data
                             , player_scores_breakdown=new_player_scores_breakdown
+                            , chip_used=chip_used
                             )
 
 #############################################################################################################################
@@ -739,6 +846,9 @@ def scroll_up(team_name, gw):
     gw = int(gw)
     if gw < max_gw:
         gw = gw + 1
+
+    chip_data = pd.read_csv('data/gw_team_chips.csv')
+    chip_used = chip_data.loc[chip_data['Team Name'] == team_name, f'Gameweek {gw} Chip Used'].values[0]
     
     gw_info = leaderboard_data.loc[leaderboard_data['Team Name'] == team_name]
     for i in gw_info.columns[3::2]:
@@ -792,6 +902,7 @@ def scroll_up(team_name, gw):
                             , index=index1
                             , fixtures_data=fixtures_data
                             , player_scores_breakdown=new_player_scores_breakdown
+                            , chip_used=chip_used
                             )
 
 
@@ -821,6 +932,9 @@ def view_gameweek_points(team_name, view_team_name):
 
     gw = int(new_gw.columns[1].split(' ')[1])
 
+    chip_data = pd.read_csv('data/gw_team_chips.csv')
+    chip_used = chip_data.loc[chip_data['Team Name'] == view_team_name, f'Gameweek {gw} Chip Used'].values[0]
+
     fixtures_data = pd.read_csv('data/fixtures.csv')
 
     match = gw
@@ -856,6 +970,7 @@ def view_gameweek_points(team_name, view_team_name):
                             , fixtures_data=fixtures_data
                             , view_team_name=view_team_name
                             , player_scores_breakdown=new_player_scores_breakdown
+                            , chip_used=chip_used
                             )
 
 
@@ -876,6 +991,9 @@ def view_scroll_down(team_name, view_team_name, gw):
     if gw > 1:
         if gw_info1[f'Gameweek {gw -1}'][index_tm] != '-':
             gw = gw - 1
+
+    chip_data = pd.read_csv('data/gw_team_chips.csv')
+    chip_used = chip_data.loc[chip_data['Team Name'] == view_team_name, f'Gameweek {gw} Chip Used'].values[0]
 
     for i in gw_info.columns[3::2]:
         x = eval((gw_info[i].values[0]))
@@ -929,6 +1047,7 @@ def view_scroll_down(team_name, view_team_name, gw):
                             , fixtures_data=fixtures_data
                             , view_team_name=view_team_name
                             , player_scores_breakdown=new_player_scores_breakdown
+                            , chip_used=chip_used
                             )
 
 
@@ -944,6 +1063,9 @@ def view_scroll_up(team_name, view_team_name, gw):
     gw = int(gw)
     if gw < max_gw:
         gw = gw + 1
+
+    chip_data = pd.read_csv('data/gw_team_chips.csv')
+    chip_used = chip_data.loc[chip_data['Team Name'] == view_team_name, f'Gameweek {gw} Chip Used'].values[0]
     
     gw_info = leaderboard_data.loc[leaderboard_data['Team Name'] == view_team_name]
     for i in gw_info.columns[3::2]:
@@ -998,6 +1120,7 @@ def view_scroll_up(team_name, view_team_name, gw):
                             , fixtures_data=fixtures_data
                             , view_team_name=view_team_name
                             , player_scores_breakdown=new_player_scores_breakdown
+                            , chip_used=chip_used
                             )
 
 
@@ -1315,6 +1438,16 @@ def add_player_transfer():
     with open('data/gw_transfers_temp.csv', 'r') as csvfile:
         reader = csv.reader(csvfile)
         transfers_data = list(reader)
+
+    chips_data = pd.read_csv('data/team_chips.csv')
+    filtered_data = chips_data[chips_data['Team Name'] == team_name]
+    
+    chip_used = 'none'
+    for index, row in filtered_data.iterrows():
+        for col in filtered_data.columns:
+            if row[col] == 1:
+                chip_used = col
+                break
     
     # Update the corresponding player column in team_data
     for row in transfers_data:
@@ -1325,7 +1458,7 @@ def add_player_transfer():
 
             row[-2] += 1
 
-            if row[1] == 0 and transfers_data[0][-1] != 'Gameweek 1 Cost':                    #if free transfers == 0
+            if row[1] == 0 and transfers_data[0][-1] != 'Gameweek 1 Cost' and chip_used != 'Wildcard':                    #if free transfers == 0
                 row[-1] = int(row[-1])
                 row[-1] -= 4
 
@@ -1341,7 +1474,7 @@ def add_player_transfer():
         writer.writerows(transfers_data)
     
     # Redirect back to the build team page
-    return redirect(url_for('transfers', team_name=team_name))
+    return redirect(url_for('transfers', team_name=team_name, chip_used=chip_used))
 
 #############################################################################################################################
 

@@ -39,6 +39,33 @@ def pass_deadline(gameweek):
     leaderboard = leaderboard.drop(columns = 'Total Score')
     leaderboard = pd.merge(leaderboard, df, on='Team Name', how='outer')
 
+
+    chip_data = pd.read_csv('data/team_chips.csv')
+    gw_chip_data = pd.read_csv('data/gw_team_chips.csv')
+
+    rows_list = []
+
+    for index, row in chip_data.iterrows():
+        team_name = row[0] 
+        chip_used = 'none'
+
+        for col in chip_data.columns[1:]:
+            if row[col] == 1:
+                chip_used = col 
+                break
+        
+        rows_list.append({'Team Name': team_name, f'Gameweek {gameweek} Chip Used': chip_used})
+
+    chip_df = pd.DataFrame(rows_list)
+    gw_chip_data = pd.merge(gw_chip_data, chip_df, on='Team Name')
+
+    gw_chip_data.to_csv('data/gw_team_chips.csv', index=False)
+
+    chip_data = pd.read_csv('data/team_chips.csv')
+    condition = (chip_data[['Wildcard', 'Triple Captain', 'Bench Boost']] == 1).any(axis=1)
+    chip_data.loc[condition, ['Wildcard', 'Triple Captain', 'Bench Boost']] = chip_data.loc[condition, ['Wildcard', 'Triple Captain', 'Bench Boost']].replace(1, 2)
+    chip_data.to_csv('data/team_chips.csv', index=False)
+
     score_df = pd.DataFrame(gw_scores.items(), columns=['Team Name', f'Gameweek {gameweek}'])
     lineup_df = pd.DataFrame(team_gw_lineup.items(), columns=['Team Name', f'Gameweek {gameweek} Team'])
 
