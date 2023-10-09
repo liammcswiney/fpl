@@ -769,6 +769,10 @@
             openModal("Wildcard", "Are you sure you want to use the Wildcard chip?");
         }
 
+        window.openLimitlessModal = function() {
+            openModal("Limitless", "Are you sure you want to use the Limitless chip?");
+        }
+
         window.openTripleCaptainModal = function() {
             openModal("Triple Captain", "Are you sure you want to use the Triple Captain chip?");
         }
@@ -776,6 +780,7 @@
         window.openBenchBoostModal = function() {
             openModal("Bench Boost", "Are you sure you want to use the Bench Boost chip?");
         }
+
 
         function openModal(chip, message) {
             currentChip = chip;
@@ -813,7 +818,7 @@
     <div id="confirmModal" class="modal">
         <div class="modal-content">
             <p id="modalMessage">Default message</p>
-            <p>One it is activated, it cannot be changed.</p>
+            <p>Once it is activated, it cannot be changed.</p>
             <button id="confirmButton" class="popup-button confirm">Yes</button>
             <button id="cancelButton" class="popup-button cancel">No</button>
         </div>
@@ -833,15 +838,23 @@
         <div class="chips-row">
             {% if chips_data['Wildcard'].values[team_index] == 1 %}
                 <span class="active-chips triple-captain">Wildcard</span>
-            {% elif chips_data['Wildcard'].values[team_index] == 2 or chips_data['Triple Captain'].values[team_index] == 1 or chips_data['Bench Boost'].values[team_index] == 1 %}
+            {% elif chips_data['Wildcard'].values[team_index] == 2 or chips_data['Triple Captain'].values[team_index] == 1 or chips_data['Bench Boost'].values[team_index] == 1 or chips_data['Limitless'].values[team_index] == 1 %}
                 <span class="used-chips triple-captain">Wildcard</span>
             {% else %}
                 <button class="unused-chips triple-captain" onclick="openWildcardModal()">Wildcard</button>
             {% endif %}
 
+            {% if chips_data['Limitless'].values[team_index] == 1 %}
+                <span class="active-chips triple-captain">Limitless</span>
+            {% elif chips_data['Limitless'].values[team_index] == 2 or chips_data['Triple Captain'].values[team_index] == 1 or chips_data['Bench Boost'].values[team_index] == 1 or chips_data['Wildcard'].values[team_index] == 1 %}
+                <span class="used-chips triple-captain">Limitless</span>
+            {% else %}
+                <button class="unused-chips triple-captain" onclick="openLimitlessModal()">Limitless</button>
+            {% endif %}
+
             {% if chips_data['Triple Captain'].values[team_index] == 1 %}
                 <span class="active-chips triple-captain">Triple Captain</span>
-            {% elif chips_data['Triple Captain'].values[team_index] == 2 or chips_data['Wildcard'].values[team_index] == 1 or chips_data['Bench Boost'].values[team_index] == 1 %}
+            {% elif chips_data['Triple Captain'].values[team_index] == 2 or chips_data['Wildcard'].values[team_index] == 1 or chips_data['Bench Boost'].values[team_index] == 1 or chips_data['Limitless'].values[team_index] == 1 %}
                 <span class="used-chips triple-captain">Triple Captain</span>
             {% else %}
                 <button class="unused-chips triple-captain" onclick="openTripleCaptainModal()">Triple Captain</button>
@@ -849,7 +862,7 @@
 
             {% if chips_data['Bench Boost'].values[team_index] == 1 %}
                 <span class="active-chips triple-captain">Bench Boost</span>
-            {% elif chips_data['Bench Boost'].values[team_index] == 2 or chips_data['Wildcard'].values[team_index] == 1 or chips_data['Triple Captain'].values[team_index] == 1 %}
+            {% elif chips_data['Bench Boost'].values[team_index] == 2 or chips_data['Wildcard'].values[team_index] == 1 or chips_data['Triple Captain'].values[team_index] == 1 or chips_data['Limitless'].values[team_index] == 1 %}
                 <span class="used-chips triple-captain">Bench Boost</span>
             {% else %}
                 <button class="unused-chips triple-captain" onclick="openBenchBoostModal()">Bench Boost</button>

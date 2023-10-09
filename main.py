@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import pandas as pd
+import numpy as np
 # import traceback
 import csv
 # import urllib.parse
@@ -94,7 +95,7 @@ def create_team():
             reader = csv.reader(csvfile)
             first_row = next(reader)
 
-        row_values = [team_name] + [0] * 3     #0 means not used, so sets chips to unused by default
+        row_values = [team_name] + [0] * 4     #0 means not used, so sets chips to unused by default
 
         with open('data/team_chips.csv', 'a', newline='') as csvfile:
             writer = csv.writer(csvfile)
@@ -111,6 +112,13 @@ def create_team():
         with open('data/gw_team_chips.csv', 'a', newline='') as csvfile:
             writer = csv.writer(csvfile)
             writer.writerow(row_values)
+
+
+        team_columns = ['-'] * 8     #0 means not used, so sets chips to unused by default
+
+        with open('data/limitless.csv', 'a', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow([team_name] + team_columns)
 
         return redirect(url_for('team_management', team_name=team_name))
 
@@ -356,7 +364,11 @@ def load_transfers(team_name):
             if row['Team Name'] == team_name:
                 transfer_data = row
                 break
-
+    
+    if int(transfer_data['Free Transfers']) - int(list(transfer_data.values())[-2]) > 0:
+        free_transfer = int(transfer_data['Free Transfers']) - int(list(transfer_data.values())[-2])
+    else:
+        free_transfer = 0
 
     # Read team data from CSV file
     with open('data/team_data_temp.csv', 'r') as csvfile:
@@ -380,7 +392,7 @@ def load_transfers(team_name):
     
     return render_template('transfers.html', team_name=team_name, team_data=team_data, player_index=player_index
                            , player_databases=player_databases, transfer_data = transfer_data, injury_data=injury_data
-                           , chip_used=chip_used)
+                           , chip_used=chip_used, free_transfer=free_transfer)
 
 #############################################################################################################################
 
@@ -406,6 +418,11 @@ def transfers(team_name):
             if row['Team Name'] == team_name:
                 transfer_data = row
                 break
+
+    if int(transfer_data['Free Transfers']) - int(list(transfer_data.values())[-2]) > 0:
+        free_transfer = int(transfer_data['Free Transfers']) - int(list(transfer_data.values())[-2])
+    else:
+        free_transfer = 0
 
     reader = pd.read_csv('data/player_database.csv')
     for i in reader['Player']:
@@ -460,14 +477,15 @@ def transfers(team_name):
             error_message = "Please select all players before submitting."
             return render_template('transfers.html', team_name=team_name, error_message=error_message
                                    , team_data=team_data, player_index=player_index, player_databases=player_databases
-                                   , transfer_data=transfer_data, injury_data=injury_data, chips_data=chips_data)
+                                   , transfer_data=transfer_data, injury_data=injury_data, chips_data=chips_data
+                                   , free_transfer=free_transfer)
 
     else:
         # Render the build team page with a form to select players
         return render_template('transfers.html', team_name=team_name, team_data=team_data
                                , player_index=player_index, player_databases=player_databases
                                , transfer_data=transfer_data, injury_data=injury_data, chips_data=chips_data
-                               , chip_used=chip_used)
+                               , chip_used=chip_used, free_transfer=free_transfer)
 
 
 #############################################################################################################################
@@ -605,7 +623,7 @@ def use_chip(team_name, chip_name):
     with open('data/team_chips.csv', 'r') as csvfile:
         reader = pd.read_csv(csvfile)
     
-    valid_chips = ['Bench Boost', 'Wildcard', 'Triple Captain']
+    valid_chips = ['Bench Boost', 'Wildcard', 'Triple Captain', 'Limitless']
     
     if chip_name not in valid_chips:
         return 'Invalid chip!', 400
@@ -616,7 +634,7 @@ def use_chip(team_name, chip_name):
 
     reader.to_csv('data/team_chips.csv', index=False)
 
-    if chip_name == 'Wildcard':
+    if chip_name == 'Wildcard' or chip_name == 'Limitless':
         
         with open('data/gw_transfers.csv', 'r') as file:
             reader = csv.reader(file)
@@ -634,6 +652,41 @@ def use_chip(team_name, chip_name):
             writer.writerows(rows)
 
 
+    if chip_name == 'Limitless':
+
+        leaderboard_data = pd.read_csv('data/team_leaderboard.csv')
+        limitless = pd.read_csv('data/limitless.csv')
+
+        gw_info = leaderboard_data.loc[leaderboard_data['Team Name'] == team_name]
+
+        team = eval((gw_info[gw_info.columns[-1]].values[0]))
+
+        if team[0] == 'No Player':                  #basically checking if it is their first gw, ie team's data from previous week == placeholder value
+            with open('data/team_data.csv', 'r') as csvfile:
+                reader = csv.reader(csvfile)
+                for row in reader:
+                    if row[0] == team_name:
+                        team = row[1:9]
+
+        data = {
+            "Team Name": team_name,
+            "Player 1": team[0],
+            "Player 2": team[1],
+            "Player 3": team[2],
+            "Player 4": team[3],
+            "Player 5": team[4],
+            "Player 6": team[5],
+            "Captain": team[6],
+            "Bench": team[7]
+        }
+
+        new_team_df = pd.DataFrame([data])
+
+        idx = limitless[limitless['Team Name'] == team_name].index[0]
+        limitless.loc[idx] = new_team_df.iloc[0]
+
+        # Saving to CSV
+        limitless.to_csv('data/limitless.csv', index=False)
 
     return redirect(url_for('pick_team', team_name=team_name))
 
@@ -673,8 +726,12 @@ def save_transfers(team_name):
 
 
     temp = temp.loc[temp['Team Name'] == team_name]
+    
+        # Subtract the values
+    diff = reader.loc[reader['Team Name'] == team_name, 'Free Transfers'] - temp.loc[temp['Team Name'] == team_name, reader.columns[-2]].values
 
-    reader.loc[reader['Team Name'] == team_name, 'Free Transfers'] = temp.loc[temp['Team Name'] == team_name, 'Free Transfers'].values
+    # Use np.maximum to ensure the result doesn't go below 0
+    reader.loc[reader['Team Name'] == team_name, 'Free Transfers'] = np.maximum(0, diff)
 
     reader.loc[reader['Team Name'] == team_name, reader.columns[-2]] = int(reader.loc[reader['Team Name'] == team_name, reader.columns[-2]])
     temp.loc[reader['Team Name'] == team_name, reader.columns[-2]] = int(temp.loc[reader['Team Name'] == team_name, reader.columns[-2]])
@@ -695,7 +752,6 @@ def gameweek_points(team_name):
 
     gw_info = leaderboard_data.loc[leaderboard_data['Team Name'] == team_name]
 
-    gw_info = leaderboard_data.loc[leaderboard_data['Team Name'] == team_name]
     for i in gw_info.columns[3::2]:
         x = eval((gw_info[i].values[0]))
         gw_info[i] = [x]
@@ -1420,10 +1476,10 @@ def add_player_transfer():
     # Read the existing team data from team_data.csv
     with open('data/team_data_temp.csv', 'r') as csvfile:
         reader = csv.reader(csvfile)
-        team_data = list(reader)
+        team_data_temp = list(reader)
     
     # Update the corresponding player column in team_data
-    for row in team_data:
+    for row in team_data_temp:
         if row[0] == new_team_name:
             row[player_index] = player_name
             break
@@ -1431,8 +1487,17 @@ def add_player_transfer():
     # Write the updated team data back to team_data.csv
     with open('data/team_data_temp.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
-        writer.writerows(team_data)
+        writer.writerows(team_data_temp)
 
+
+    with open('data/team_data.csv', 'r') as csvfile:
+        reader = csv.reader(csvfile)
+        team_data = list(reader)
+
+    differences_count = 0
+    for index, row in enumerate(team_data):
+        if row[0] == new_team_name:
+            differences_count += sum(1 for i in range(1, 7) if row[i] != team_data_temp[index][i])
 
     # Read the existing team data from team_data.csv
     with open('data/gw_transfers_temp.csv', 'r') as csvfile:
@@ -1449,23 +1514,18 @@ def add_player_transfer():
                 chip_used = col
                 break
     
-    # Update the corresponding player column in team_data
+
     for row in transfers_data:
-        if row[0] == new_team_name:       #lining up team name row
-            row[-2] = int(row[-2])
-            row[-1] = int(row[-1])
-            row[1] = int(row[1])
+        if row[0] == new_team_name:
+            row[-2] = int(differences_count)
+            cost = int(row[1]) - row[-2]            #free transfers - diff_count
 
-            row[-2] += 1
-
-            if row[1] == 0 and transfers_data[0][-1] != 'Gameweek 1 Cost' and chip_used != 'Wildcard':                    #if free transfers == 0
+            if transfers_data[0][-1] != 'Gameweek 1 Cost' and chip_used != 'Wildcard' and chip_used != 'Limitless':                    #if free transfers == 0
                 row[-1] = int(row[-1])
-                row[-1] -= 4
-
-            if row[1] > 0:                                  #if free transfers greater than 0, deduct
-                row[1] = int(row[1])
-                row[1] -= 1
-                
+                if cost < 0:
+                    row[-1] = 4*cost
+                else:
+                    row[-1] = 0
             break
             
     # Write the updated team data back to team_data.csv

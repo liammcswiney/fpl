@@ -261,6 +261,24 @@
             transform: scale(1.05); /* Slightly enlarge button on hover */
         }
 
+        .refresh-button {
+            position: absolute;
+            top: 10px;
+            right: 50px;
+            padding: 5px 10px;
+            background-color: #a3a3a3;
+            color: #fff;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease; 
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Centers the content */
+            cursor: pointer;
+        }
+
         .button-base {
             position: relative;
             padding: 5px 10px;
@@ -359,37 +377,45 @@
             var prices = document.getElementsByClassName("price");
             var total = 0;
             var budget = 40;
+            
+            var chip_used = "{{ chip_used }}";
+            console.log(chip_used);
 
-            for (var i = 0; i < prices.length; i++) {
-                var priceText = prices[i].textContent;
-                var price = parseFloat(priceText.replace("£", "").replace("m", ""));
-                if (!isNaN(price)) {
-                    total += price;
+
+
+            if (chip_used !== 'Limitless') {
+
+                for (var i = 0; i < prices.length; i++) {
+                    var priceText = prices[i].textContent;
+                    var price = parseFloat(priceText.replace("£", "").replace("m", ""));
+                    if (!isNaN(price)) {
+                        total += price;
+                    }
                 }
-            }
-            budget -= total;
+                budget -= total;
 
-            var budgetValueElement = document.getElementById('budgetValue');
-            var totalPriceElement = document.getElementById("totalPrice");
+                var budgetValueElement = document.getElementById('budgetValue');
+                var totalPriceElement = document.getElementById("totalPrice");
 
-            if (budget < 0) {
-                saveButton.classList.add("disabled");
-                document.getElementById("saveButton").disabled = true;
-                budgetValueElement.classList.add('less-than-zero');
+                if (budget < 0) {
+                    saveButton.classList.add("disabled");
+                    document.getElementById("saveButton").disabled = true;
+                    budgetValueElement.classList.add('less-than-zero');
+                    if (totalPriceElement) {
+                        totalPriceElement.style.color = "red"; // Set the text color of totalPriceElement to red
+                    }
+                } else {
+                    saveButton.classList.remove("disabled");
+                    document.getElementById("saveButton").disabled = false;
+                    budgetValueElement.classList.remove('less-than-zero');
+                    if (totalPriceElement) {
+                        totalPriceElement.style.color = ""; // Remove any explicit text color style
+                    }
+                }
+
                 if (totalPriceElement) {
-                    totalPriceElement.style.color = "red"; // Set the text color of totalPriceElement to red
+                    totalPriceElement.textContent = "Bank: £" + budget.toFixed(1) + "m";
                 }
-            } else {
-                saveButton.classList.remove("disabled");
-                document.getElementById("saveButton").disabled = false;
-                budgetValueElement.classList.remove('less-than-zero');
-                if (totalPriceElement) {
-                    totalPriceElement.style.color = ""; // Remove any explicit text color style
-                }
-            }
-
-            if (totalPriceElement) {
-                totalPriceElement.textContent = "Bank: £" + budget.toFixed(1) + "m";
             }
         }
 
@@ -416,22 +442,31 @@
             <h1>Make Transfers</h1>
         </div>
         <div class="button-row">
-            <div class="button-base free-transfers {{ 'active' if chip_used == 'Wildcard' else '' }}">
+            <div class="button-base free-transfers {{ 'active' if chip_used == 'Wildcard' or chip_used == 'Limitless' else '' }}">
                 Free Transfers:
                 {% set transfer_data_keys = transfer_data.keys() %}
-                {% if transfer_data_keys|last == 'GW 1 Cost' or chip_used == 'Wildcard' %}
+                {% if transfer_data_keys|last == 'Gameweek 1 Cost' or chip_used == 'Wildcard' or chip_used == 'Limitless' %}
                     <i class="fas fa-infinity"></i>
                 {% else %}
-                    {{ transfer_data['Free Transfers'] }}
+                    {{ free_transfer }}
                 {% endif %}
-            </div>            
-            <div class="button-base cost" id="cost">
-                <span id="transferCost">Cost: {{ transfer_data.values()|last }}</span>
             </div>
-            <div class="button-base total-price" id="totalPrice">
-                <span id="budgetValue"></span>
+        
+            {% if chip_used != 'Limitless' %}
+                <div class="button-base cost" id="cost">
+                    <span id="transferCost">Cost: {{ transfer_data.values()|last }}</span>
+                </div>
+            {% endif %}
+            
+            <div class="button-base free-transfers {{ 'active' if chip_used == 'Limitless' else '' }}" id="totalPrice">
+                {% if chip_used == 'Limitless' %}
+                    Bank: <i class="fas fa-infinity"></i>
+                {% else %}
+                    <span id="budgetValue"></span>
+                {% endif %}
             </div>
         </div>
+        
     </div>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -439,6 +474,11 @@
         <form id="saveForm" action="/save_transfers/{{ team_name }}">
             <button id="saveButton" class="save-button">Save</button>
         </form>
+        <form id="saveForm" action="/load_transfers/{{ team_name }}">
+            <button class="refresh-button" onclick="goBack()">
+                <i class="fa fa-refresh"></i>
+            </button>  
+        </form>   
         <button class="return-button" onclick="goBack()">
             <i class="fa fa-trash-o"></i>
         </button>        

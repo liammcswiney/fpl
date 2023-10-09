@@ -39,8 +39,20 @@ def pass_deadline(gameweek):
     leaderboard = leaderboard.drop(columns = 'Total Score')
     leaderboard = pd.merge(leaderboard, df, on='Team Name', how='outer')
 
-
     chip_data = pd.read_csv('data/team_chips.csv')
+    limitless = pd.read_csv('data/limitless.csv')
+    team_data = pd.read_csv('data/team_data.csv')
+
+    for index, row in chip_data.iterrows():
+        team_name = row[0] 
+
+        if row[2] == 1:      #if limitless == 1
+            limitless_row = limitless[limitless['Team Name'] == team_name].iloc[0]
+            team_data_index = team_data[team_data['Team Name'] == team_name].index[0]
+            team_data.loc[team_data_index] = limitless_row
+            
+    team_data.to_csv('data/team_data.csv', index=False)
+
     gw_chip_data = pd.read_csv('data/gw_team_chips.csv')
 
     rows_list = []
@@ -62,8 +74,8 @@ def pass_deadline(gameweek):
     gw_chip_data.to_csv('data/gw_team_chips.csv', index=False)
 
     chip_data = pd.read_csv('data/team_chips.csv')
-    condition = (chip_data[['Wildcard', 'Triple Captain', 'Bench Boost']] == 1).any(axis=1)
-    chip_data.loc[condition, ['Wildcard', 'Triple Captain', 'Bench Boost']] = chip_data.loc[condition, ['Wildcard', 'Triple Captain', 'Bench Boost']].replace(1, 2)
+    condition = (chip_data[['Wildcard', 'Triple Captain', 'Bench Boost', 'Limitless']] == 1).any(axis=1)
+    chip_data.loc[condition, ['Wildcard', 'Triple Captain', 'Bench Boost', 'Limitless']] = chip_data.loc[condition, ['Wildcard', 'Triple Captain', 'Bench Boost', 'Limitless']].replace(1, 2)
     chip_data.to_csv('data/team_chips.csv', index=False)
 
     score_df = pd.DataFrame(gw_scores.items(), columns=['Team Name', f'Gameweek {gameweek}'])
