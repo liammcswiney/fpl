@@ -983,12 +983,26 @@
             <div id="total-points" style="position: absolute; top: 0; left: 0; margin: 10px; font-weight: bold;"></div>
             <div class="{{ 'bench-container bench-boost' if chip_used == 'Bench Boost' else 'bench-container' }}">
                 <h2>Bench</h2>
-                <ul class="player-list">
-                    <li>
-                        <div class="icon" onclick="showPopup(5)"></div>
-                        <div class="name">{{ gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][7] }}</div>
+                <ul class="player-position">
+                    <div class="icon" onclick="showPopup(5)">
+                        {% if gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][6] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][7] %}
+                            {% if chip_used == 'Triple Captain' %}
+                                <span class="triple-captain-letter">C</span>
+                            {% else %}
+                                <span class="captain-letter">C</span>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    <div class="name">{{ gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][7] }}</div>
+                    {% if gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][6] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][7] %}
+                        {% if chip_used == 'Triple Captain' %}
+                            <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][7], new_gw.columns[1]].values[0] * 3 }}</div>
+                        {% else %}
+                            <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][7], new_gw.columns[1]].values[0] * 2 }}</div>
+                        {% endif %}
+                    {% else %}
                         <div class="points">{{ new_gw.loc[new_gw['Player'] == gw_team_data1['Gameweek ' ~ gw|string ~ ' Team'][index][7], new_gw.columns[1]].values[0] }}</div>
-                    </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

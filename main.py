@@ -784,7 +784,7 @@ def gameweek_points(team_name):
 
         new_df = pd.DataFrame([{'Player': item} for item in gw_team_data1[f'Gameweek {match} Team'][index1]])
         for index, row in new_df.iterrows():
-            if index != new_df.index[-1]:
+            if index != new_df.index[-1] and index != new_df.index[-2]:
                 if row.equals(new_df.loc[7]):
                     new_df = new_df.drop(index)
         new_df = new_df.drop(6)
@@ -861,7 +861,7 @@ def scroll_down(team_name, gw):
 
     new_df = pd.DataFrame([{'Player': item} for item in gw_team_data1[f'Gameweek {match} Team'][index1]])
     for index, row in new_df.iterrows():
-        if index != new_df.index[-1]:
+        if index != new_df.index[-1] and index != new_df.index[-2]:
             if row.equals(new_df.loc[7]):
                 new_df = new_df.drop(index)
     new_df = new_df.drop(6)
@@ -932,7 +932,7 @@ def scroll_up(team_name, gw):
 
     new_df = pd.DataFrame([{'Player': item} for item in gw_team_data1[f'Gameweek {match} Team'][index1]])
     for index, row in new_df.iterrows():
-        if index != new_df.index[-1]:
+        if index != new_df.index[-1] and index != new_df.index[-2]:
             if row.equals(new_df.loc[7]):
                 new_df = new_df.drop(index)
     new_df = new_df.drop(6)
@@ -1000,7 +1000,7 @@ def view_gameweek_points(team_name, view_team_name):
 
     new_df = pd.DataFrame([{'Player': item} for item in gw_team_data1[f'Gameweek {match} Team'][index1]])
     for index, row in new_df.iterrows():
-        if index != new_df.index[-1]:
+        if index != new_df.index[-1] and index != new_df.index[-2]:
             if row.equals(new_df.loc[7]):
                 new_df = new_df.drop(index)
     new_df = new_df.drop(6)
@@ -1077,7 +1077,7 @@ def view_scroll_down(team_name, view_team_name, gw):
 
     new_df = pd.DataFrame([{'Player': item} for item in gw_team_data1[f'Gameweek {match} Team'][index1]])
     for index, row in new_df.iterrows():
-        if index != new_df.index[-1]:
+        if index != new_df.index[-1] and index != new_df.index[-2]:
             if row.equals(new_df.loc[7]):
                 new_df = new_df.drop(index)
     new_df = new_df.drop(6)
@@ -1149,7 +1149,7 @@ def view_scroll_up(team_name, view_team_name, gw):
 
     new_df = pd.DataFrame([{'Player': item} for item in gw_team_data1[f'Gameweek {match} Team'][index1]])
     for index, row in new_df.iterrows():
-        if index != new_df.index[-1]:
+        if index != new_df.index[-1] and index != new_df.index[-2]:
             if row.equals(new_df.loc[7]):
                 new_df = new_df.drop(index)
     new_df = new_df.drop(6)
