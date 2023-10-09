@@ -29,11 +29,11 @@ def update_league_table(*results):
         # Update wins, losses, draws, and points
         if goals1 > goals2:
             league_table.at[team1, 'W'] += 1
-            league_table.at[team1, 'Pts'] += 3
+            league_table.at[team1, 'Pts'] += 2
             league_table.at[team2, 'L'] += 1
         elif goals1 < goals2:
             league_table.at[team2, 'W'] += 1
-            league_table.at[team2, 'Pts'] += 3
+            league_table.at[team2, 'Pts'] += 2
             league_table.at[team1, 'L'] += 1
         else:  # Draw
             league_table.at[team1, 'D'] += 1
