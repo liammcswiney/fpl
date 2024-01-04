@@ -18,8 +18,24 @@
             background-attachment: fixed;
         }
 
+        .top-container1 {
+            width: 80%;
+            height: auto;
+            margin: 0 auto 20px;
+            padding: 0px;
+            background: linear-gradient(135deg, #428bca, #50e3c34c); /* Match with body gradient */
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+            z-index: 2;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
         .top-container {
-            width: 70%;
+            width: 50%;
             height: auto;
             margin: 0 auto 20px;
             padding: 0px;
@@ -84,28 +100,18 @@
         }
     
         .button-container button {
-            padding: 8px 10px;
-            font-size: 15px;
-            border-radius: 5px;
+            padding: 10px 10px;
+            font-size: 14px;
+            border-radius: 8px;
             /* background-color: #428bca; */
             background: linear-gradient(135deg, #428bca, #00a6ff);
-            color: #fff;
+            color: #edf7fff1;
             border: none;
             cursor: pointer;
             width: 200px;
+            font-weight: bold;
         }
 
-        
-        /* .gw-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center; 
-            background: linear-gradient(135deg, #428bca, #00a6ff);
-            padding: 30px;
-            margin-bottom: 20px;
-            border-radius: 10px;
-        } */
 
         .gw-container {
             max-width: 500px;
@@ -118,12 +124,13 @@
             border-top-right-radius: 20px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             text-align: center;
+            font-weight: bold;
         }
      
          .gw-container h2 {
             color: #fff;
             margin-top: 0px;
-            font-size: 20px;
+            font-size: 18px;
         }
      
     
@@ -168,7 +175,7 @@
         .gw-button-container .gw-points-container {
             padding: 10px 20px;
             font-size: 20px;
-            border-radius: 5px;
+            border-radius: 8px;
             background-color: #8bf7ffa5;
             color: #000000;
             border: none;
@@ -186,9 +193,10 @@
 </head>
 <body>
 
-    <div>
+    <div class ="top-container1">
         <h1>{{ team_name }}</h1>
     </div>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <div class="gw-container">
         <div class="top-container">
