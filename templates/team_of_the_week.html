@@ -12,7 +12,7 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            background: linear-gradient(135deg, #428bca, #32fff8);
+            background: linear-gradient(135deg, #8e88ff, #64d8cb);
             background-repeat: no-repeat;
             background-attachment: fixed;
         }
@@ -22,8 +22,8 @@
             height: auto;
             margin: 0 auto 20px;
             padding: 0px;
-            background: linear-gradient(135deg, #428bca, #50e3c34c); /* Match with body gradient */
-            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+            background: linear-gradient(135deg, #7c75ff, #50e3c34c);
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.25);
             z-index: 2;
             border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
@@ -31,6 +31,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            color: #ffffff;
         }
 
         .header {
@@ -52,33 +53,6 @@
             text-align: center;
             margin: 15px 0;
             font-size: 32px;
-        }
-
-        .button-row {
-            display: flex;
-            padding: 0px;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            margin-bottom: 0px;
-        }
-
-        .player-of-the-week {
-            position: relative;
-            padding: 2px 10px;
-            margin: 0 10px;
-            /* background:#4acfff0f; 
-            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16); */
-            color: #fff;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.1s ease; /* Added a quick transform transition */
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center; /* Centers the content */
         }
 
         .menu {
@@ -131,15 +105,16 @@
 
         .halfway-line2 {
             position: absolute;
-            top: 65%; /* Adjust the top position of the penalty box as needed */
-            left: 40%; /* Adjust the left position of the penalty box as needed */
-            width: 20%; /* Adjust the width of the penalty box as needed */
-            height: 18%; /* Adjust the height of the penalty box as needed */
-            border: 2px solid #fff; /* Add white dashed border */
-            border-radius: 50%; /* Create a circle */
+            top: 64%;
+            left: 40%;
+            width: 20%;
+            height: 9%;
+            border: 2px solid #fff;
+            border-radius: 10rem 10rem 0 0;
             z-index: -1;
-            box-sizing: border-box; /* Ensure the border is included in the dimensions */
-            background-color: transparent; /* Make the background transparent */
+            box-sizing: border-box;
+            background-color: transparent;
+            border-bottom: none;
         }
 
         .player-row {
@@ -202,12 +177,13 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: #2b7917;
+            background-color: #519264a2;
             padding: 0px;
             height: 28%;
             width: 100%; /* Adjust the width as needed */
             border: 2px solid #fff; 
             margin-top: auto; /* Push the bench container to the bottom */
+            border-bottom: none;
         }
 
         .bench-container h2 {
@@ -666,14 +642,7 @@
 </head>
 <body>
     <div class="top-container">
-        <div class="header">
-            <h1>Gameweek {{ match }}: Team of the Week</h1>
-        </div>
-        <div class="button-row">
-            <div class="player-of-the-week">
-                <h2>Player of the Week: {{ man_of_match }}</h2>
-            </div>
-        </div>
+        <h1>Gameweek {{ match }}: Team of the Week</h1>
     </div>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <div class="menu">

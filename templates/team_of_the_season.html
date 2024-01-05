@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: linear-gradient(135deg, #8e88ff, #64d8cb);
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+
+        .top-container {
+            width: 80%;
+            height: auto;
+            margin: 0 auto 20px;
+            padding: 0px;
+            background: linear-gradient(135deg, #7c75ff, #50e3c34c);
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.25);
+            z-index: 2;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+        }
+
+        .header {
+            width: 70%;
+            padding: 0px;
+            background:#302d2d16; 
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: #fff;
+            text-align: center;
+            margin: 15px 0;
+            font-size: 32px;
+        }
+
+        .menu {
+            position: relative;
+            width: 40%; /* Make the menu full width */
+            margin: 0 auto; /* Center the menu horizontally */
+            background-color: #428bca00; /* Set a background color for the menu */
+            top: -10px;
+            padding: 0px; /* Add padding as desired */
+            box-sizing: border-box; /* Include padding in the width calculation */
+            z-index: 1;
+        }
+
+        .team-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            align-items: center;
+            height: 550px;
+            background: linear-gradient(to bottom, 
+                #36b017 0%, #36b017 10%, 
+                #36b715 10%, #36b715 20%, 
+                #36b017 20%, #36b017 30%, 
+                #36b715 30%, #36b715 40%, 
+                #36b017 40%, #36b017 50%, 
+                #36b715 50%, #36b715 60%, 
+                #36b017 60%, #36b017 70%, 
+                #36b715 70%, #36b715 80%, 
+                #36b017 80%, #36b017 90%, 
+                #36b715 90%, #36b715 100%);
+            position: relative; 
+            padding-top: 20px;
+            width: 40%;
+            margin: 0 auto;
+            border: 2px solid #fff;
+            z-index: 0;
+        }
+
+        .penalty-box1 {
+            position: absolute;
+            top: 0%; 
+            left: 28%; 
+            width: 44%; 
+            height: 15%; 
+            border-right: 2px solid #fff;
+            border-bottom: 2px solid #fff;
+            border-left: 2px solid #fff;
+            z-index: -1;
+        }
+
+        .halfway-line2 {
+            position: absolute;
+            top: 64%;
+            left: 40%;
+            width: 20%;
+            height: 9%;
+            border: 2px solid #fff;
+            border-radius: 10rem 10rem 0 0;
+            z-index: -1;
+            box-sizing: border-box;
+            background-color: transparent;
+            border-bottom: none;
+        }
+
+        .player-row {
+            display: flex;
+            justify-content: space-evenly;
+            width: 100%;
+        }
+
+        .player-position {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 15%; 
+            height: 80px;
+            margin: 5px;
+            padding: 5px; 
+            background-color: rgba(205, 195, 195, 0.3); 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+            font-size: 15px; 
+            border-radius: 10%;
+        }
+        
+        
+        .player-position .name {
+            margin-bottom: 2px; /* Adjust the spacing */
+            font-size: 10px; /* Adjust the font size */
+        }
+
+        .player-position .icon {
+            width: 35px;
+            height: 35px; 
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00ffd9, #00eeffc8);
+            font-size: 14px; 
+            margin-top: 5px; 
+            position: relative;
+            border: 0px solid black; 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .player-position .icon:hover {
+            background-color: #00d5d1;
+            transform: scale(1.05); /* Slightly enlarges button on hover for feedback */
+        }
+
+        .total-price {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-weight: bold;
+        }
+
+        .bench-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #519264a2;
+            padding: 0px;
+            height: 28%;
+            width: 100%; /* Adjust the width as needed */
+            border: 2px solid #fff; 
+            margin-top: auto; /* Push the bench container to the bottom */
+            border-bottom: none;
+        }
+
+        .bench-container h2 {
+            color: white;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .bench-container .player-list {
+            display: flex;
+            justify-content: space-evenly;
+            width: 100%;
+            margin: 0px;
+            padding: 10px;
+            background-color: rgba(205, 195, 195, 0.3);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            font-size: 15px;
+            height: 70px;
+        }
+
+        .bench-container .player-list .player-position {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 20%;
+            margin-bottom: 10px;
+        }
+
+        .bench-container .player-list li {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .bench-container .player-list .icon {
+            width: 35px; 
+            height: 35px; 
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00ffd9, #00eeffc8);
+            margin-bottom: 3px;
+            border: 0px solid black; 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
+            margin-top: 15px; 
+            cursor: pointer; 
+        }
+
+        .bench-container .player-list .name {
+            margin-top: 2px;
+            font-size: 10px; 
+        }
+
+
+        .form-wrapper {
+            display: flex;
+            gap: 10px; /* Adjust the gap as needed */
+        }
+
+        .name {
+            margin-top: 5px;
+            font-weight: bold;
+        }
+        
+        .points {   
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .show {
+            display: block;
+        }
+
+        .return-button {
+            position: absolute;
+            top: -5px; 
+            left: 10px; 
+            padding: 5px 15px;
+            background-color: #dd0e0e;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease; 
+            font-weight: 500;
+        }
+
+        .return-button:hover {
+            background-color: #cc0d0d;
+            transform: scale(1.05);
+        }
+
+    </style>
+
+<script>
+    
+    function goBack() {
+        window.location.href = "/team_management/{{ team_name }}";
+    }
+    
+</script>
+</head>
+<body>
+    <div class="top-container">
+        <h1>Team of the Season</h1>
+    </div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <div class="menu">
+        <button class="return-button" onclick="goBack()">X</button>
+    </div>
+    <div class="container">
+        <div class="team-container">
+            <div class="penalty-box1"></div>
+            <div class="halfway-line2"></div>
+
+            {% if sorted_player_scores is not string %}
+                <div class="player-row">
+                    <div class="player-position">
+                        <div class="icon">
+                            {% if man_of_match == sorted_player_scores['Player'][0] %}
+                                <i class="fas fa-crown" style="color: rgb(255, 217, 0);"></i>
+                            {% endif %}
+                        </div>
+                        <div class="name">{{ sorted_player_scores['Player'][0] }}</div>
+                        <div class="points">{{ sorted_player_scores['Score'][0] }}</div>
+                    </div>
+                </div>
+                {% if formation == 1 %}
+                <div class="player-row">
+                    <div class="player-position">
+                        <div class="icon">
+                            {% if man_of_match == sorted_player_scores['Player'][1] %}
+                                <i class="fas fa-crown" style="color: rgb(255, 217, 0);"></i>
+                            {% endif %}
+                        </div>
+                        <div class="name">{{ sorted_player_scores['Player'][1] }}</div>
+                        <div class="points">{{ sorted_player_scores['Score'][1] }}</div>
+                    </div>
+                    <div class="player-position">
+                        <div class="icon">
+                            {% if man_of_match == sorted_player_scores['Player'][2] %}
+                                <i class="fas fa-crown" style="color: rgb(255, 217, 0);"></i>
+                            {% endif %}
+                        </div>
+                        <div class="name">{{ sorted_player_scores['Player'][2] }}</div>
+                        <div class="points">{{ sorted_player_scores['Score'][2] }}</div>
+                    </div>
+                </div>
+                <div class="player-row">
+                    <div class="player-position">
+                        <div class="icon">
+                            {% if man_of_match == sorted_player_scores['Player'][3] %}
+                                <i class="fas fa-crown" style="color: rgb(255, 217, 0);"></i>
+                            {% endif %}
+                        </div>
+                        <div class="name">{{ sorted_player_scores['Player'][3] }}</div>
+                        <div class="points">{{ sorted_player_scores['Score'][3] }}</div>
+                    </div>
+                    <div class="player-position">
+                        <div class="icon">
+                            {% if man_of_match == sorted_player_scores['Player'][4] %}
+                                <i class="fas fa-crown" style="color: rgb(255, 217, 0);"></i>
+                            {% endif %}
+                        </div>
+                        <div class="name">{{ sorted_player_scores['Player'][4] }}</div>
+                        <div class="points">{{ sorted_player_scores['Score'][4] }}</div>
+                    </div>
+                </div>
+                {% endif %}
+                {% if formation == 2 %}
+                <div class="player-row">
+                    <div class="player-position">
+                        <div class="icon">
+                            {% if man_of_match == sorted_player_scores['Player'][1] %}
+                                <i class="fas fa-crown" style="color: rgb(255, 217, 0);"></i>
+                            {% endif %}
+                        </div>
+                        <div class="name">{{ sorted_player_scores['Player'][1] }}</div>
+                        <div class="points">{{ sorted_player_scores['Score'][1] }}</div>
+                    </div>
+                    <div class="player-position">
+                        <div class="icon">
+                            {% if man_of_match == sorted_player_scores['Player'][2] %}
+                                <i class="fas fa-crown" style="color: rgb(255, 217, 0);"></i>
+                            {% endif %}
+                        </div>
+                        <div class="name">{{ sorted_player_scores['Player'][2] }}</div>
+                        <div class="points">{{ sorted_player_scores['Score'][2] }}</div>
+                    </div>
+                </div>
+                <div class="player-row">
+                    <div class="player-position">
+                        <div class="icon">
+                            {% if man_of_match == sorted_player_scores['Player'][3] %}
+                                <i class="fas fa-crown" style="color: rgb(255, 217, 0);"></i>
+                            {% endif %}
+                        </div>
+                        <div class="name">{{ sorted_player_scores['Player'][3] }}</div>
+                        <div class="points">{{ sorted_player_scores['Score'][3] }}</div>
+                    </div>
+                </div>
+                <div class="player-row">
+                    <div class="player-position">
+                        <div class="icon">
+                            {% if man_of_match == sorted_player_scores['Player'][4] %}
+                                <i class="fas fa-crown" style="color: rgb(255, 217, 0);"></i>
+                            {% endif %}
+                        </div>
+                        <div class="name">{{ sorted_player_scores['Player'][4] }}</div>
+                        <div class="points">{{ sorted_player_scores['Score'][4] }}</div>
+                    </div>
+                </div>
+                {% endif %}
+                {% if formation == 3 %}
+                <div class="player-row">
+                    <div class="player-position">
+                        <div class="icon">
+                            {% if man_of_match == sorted_player_scores['Player'][1] %}
+                                <i class="fas fa-crown" style="color: rgb(255, 217, 0);"></i>
+                            {% endif %}
+                        </div>
+                        <div class="name">{{ sorted_player_scores['Player'][1] }}</div>
+                        <div class="points">{{ sorted_player_scores['Score'][1] }}</div>
+                    </div>
+                </div>
+                <div class="player-row">
+                    <div class="player-position">
+                        <div class="icon">
+                            {% if man_of_match == sorted_player_scores['Player'][2] %}
+                                <i class="fas fa-crown" style="color: rgb(255, 217, 0);"></i>
+                            {% endif %}
+                        </div>
+                        <div class="name">{{ sorted_player_scores['Player'][2] }}</div>
+                        <div class="points">{{ sorted_player_scores['Score'][2] }}</div>
+                    </div>
+                    <div class="player-position">
+                        <div class="icon">
+                            {% if man_of_match == sorted_player_scores['Player'][3] %}
+                                <i class="fas fa-crown" style="color: rgb(255, 217, 0);"></i>
+                            {% endif %}
+                        </div>
+                        <div class="name">{{ sorted_player_scores['Player'][3] }}</div>
+                        <div class="points">{{ sorted_player_scores['Score'][3] }}</div>
+                    </div>
+                </div>
+                <div class="player-row">
+                    <div class="player-position">
+                        <div class="icon">
+                            {% if man_of_match == sorted_player_scores['Player'][4] %}
+                                <i class="fas fa-crown" style="color: rgb(255, 217, 0);"></i>
+                            {% endif %}
+                        </div>
+                        <div class="name">{{ sorted_player_scores['Player'][4] }}</div>
+                        <div class="points">{{ sorted_player_scores['Score'][4] }}</div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endif %}
+            <div class="bench-container">
+                <h2>Bench</h2>
+                {% if sort_player_scores is not string %}
+                    <div class="player-row">
+                        {% set player_count = sorted_player_scores['Player']|length %}
+                        {% for index in range(5, player_count) %}
+                            <div class="player-position">
+                                <div class="icon"></div>
+                                <div class="name">{{ sorted_player_scores['Player'][index] }}</div>
+                                <div class="points">{{ sorted_player_scores['Score'][index] }}</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>

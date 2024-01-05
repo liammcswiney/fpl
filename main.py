@@ -149,8 +149,8 @@ def team_management(team_name):
 
     leaderboard_data = pd.read_csv('data/team_leaderboard.csv')
 
-    gw_info = leaderboard_data.loc[leaderboard_data['Team Name'] == team_name]
-    gw_info = gw_info.iloc[:, :-1]
+    team_score = leaderboard_data.loc[leaderboard_data['Team Name'] == team_name]
+    gw_info = team_score.iloc[:, :-1]
     index_tm = gw_info.iloc[:, :-1].index[0]
 
     if gw_info.iloc[:, -1][index_tm] == '-':
@@ -187,7 +187,7 @@ def team_management(team_name):
         is_team_built = check_team_built(team_name)  # Implement the logic to check if the team is built
         return render_template('team_management.html', team_name=team_name, is_team_built=is_team_built, gw_info=gw_info
                                , highest_score=highest_score, avg_score=avg_score
-                               , max_gw=max_gw)
+                               , max_gw=max_gw, team_score=team_score)
 
 
 #############################################################################################################################
@@ -1290,6 +1290,75 @@ def team_of_the_week(team_name, match):
 
 #############################################################################################################################
 
+@app.route('/team_of_the_season/<team_name>', methods=['GET', 'POST'])
+def team_of_the_season(team_name):
+
+    try:
+
+        score_data = pd.read_csv('data/player_database.csv')
+        score_data = score_data[['Player', 'Position', 'Total Points']]
+        played = list(score_data.loc[score_data['Total Points'] > 0, 'Player'])
+        df = pd.DataFrame({'Player': played})
+        played_scores = score_data.merge(df, on='Player', how='inner')
+        sorted_df = played_scores.sort_values(f'Total Points', ascending=False)
+
+        player_of_week = sorted_df['Player'].iloc[0]
+
+        empty_df = pd.DataFrame(columns=sorted_df.columns)
+
+        for _, row in sorted_df.iterrows():
+            position = row['Position']
+
+            if (position == 'DEF' and empty_df['Position'].eq('DEF').sum() < 2) or \
+            (position == 'MID' and empty_df['Position'].eq('MID').sum() < 2) or \
+            (position == 'FWD' and empty_df['Position'].eq('FWD').sum() < 1):
+                
+                empty_df = pd.concat([empty_df, row.to_frame().T], ignore_index=True)
+            
+            if len(empty_df) >= 4:
+                break
+
+        for _, row in sorted_df.iterrows():
+            position = row['Position']
+            if position == 'GK' and empty_df['Position'].eq('GK').sum() < 1:
+                    empty_df = pd.concat([empty_df, row.to_frame().T], ignore_index=True)
+                    break
+            
+        empty_df = empty_df.sort_values(f'Total Points', ascending=False)
+
+        position_order = ['GK', 'DEF', 'MID', 'FWD']
+
+        empty_df = empty_df.sort_values('Position', key=lambda x: x.map({pos: i for i, pos in enumerate(position_order)}))
+
+        remaining_players = pd.merge(sorted_df, empty_df['Player'], on='Player', how='left', indicator=True)
+        remaining_players = remaining_players[remaining_players['_merge'] == 'left_only']
+        remaining_players = remaining_players.drop(columns='_merge')
+
+        sorted_player_scores = pd.concat([empty_df, remaining_players])
+        sorted_player_scores = sorted_player_scores.rename(columns={f'Total Points': 'Score'})
+        sorted_player_scores = sorted_player_scores.reset_index(drop=True)
+
+        position_counts = empty_df['Position'].value_counts()
+        if 'FWD' not in position_counts:
+            formation = 1
+        elif position_counts['MID'] == 1:
+            formation = 2
+        elif position_counts['DEF'] == 1:
+            formation = 3
+
+    except:
+        sorted_player_scores = 'none'
+        formation = 'none'
+        player_of_week = 'none'
+
+    return render_template('team_of_the_season.html', team_name=team_name
+                            , sorted_player_scores=sorted_player_scores
+                            , formation=formation
+                            , man_of_match = player_of_week
+    )
+
+#############################################################################################################################
+
 
 
 @app.route('/change_player_build')
@@ -1654,10 +1723,10 @@ def leaderboard(team_name):
 #############################################################################################################################
 
 
-@app.route('/rules_page/<team_name>')
-def rules_page(team_name):
+@app.route('/rules_page')
+def rules_page():
 
-    return render_template('rules_page.html', team_name=team_name)
+    return render_template('rules_page.html')
 
 #############################################################################################################################
 

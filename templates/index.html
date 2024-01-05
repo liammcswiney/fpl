@@ -7,64 +7,95 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
-        html,
-        body {
+        
+        html {
             height: 100%;
-            margin: 0;
-            padding: 0;
-            font-family: 'Roboto', sans-serif;
         }
 
         body {
-            background: linear-gradient(135deg, #428bca, #32fff8);
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: linear-gradient(135deg, #8e88ff, #64d8cb);
             background-repeat: no-repeat;
             background-attachment: fixed;
+            align-items: center;
+            justify-content: center;
         }
 
         .header {
-            padding: 20px 0;
+            width: 80%;
+            height: auto;
+            margin: 0 auto 50px;
+            padding: 0px;
             color: #fff;
             text-align: center;
+            background: linear-gradient(135deg, #6b63ff, #50e3c34c);
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.26);
+            z-index: 2;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         h1 {
-            margin: 0;
-            font-size: 2em;
+            color: #fff;
+            text-align: center;
+            margin: 15px 0;
+            padding: 5px;
         }
+
+        h2 {
+            color: #6b63ff;
+            font-size: 1.8em;
+            
+        }
+        
 
         .container {
             max-width: 500px;
             margin: 1em auto;
-            padding: 30px 20px;
+            padding: 40px 30px;
             background-color: #ffffff8d;
             border-radius: 20px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
 
+        .container h2 {
+            color: #000000;
+            font-size: 1.8em;
+            margin-top: 10px; /* Adjust this value as needed */
+        }
+
         .button-container {
             display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
+            flex-direction: column;
+            gap: 15px;
         }
 
         .button-container a {
-            flex: 1;
-            margin: 0 10px;
             text-decoration: none;
         }
 
         .button-container button {
             width: 100%;
-            padding: 10px 20px;
+            padding: 12px;
             font-size: 16px;
             border-radius: 5px;
-            background: linear-gradient(135deg, #428bca, #00a6ff);
+            background: linear-gradient(135deg, #6b63ff, #00a6ff);
             color: #fff;
             border: none;
             cursor: pointer;
             transition: background 0.3s ease;
-            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
         }
 
         .button-container button:hover {
@@ -79,25 +110,15 @@
     </style>
 </head>
 
-<!-- ... [head section remains unchanged] -->
-
 <body>
+
     <div class="header">
-        <h1>Fantasy Leisure League</h1>
+        <h1>Fantasy Leisure Leagues</h1>
     </div>
 
     <div class="container">
-        <h2>Welcome to Fantasy Leisure League!</h2>
-        <p>
-            This is the FPL app specially designed for the world renowned Liz Trussard. It boasts functionality and scoring systems almost identical to the original Fantasy Premier League. For a comprehensive understanding, please refer to the Rules and Scoring section.
-        </p>
-        <p>
-            Your feedback means a lot! If you stumble upon any bugs, kindly report them to me. I hope you enjoy!
-        </p>
-    </div>
+        <h2>Sign In</h2>
 
-    <div class="container">
-        <h1>Team Sign In</h1>
         <div class="button-container">
             <a href="/create_team">
                 <button>
@@ -107,6 +128,11 @@
             <a href="/load_team">
                 <button>
                     <i class="fas fa-upload"></i> Load Team
+                </button>
+            </a>
+            <a href="/rules_page">
+                <button>
+                    <i class="fas fa-book"></i> Rules and Scoring
                 </button>
             </a>
         </div>

@@ -13,7 +13,7 @@
             margin: 0;
             padding: 0;
             height: 100%;
-            background: linear-gradient(135deg, #428bca, #32fff8);
+            background: linear-gradient(135deg, #8e88ff, #64d8cb);
             background-repeat: no-repeat;
             background-attachment: fixed;
         }
@@ -23,8 +23,8 @@
             height: auto;
             margin: 0 auto 20px;
             padding: 0px;
-            background: linear-gradient(135deg, #428bca, #50e3c34c); /* Match with body gradient */
-            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16);
+            background: linear-gradient(135deg, #6b63ff, #50e3c34c);
+            box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.25);
             z-index: 2;
             border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
@@ -291,11 +291,33 @@
             <form action="/fixtures/{{ team_name }}">
                 <button type="submit">Fixtures and Results</button>
             </form>
-            <form action="/rules_page/{{ team_name }}">
-                <button type="submit">Rules and Scoring</button>
-            </form>
+
+            {% set last_dict = gw_info[-1] %}
+                {% set last_key = last_dict.keys()|last %}
+                {% set match = last_key[-1] %}
+                {% if max_gw == 0 %}
+                    <form action="/team_of_the_season/{{ team_name }}">
+                        {% if gw_info %}
+                            {% set last_dict = gw_info[-1] %}
+                            {% set last_key = last_dict.keys()|last %}
+                            {% if last_dict[last_key] != team_name %}
+                                <button type="submit">Team of the Season</button>
+                            {% else %}
+                                <button type="button">Team of the Season</button>
+                            {% endif %}
+                        {% endif %}
+                    </form>
+                {% else %}
+                    {% if gw_info %}
+                        {% set last_dict = gw_info[-1] %}
+                        {% set last_key = last_dict.keys()|last %}
+                        <button type="submit">Team of the Season</button>
+                    {% endif %}
+                {% endif %}
+
+
         </div>
-        {% if team_name == 'McDud' %}
+        {% if team_name == 'McFart' %}
         {% if last_key != 'Team Name' %}
             {% set current_gw = last_key %}
         {% else %}
